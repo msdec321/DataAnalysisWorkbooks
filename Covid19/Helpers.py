@@ -15,7 +15,7 @@ def removeEmptyLists(myList):
     return newList
 
 
-def largePlotterMultipleTicks(labels, x, y, xTick):
+def largePlotterMultipleTicks(labels, x, y, yrange, xTick):
     
     # Figsize(x, y) in units of inches. dpi = 'dots per inch'
     figure(figsize = (10, 6), dpi = 80)  # Initialize the figure
@@ -35,6 +35,7 @@ def largePlotterMultipleTicks(labels, x, y, xTick):
         plt.xticks(xTick[1], xTick[2])  # Manually set the date labels
 
     plt.legend(loc = 2, prop = {'size': 12})
+    plt.ylim(ymax = yrange[1], ymin = yrange[0])
     
     plt.show()
     
