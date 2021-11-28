@@ -3,7 +3,8 @@
 
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
-
+import numpy as np
+import math
 
 # Remove empty lists from nested set of lists
 def removeEmptyLists(myList):
@@ -15,7 +16,18 @@ def removeEmptyLists(myList):
     return newList
 
 
-def largePlotterMultipleTicks(labels, x, y, yrange, xTick):
+# Divide two lists element by element. If any NAN or INFINITY elements, replace with 0
+def listDivision(list1, list2):
+    new_list = np.ndarray.tolist((np.array(list1) / np.array(list2)))
+    
+    for arr in new_list:
+        for i, value in enumerate(arr):
+            if math.isnan(value) or math.isinf(value): arr[i] = 0
+                
+    return new_list
+
+
+def largePlotterMultipleTicks(labels, x, y, yrange, legendLoc, xTick):
     
     # Figsize(x, y) in units of inches. dpi = 'dots per inch'
     figure(figsize = (10, 6), dpi = 80)  # Initialize the figure
@@ -34,7 +46,7 @@ def largePlotterMultipleTicks(labels, x, y, yrange, xTick):
     if xTick[0]:
         plt.xticks(xTick[1], xTick[2])  # Manually set the date labels
 
-    plt.legend(loc = 2, prop = {'size': 12})
+    plt.legend(loc = legendLoc, prop = {'size': 12})
     plt.ylim(ymax = yrange[1], ymin = yrange[0])
     
     plt.show()
