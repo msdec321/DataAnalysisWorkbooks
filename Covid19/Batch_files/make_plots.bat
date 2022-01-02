@@ -1,1 +1,1 @@
-"C:\\Users\\Matth\\miniforge3\python.exe" "C:\Users\Matth\git\DataAnalysisWorkbooks\Covid19\test.py"
+"C:\\Users\\Matth\\miniforge3\python.exe" "C:\Users\Matth\git\DataAnalysisWorkbooks\Covid19\Python_scripts\make_plots.py"
