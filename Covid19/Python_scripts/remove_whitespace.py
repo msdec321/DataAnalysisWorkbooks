@@ -25,9 +25,7 @@ for i in range(len(myList)):
             if myList[i][j][k] != ' ': 
                 newStr += myList[i][j][k]
                 
-            else: 
-                myList[i][j] = newStr
-                break
+        myList[i][j] = newStr
                 
 
 #Remove the '--------' like that SSMS outputs.
