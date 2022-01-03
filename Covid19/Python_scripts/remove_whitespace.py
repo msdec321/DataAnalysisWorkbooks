@@ -28,7 +28,7 @@ for i in range(len(myList)):
         myList[i][j] = newStr
                 
 
-#Remove the '--------' like that SSMS outputs.
+#Remove the '--------' line that SSMS outputs.
 for i in range(len(myList)):
     if i==0: continue
     else:
