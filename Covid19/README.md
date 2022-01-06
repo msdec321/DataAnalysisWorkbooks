@@ -1,4 +1,4 @@
-# COVID19 Data Analysis Portfolio Project
+# Covid-19 Data Analysis Portfolio Project
 
 • This respository is a portfolio project that produces a dashboard on Covid-19 related information. To summarize the contents of this project:
 
