@@ -7,9 +7,10 @@ def make_plot(df, xCol, yCol, plotTitle, img_name):
     fig.savefig("C:/Users/Matth/git/DataAnalysisWorkbooks/Covid19/Figures/" + img_name + ".png")
     plt.close()
 
-rollingCasesDeaths = pd.read_csv(r"C:\Users\Matth\git\DataAnalysisWorkbooks\Covid19\Data\Sliced_data\rollingCasesDeaths.csv")
+rollingCasesDeaths = pd.read_csv(r"C:\Users\Matth\git\DataAnalysisWorkbooks\Covid19\Data\Sliced_data\covid_data.csv")
 
 df1 = rollingCasesDeaths.set_index('location')
+
 continents = ['Africa', 'Asia', 'Europe', 'NorthAmerica', 'SouthAmerica', 'Oceania']
 cont_caption = ['Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania']
 
@@ -27,7 +28,7 @@ for i, country in enumerate(countries):
 for i, continent in enumerate(continents):
     make_plot(df1.loc[continent], 'date', 'new_cases', f'Daily Covid-19 Cases ({cont_caption[i]})', f'newCases_{continent}')
     make_plot(df1.loc[continent], 'date', 'new_deaths', f'Daily Covid-19 Deaths ({cont_caption[i]})', f'newDeaths_{continent}')
-
+    
     
 # Total Covid-19 cases
 for i, continent in enumerate(continents):
@@ -43,10 +44,23 @@ plt.close()
 # Total Covid-19 deaths     
 for i, continent in enumerate(continents):
     if i == 0:
-        ax = df1.loc[continent].plot(x = 'date', y = 'rollingDeaths', style = '.', figsize = (15,5), label = cont_caption[i], title = '')
+        ax = df1.loc[continent].plot(x = 'date', y = 'total_deaths', style = '.', figsize = (15,5), label = cont_caption[i], title = '')
     else:
-        df1.loc[continent].plot(x = 'date', y = 'rollingDeaths', style = '.', figsize = (15,5), label = cont_caption[i], ax=ax) 
-        
+        df1.loc[continent].plot(x = 'date', y = 'total_deaths', style = '.', figsize = (15,5), label = cont_caption[i], ax=ax) 
+      
 fig = ax.get_figure()
 fig.savefig("C:/Users/Matth/git/DataAnalysisWorkbooks/Covid19/Figures/rollingDeaths.png")
+plt.close()    
+    
+    
+# Cases rate by continent
+for i, continent in enumerate(continents):
+    if i == 0:
+        ax = df1.loc[continent].plot(x = 'date', y = 'caseRate', style = '.', figsize = (15,5), label = cont_caption[i], title = '')
+    else:
+        df1.loc[continent].plot(x = 'date', y = 'caseRate', style = '.', figsize = (15,5), label = cont_caption[i], ax=ax)
+        
+    
+fig = ax.get_figure()
+fig.savefig("C:/Users/Matth/git/DataAnalysisWorkbooks/Covid19/Figures/casesOverPopulation.png")
 plt.close()
