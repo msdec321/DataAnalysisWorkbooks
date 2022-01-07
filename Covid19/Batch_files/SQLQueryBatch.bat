@@ -1,2 +1,2 @@
-sqlcmd -S . -E -i "C:\Users\Matth\git\DataAnalysisWorkbooks\Covid19\Queries\caseRate.sql" -o "C:\Users\Matth\git\DataAnalysisWorkbooks\Covid19\Data\Sliced_data\covid_data.csv" -s ","
+sqlcmd -S . -E -i "C:\Users\Matth\git\DataAnalysisWorkbooks\Covid19\Queries\covid_queries.sql" -o "C:\Users\Matth\git\DataAnalysisWorkbooks\Covid19\Data\Sliced_data\covid_data.csv" -s ","
 "C:\\Users\\Matth\\miniforge3\python.exe" "C:\Users\Matth\git\DataAnalysisWorkbooks\Covid19\Python_scripts\remove_whitespace.py" "covid_data.csv"
