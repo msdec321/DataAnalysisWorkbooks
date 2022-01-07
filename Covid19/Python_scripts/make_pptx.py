@@ -60,7 +60,7 @@ def slide_image(img_name, l, t, w, slideTitle, caption):
     img = slide.shapes.add_picture(path, left, top, w)
     
     slide_title(2.3, 0.6, 11, 3, slideTitle, 'Arial', 35, PP_ALIGN.CENTER)  # Title
-    slide_title(1.6, 6.6, 13, 5, caption, 'Arial', 25, PP_ALIGN.CENTER)
+    slide_title(1.6, 8, 13, 5, caption, 'Arial', 30, PP_ALIGN.CENTER)
     
     return None
 
@@ -103,12 +103,27 @@ slide_title(0.7, 7.0, 20, 20, "• Confirmed Covid cases, deaths, vaccinations a
 # Total Covid-19 cases by continent
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_image(f'rollingCases', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Cases by Continent', '')
+slide_image(f'total_cases', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Cases by Continent', '')
 
-# Total Covid-19 cases by continent
+# Total Covid-19 deaths by continent
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_image(f'rollingDeaths', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Deaths by Continent', '')
+slide_image(f'total_deaths', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Deaths by Continent', '')
+
+# Cases per capita per continent
+blank_slide_layout = prs.slide_layouts[6]
+slide = prs.slides.add_slide(blank_slide_layout)
+slide_image(f'casesPerCapitaPerContinent', Inches(-0.8), Inches(2), Inches(17.5), f'Covid-19 cases per capita per continent', '')
+
+# Deaths per capita per continent
+blank_slide_layout = prs.slide_layouts[6]
+slide = prs.slides.add_slide(blank_slide_layout)
+slide_image(f'deathsPerCapitaPerContinent', Inches(-0.8), Inches(2), Inches(17.5), f'Covid-19 deaths per capita per continent', '')
+
+# Death-case ratio per continent
+blank_slide_layout = prs.slide_layouts[6]
+slide = prs.slides.add_slide(blank_slide_layout)
+slide_image(f'deathsCaseRatio', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Deaths/Cases per continent', '')
 
 # Global daily Covid cases
 blank_slide_layout = prs.slide_layouts[6]
