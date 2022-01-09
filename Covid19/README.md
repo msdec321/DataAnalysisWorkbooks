@@ -10,6 +10,6 @@
 6) Figures/ and Covid19_dashboard.pptx are committed and pushed to GitHub via Python_scripts/git_update.py.
 
 • This collection of procedures, from data collection to dashboarding, is made to be fully automated, daily, via batch files added to the Windows Task Scheduler. These can be found in the Batch_files/ directory.  
-• Additional data analysis is done in Covid19_workbook.ipynb, however this notebook is not used in produced the pptx dashboard.
+• Additional data analysis is done in Covid19_workbook.ipynb, however this notebook is not used in producing the pptx dashboard.
 
 [1]:  The original dataset is located at: https://github.com/owid/covid-19-data/blob/master/public/data/README.md
