@@ -53,7 +53,7 @@ def slide_title(l, t, w, h, text, textFont, textSize, alignment):  # Text for ti
 
 def slide_image(img_name, l, t, w, slideTitle, caption):
     
-    path = 'C:/Users/Matth/git/DataAnalysisWorkbooks/Covid19/Figures/' + img_name + '.png'
+    path = 'C:/Users/Matth/git/DataAnalysisWorkbooks/Covid19/Figures/scatter_plots/' + img_name + '.png'
     
     left = l
     top = t
