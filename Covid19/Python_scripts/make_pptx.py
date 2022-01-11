@@ -51,15 +51,17 @@ def slide_title(l, t, w, h, text, textFont, textSize, alignment):  # Text for ti
     return None
 
 
-def slide_image(img_name, l, t, w, slideTitle, caption):
+def slide_image(imgType, img_name, l, t, w, slideTitle, caption):
     
-    path = 'C:/Users/Matth/git/DataAnalysisWorkbooks/Covid19/Figures/scatter_plots/' + img_name + '.png'
+    if imgType == 'scatter': path = 'C:/Users/Matth/git/DataAnalysisWorkbooks/Covid19/Figures/scatter_plots/' + img_name + '.png'
+        
+    if imgType == 'box': path = 'C:/Users/Matth/git/DataAnalysisWorkbooks/Covid19/Figures/box_plots/' + img_name + '.png'
     
     left = l
     top = t
     img = slide.shapes.add_picture(path, left, top, w)
     
-    slide_title(2.3, 0.6, 11, 3, slideTitle, 'Arial', 35, PP_ALIGN.CENTER)  # Title
+    slide_title(1.7, 0.6, 14, 3, slideTitle, 'Arial', 35, PP_ALIGN.CENTER)  # Title
     slide_title(1.6, 8, 13, 5, caption, 'Arial', 30, PP_ALIGN.CENTER)
     
     return None
@@ -103,62 +105,44 @@ slide_title(0.7, 7.0, 20, 20, "• Confirmed Covid cases, deaths, vaccinations a
 # Total Covid-19 cases by continent
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_image(f'total_cases', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Cases by Continent', '')
+slide_image('scatter', f'total_cases', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Cases by Continent', '')
 
 # Total Covid-19 deaths by continent
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_image(f'total_deaths', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Deaths by Continent', '')
+slide_image('scatter', f'total_deaths', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Deaths by Continent', '')
 
 # Cases per capita per continent
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_image(f'casesPerCapitaPerContinent', Inches(-0.8), Inches(2), Inches(17.5), f'Covid-19 cases per capita per continent', '')
+slide_image('scatter', f'casesPerCapitaPerContinent', Inches(-0.8), Inches(2), Inches(17.5), f'Covid-19 cases per capita per continent', '')
 
 # Deaths per capita per continent
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_image(f'deathsPerCapitaPerContinent', Inches(-0.8), Inches(2), Inches(17.5), f'Covid-19 deaths per capita per continent', '')
+slide_image('scatter', f'deathsPerCapitaPerContinent', Inches(-0.8), Inches(2), Inches(17.5), f'Covid-19 deaths per capita per continent', '')
 
 # Death-case ratio per continent
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_image(f'deathsCaseRatio', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Deaths/Cases per continent', '')
+slide_image('scatter', f'deathsCaseRatio', Inches(-0.8), Inches(2), Inches(17.5), f'Total Covid-19 Deaths/Cases per continent', '')
 
 # Global daily Covid cases
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_image(f'newCases_World', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Global Covid-19 Cases', '')
+slide_image('scatter', f'newCases_World', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Global Covid-19 Cases', '')
 
 # Global daily Covid deaths
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_image(f'newDeaths_World', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Global Covid-19 Deaths', '')
+slide_image('scatter', f'newDeaths_World', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Global Covid-19 Deaths', '')
 
-
-# Title slide for next image slide
+#Box-and-whisker plots
 blank_slide_layout = prs.slide_layouts[6]
 slide = prs.slides.add_slide(blank_slide_layout)
-slide_title(3.3, 2.45, 9, 3, 'Daily Covid-19 Cases by Country', 'Arial', 60, PP_ALIGN.CENTER)  # Title
-slide_title(3.5, 5, 8.4, 3, '(USA, Canada, Mexico, UK, France, Germany, Japan, South Korea)', 'Arial', 30, PP_ALIGN.CENTER)
-
-# Daily covid cases by country
-for i, country in enumerate(countries):
-    blank_slide_layout = prs.slide_layouts[6]
-    slide = prs.slides.add_slide(blank_slide_layout)
-    slide_image(f'newCases_{country}', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Covid-19 Cases in {country_caption[i]}', '')
-    
-# Title slide for next image slide
-blank_slide_layout = prs.slide_layouts[6]
-slide = prs.slides.add_slide(blank_slide_layout)
-slide_title(3.3, 2.45, 9, 3, 'Daily Covid-19 Deaths by Country', 'Arial', 60, PP_ALIGN.CENTER)  # Title
-slide_title(3.5, 5, 8.4, 3, '(USA, Canada, Mexico, UK, France, Germany, Japan, South Korea)', 'Arial', 30, PP_ALIGN.CENTER)
-    
-# Daily covid deaths by country
-for i, country in enumerate(countries):
-    blank_slide_layout = prs.slide_layouts[6]
-    slide = prs.slides.add_slide(blank_slide_layout)
-    slide_image(f'newDeaths_{country}', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Covid-19 Deaths in {country_caption[i]}', '')
+slide_image('box', f'casesPerCapita', Inches(0.5), Inches(2), Inches(5), f'Cases, Deaths, and Vaccinations per capita per country', '')
+slide_image('box', f'deathsPerCapita', Inches(5.5), Inches(2), Inches(5), f'', '')
+slide_image('box', f'vaccinatedPerCapita', Inches(10.5), Inches(2), Inches(5), f'', '')
 
 # Title slide for next image slide
 blank_slide_layout = prs.slide_layouts[6]
@@ -170,7 +154,7 @@ slide_title(3.5, 5, 8.4, 3, '(Africa, Asia, Europe, North America, South America
 for i, continent in enumerate(continents):
     blank_slide_layout = prs.slide_layouts[6]
     slide = prs.slides.add_slide(blank_slide_layout)
-    slide_image(f'newCases_{continent}', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Covid-19 Cases in {cont_caption[i]}', '')
+    slide_image('scatter', f'newCases_{continent}', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Covid-19 Cases in {cont_caption[i]}', '')
 
 # Title slide for next image slide
 blank_slide_layout = prs.slide_layouts[6]
@@ -182,7 +166,7 @@ slide_title(3.5, 5, 8.4, 3, '(Africa, Asia, Europe, North America, South America
 for i, continent in enumerate(continents):
     blank_slide_layout = prs.slide_layouts[6]
     slide = prs.slides.add_slide(blank_slide_layout)
-    slide_image(f'newDeaths_{continent}', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Covid-19 Deaths in {cont_caption[i]}', '')
+    slide_image('scatter', f'newDeaths_{continent}', Inches(-0.8), Inches(2), Inches(17.5), f'Daily Covid-19 Deaths in {cont_caption[i]}', '')
 
     
 
