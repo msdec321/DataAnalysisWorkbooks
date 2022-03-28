@@ -1,4 +1,4 @@
-import selenium, time, csv, os, openpyxl, fnmatch, shutil
+import selenium, time, csv, os, openpyxl, fnmatch, shutil, win32com.client
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -28,7 +28,6 @@ def load_environment(path, char_name, char_server, char_region):
     
     return browser.current_url, browser    
     
-
 
 def get_phase3_bosses(browser):
     link = browser.find_elements_by_id("boss-table-1011")
@@ -86,13 +85,54 @@ def scroll(command):
             time.sleep(1)
             
             
+def check_if_parse_already_recorded(i, browser, search, boss, char_name, char_server, char_region):
+    
+    try:
+        wb = openpyxl.load_workbook('character_data/character_data.xlsx')
+        
+    except FileNotFoundError: 
+        return False
+
+    date = browser.find_element_by_id('date-hps-'+str(i+1))
+    date = date.text
+    date = date.replace(",", "")
+
+    rank = browser.find_element_by_link_text(search[i*6].text)
+    rank = rank.text
+    
+    try:
+        ws = wb.get_sheet_by_name(boss.replace(" ", ""))
+        for row in ws.iter_rows():
+            if [char_name, char_server + " " + char_region, date, rank] == [row[0].value, row[1].value, row[2].value, row[4].value]:
+                wb.save('character_data/character_data.xlsx')
+                return True
+
+    # If the boss sheet isn't in the excel file, add it
+    except KeyError:
+        temp = str(boss).replace(" ", "")
+        wb.create_sheet(temp)
+        sheet = wb[temp]
+        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        for i, item in enumerate(header):
+            sheet[chr(i + 65) + str(1)] = item
+            
+        wb.save('character_data/character_data.xlsx')
+        return False
+       
+    return False       
+                  
+            
 def get_boss_data(browser, i):
     search = browser.find_elements_by_class_name("character-table-link")
 
     rank = browser.find_element_by_link_text(search[i*6].text)
+    date = browser.find_element_by_id('date-hps-'+str(i+1))
     HPS = browser.find_element_by_link_text(search[(i*6)+2].text)
     time = browser.find_element_by_link_text(search[(i*6)+3].text)
-    return rank, rank.text, HPS.text, time.text           
+    
+    date = date.text
+    date = date.replace(",", "")
+    return rank, date, rank.text, HPS.text, time.text           
             
             
 def get_spell_info(browser, total_HPS):
@@ -153,54 +193,19 @@ def get_spell_info(browser, total_HPS):
     
     
 def get_nHealers(browser):
-    click_on_element_by_id(browser, "filter-summary-tab")  
-    time.sleep(0.5)
+    row = browser.find_elements_by_class_name("composition-row")
     
-    click_on_element_by_id(browser, "filter-analytical-tab")
-    time.sleep(1.0)
-    
-    d = browser.find_elements_by_class_name("composition-row")
-    return len(d[2].text.split("\n")) - 1
+    return len(row[2].text.split("\n")) - 1
     
 
 def get_tanks(browser):
-    NPCS = ["Akama", "Alliance Footman", "Alliance Knight", "Alliance Rifleman",
-        "Alliance Priest", "Alliance Sorceress", "Horde Grunt", "Horde Headhunter",
-        "Horde Shaman", "Horde Witch Doctor", "Thrall", "Night Elf Huntress",
-        "Tyrande Whisperwind", "Night Elf Archer", "Druid of the Claw", "Dryad",
-        "Night Elf Ancient of Lore", "Druid of the Talon", "Night Elf Ancient of War"]
+    click_on_element_by_id(browser, "filter-summary-tab")  
+    time.sleep(0.5)
     
-    temp_url = browser.current_url
-
-    click_on_element_by_id(browser, "filter-fight-boss-text") 
-    time.sleep(1)
-
-    c = browser.find_elements_by_class_name("report-overview-boss-caption")
-    c[0].click()
-    time.sleep(1)
-
-    # Get tanks via top 3 damage taken
-    click_on_element_by_id(browser, "filter-damage-taken-tab")
-    time.sleep(1)
-
-    search = browser.find_element_by_id("main-table-0")
-    tb_p_input = search.find_elements(By.XPATH, 'tbody')
-    td_p_input = tb_p_input[0].find_elements(By.XPATH, 'tr')
+    row = browser.find_elements_by_class_name("composition-row")
     
-    tanks = []
-    i = 0
-    while True:
-        if td_p_input[i].text.split("\n")[0] in NPCS: 
-            i += 1
-            continue
-            
-        if len(tanks) == 3: break
-            
-        tanks.append(td_p_input[i].text.split("\n")[0])
-        i += 1
-
-    # Return to boss page
-    browser.get(temp_url)
+    tanks = row[0].text.split("\n")
+    tanks.pop(0)
     
     return tanks
 
@@ -309,7 +314,6 @@ def click_on_element_by_id(browser, id_tag):
         time.sleep(0.5)
         
         try:
-            #a.click()
             action.perform()
             time.sleep(0.5)
             action.click()
@@ -332,7 +336,6 @@ def click_on_element_by_class_name(browser, class_tag):
         time.sleep(0.5)
         
         try:
-            #a.click()
             action.perform()
             time.sleep(0.5)
             action.click()
@@ -705,7 +708,6 @@ def count_rotations(lst, rotations_dict):
         
     return rotations_dict
 
-
         
 def track_off_GCD(row, GCD_time):  # Spell casts that are off-GCD (trinkets, etc) should not go into the rotation
     GCD_time["t1"] = GCD_time["t2"]
@@ -727,29 +729,92 @@ def clear_character_data():
 
 
 # Combine multiple csv files into a single excel spreadsheet.
-def combine_character_data(char_name):
-    wb = openpyxl.Workbook()
-    p = Path('./character_data/')
+def combine_character_data(char_name, char_server, char_region, date, rank, boss):
+    try:
+        wb = openpyxl.load_workbook('character_data/character_data.xlsx')
+        
+        try:
+            ws = wb.get_sheet_by_name(boss.replace(" ", ""))
+            for row in ws.iter_rows():
+                if [char_name, char_server + " " + char_region, date, rank] == [row[0].value, row[1].value, row[2].value, row[4].value]:
+                    wb.save('character_data/character_data.xlsx')
+                    return True
 
-    for i, filename in enumerate(p.glob('*.csv')):
-        # Pick out the boss name for the name of the worksheet
-        temp = str(filename).replace('\\', '_')
-        temp = temp.replace(" ", "")
-        temp = temp.split("_")
-        wb.create_sheet(temp[2])
-        sheet = wb[temp[2]]
+        except KeyError:
+            temp = str(filename).replace('\\', '_')
+            temp = temp.replace(" ", "")
+            temp = temp.split("_")
+            wb.create_sheet(temp[2])
+            sheet = wb[temp[2]]
+             
+            with open(filename, 'r') as myFile:
 
-        with open(filename, 'r') as myFile:
+                for i2, line in enumerate(myFile.readlines()):
+                    line = line[ : -1]  # Remove the newline character at the end of each string
+                    elements = line.split(",")
 
-            for i2, line in enumerate(myFile.readlines()):
+                    for i3, element in enumerate(elements):
+                        sheet[chr(i3 + 65) + str(i2 + 1)] = element
+
+            wb.save('character_data/character_data.xlsx')
+            
+    except FileNotFoundError:
+    
+        wb = openpyxl.Workbook()
+        p = Path('./character_data/')
+
+        for i, filename in enumerate(p.glob('*.csv')):
+            # Pick out the boss name for the name of the worksheet
+            temp = str(filename).replace('\\', '_')
+            temp = temp.replace(" ", "")
+            temp = temp.split("_")
+            wb.create_sheet(temp[2])
+            sheet = wb[temp[2]]
+
+            with open(filename, 'r') as myFile:
+
+                for i2, line in enumerate(myFile.readlines()):
+                    line = line[ : -1]  # Remove the newline character at the end of each string
+                    elements = line.split(",")
+
+                    for i3, element in enumerate(elements):
+                        sheet[chr(i3 + 65) + str(i2 + 1)] = element
+
+        # Remove the first blank sheet
+        std = wb.get_sheet_by_name('Sheet')
+        wb.remove_sheet(std)
+
+        wb.save(p/"character_data.xlsx")
+    
+    
+def add_row_to_xlsx(boss, char_name):
+    wb = openpyxl.load_workbook('character_data/character_data.xlsx')
+    ws = wb.get_sheet_by_name(boss.replace(" ", ""))
+    sheet = wb[boss]
+    rows = ws.max_row
+
+    with open(f'character_data/{boss}_{char_name}.csv', 'r') as csvfile:
+            for i, line in enumerate(csvfile.readlines()):
+                if i == 0: continue  # Skip header
+
                 line = line[ : -1]  # Remove the newline character at the end of each string
                 elements = line.split(",")
 
-                for i3, element in enumerate(elements):
-                    sheet[chr(i3 + 65) + str(i2 + 1)] = element
+                for i2, element in enumerate(elements):
+                    sheet[chr(i2 + 65) + str(i + rows)] = element
 
-    # Remove the first blank sheet
-    std = wb.get_sheet_by_name('Sheet')
-    wb.remove_sheet(std)
-
-    wb.save(p/f"{char_name}.xlsx")
+    wb.save('character_data/character_data.xlsx')
+    
+    
+def sort_excel(boss):
+    wb = openpyxl.load_workbook('character_data/character_data.xlsx')
+    ws = wb.get_sheet_by_name(boss.replace(" ", ""))
+    sheet = wb[boss]
+    rows = ws.max_row
+    
+    excel = win32com.client.Dispatch("Excel.Application")
+    wb = excel.Workbooks.Open('C:\\Users\\Matth\\git\\DataAnalysisWorkbooks\\warcraftLogs\\character_data\\character_data.xlsx')
+    ws = wb.Worksheets(boss)
+    ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range('E1'), Order1 = 2, Orientation = 1)
+    wb.Save()
+    excel.Application.Quit()
