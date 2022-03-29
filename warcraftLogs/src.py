@@ -132,7 +132,7 @@ def get_boss_data(browser, i):
     
     date = date.text
     date = date.replace(",", "")
-    return rank, date, rank.text, HPS.text, time.text           
+    return rank, date, rank.text, HPS.text.replace(",", ""), time.text           
             
             
 def get_spell_info(browser, total_HPS):
@@ -177,7 +177,7 @@ def get_spell_info(browser, total_HPS):
             table_dict["HPS"] = td_p_input[9].text
             '''
             
-            spell_percent_HPS_dict[spell] = round(float(td_p_input[9].text) / float(total_HPS), 2)
+            spell_percent_HPS_dict[spell] = round(float(td_p_input[9].text.replace(",", "")) / float(total_HPS), 2)
             
             if spell == 'ability-33763-0':
                 LB_uptime = td_p_input[7].text
@@ -239,19 +239,6 @@ def get_boss_tanks(browser, all_tanks, nTanks):
     browser.get(temp_url)
     
     return tanks
-
-
-def get_player_HPS(browser, char_name):
-    time.sleep(1)
-    search = browser.find_element_by_id("main-table-0")
-    tb_p_input = search.find_elements(By.XPATH, 'tbody')
-    td_p_input = tb_p_input[0].find_elements(By.XPATH, 'tr')
-
-    for i, item in enumerate(td_p_input):
-        temp = td_p_input[i].text.split("\n")
-    
-        if temp[1] == char_name: 
-            return temp[3].split(" ")[-1]
         
         
 def check_spriest(browser):
@@ -492,10 +479,10 @@ def fix_boss_target(df):
 # For non-instant casts, the time is specified at the end of the cast. This causes issues when regrowth is followed by an instant cases
 # This function changes the time specified to the start of the regrowth cast rather than the end of it. (Including cancel-casts)
 
-def fix_regrowth_cast_time(df):
+def fix_cast_time(df):
     temp = []
     for i, row in df.iterrows():
-        if row['Ability'] == 'Regrowth' and row["Cast Time"] != "Canceled":
+        if row['Ability'] in ['Regrowth', 'Rebirth'] and row["Cast Time"] != "Canceled":
             a = str(datetime.strptime(str(row['Minute']) + ":" + str(row['Second']), "%M:%S.%f") - datetime.strptime(row['Cast Time'], "%S.%f"))
             a = a.split(".")
             b = a[0].split(":")
@@ -506,6 +493,10 @@ def fix_regrowth_cast_time(df):
             temp.append(row["Time"])
 
     df["Time"] = temp
+    
+    temp_df = df['Time'].str.split(":", expand=True)
+    df['Second'] = temp_df[1]
+    df['Second'] = pd.to_numeric(df['Second'])
     
     return df
    
@@ -532,15 +523,18 @@ def calculate_rotations(df, boss, boss_tanks):
     starting_tank = None
 
     for i, row in (df.iterrows()):
+        
         if len(sequence) == 4:
             rotations_dict = count_rotations(sequence, rotations_dict)
             LB_tank_flags = [False, False, False]
             sequence = []
 
         # Ignore casts that are off the global cooldown
+        if row["Ability"] in ["Hopped", "Essence", "Dark", "Restore"]: continue
         temp = track_off_GCD(row, GCD_time)
         GCD_time = temp[0]
-        if not temp[1]: continue  
+        if not temp[1]: 
+            continue  
             
         # For most single-tank bosses, the main tank is the boss' current melee target.
         if boss in ["Rage Winterchill", "Kaz'rogal", "Archimonde", "High Warlord Naj'entus", "Supremus", 
@@ -554,12 +548,19 @@ def calculate_rotations(df, boss, boss_tanks):
                 sequence.append(row['Ability'])
                 continue  
                 
-        else:   
-            # If LB refreshed on primary tank, restart the sequence
+        else:               
+            # If LB refreshed on primary tank, record and restart the sequence
             if row['Ability'] == 'Lifebloom' and row["Target"] == starting_tank:
-                rotations_dict = count_rotations(sequence, rotations_dict)
+                if len(sequence) > 0: 
+                    rotations_dict = count_rotations(sequence, rotations_dict)
+                    
                 sequence = []
                 LB_tank_flags = [False, False, False]
+                if row["Target"] == boss_tanks[0]: LB_tank_flags[0] = True
+                elif row["Target"] == boss_tanks[1]: LB_tank_flags[1] = True
+                elif row["Target"] == boss_tanks[2]: LB_tank_flags[2] = True
+                
+                
                 sequence.append(row["Ability"])
                 continue
 
@@ -567,7 +568,8 @@ def calculate_rotations(df, boss, boss_tanks):
             if row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[0] and LB_tank_flags[0] == False:
                 if LB_tank_flags[1] == False and LB_tank_flags[2] == False: 
                     starting_tank = boss_tanks[0]
-                    rotations_dict = count_rotations(sequence, rotations_dict)
+                    if len(sequence) > 0: 
+                        rotations_dict = count_rotations(sequence, rotations_dict)
                     sequence = []
 
                 sequence.append(row['Ability'])
@@ -579,7 +581,8 @@ def calculate_rotations(df, boss, boss_tanks):
             elif row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[1] and LB_tank_flags[1] == False:
                 if LB_tank_flags[0] == False and LB_tank_flags[2] == False: 
                     starting_tank = boss_tanks[1]
-                    rotations_dict = count_rotations(sequence, rotations_dict)
+                    if len(sequence) > 0: 
+                        rotations_dict = count_rotations(sequence, rotations_dict)
                     sequence = []
 
                 sequence.append(row['Ability'])
@@ -592,7 +595,8 @@ def calculate_rotations(df, boss, boss_tanks):
             elif row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[2] and LB_tank_flags[2] == False:
                 if LB_tank_flags[0] == False and LB_tank_flags[1] == False: 
                     starting_tank = boss_tanks[2]
-                    rotations_dict = count_rotations(sequence, rotations_dict)
+                    if len(sequence) > 0: 
+                        rotations_dict = count_rotations(sequence, rotations_dict)
                     sequence = []
 
                 sequence.append(row['Ability'])
@@ -715,9 +719,12 @@ def track_off_GCD(row, GCD_time):  # Spell casts that are off-GCD (trinkets, etc
     
     if type(GCD_time["t2"]) == datetime and type(GCD_time["t1"]) == datetime:
         
-        if float(str((GCD_time["t2"] - GCD_time["t1"]))[5:]) < 0.4:
-            return [GCD_time, False]
-        
+        try:
+            if float(str((GCD_time["t2"] - GCD_time["t1"]))[5:]) < 0.4:
+                return [GCD_time, False]
+        except ValueError:
+            return [GCD_time, True]
+
     return [GCD_time, True]
 
 
@@ -788,8 +795,9 @@ def combine_character_data(char_name, char_server, char_region, date, rank, boss
     
     
 def add_row_to_xlsx(boss, char_name):
+    boss = boss.replace(" ", "")
     wb = openpyxl.load_workbook('character_data/character_data.xlsx')
-    ws = wb.get_sheet_by_name(boss.replace(" ", ""))
+    ws = wb.get_sheet_by_name(boss)
     sheet = wb[boss]
     rows = ws.max_row
 
@@ -807,8 +815,9 @@ def add_row_to_xlsx(boss, char_name):
     
     
 def sort_excel(boss):
+    boss = boss.replace(" ", "")
     wb = openpyxl.load_workbook('character_data/character_data.xlsx')
-    ws = wb.get_sheet_by_name(boss.replace(" ", ""))
+    ws = wb.get_sheet_by_name(boss)
     sheet = wb[boss]
     rows = ws.max_row
     
