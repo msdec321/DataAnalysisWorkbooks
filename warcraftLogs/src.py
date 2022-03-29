@@ -485,6 +485,7 @@ def fix_cast_time(df):
         if row['Ability'] in ['Regrowth', 'Rebirth'] and row["Cast Time"] != "Canceled":
             a = str(datetime.strptime(str(row['Minute']) + ":" + str(row['Second']), "%M:%S.%f") - datetime.strptime(row['Cast Time'], "%S.%f"))
             a = a.split(".")
+            if len(a) == 1: a.append('000000')
             b = a[0].split(":")
             c = b[1] + ":" + b[2] + "." + a[1][:3]
             temp.append(c)
