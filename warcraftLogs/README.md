@@ -1,7 +1,7 @@
 # WarcraftLogs Restoration Druid Data Scraper v1.03  
 
 This repository scrapes encounter data from WarcraftLogs which can be used in a data analysis.   
-  • Character name, server, region  
+&emsp; • Character name, server, region  
   • Date  
   • Kill time  
   • Parse percentile  
