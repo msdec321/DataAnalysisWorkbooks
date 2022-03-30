@@ -23,6 +23,7 @@ The related source code can be found in src.py
   
   • Get the selenium chromedriver at (version number must match Google Chrome version):  
   https://chromedriver.storage.googleapis.com/index.html  
+  
   • For firefox users, use GeckoDriver instead (not tested).  
   
   • In the Configurations cell of scrape_character_data.ipynb, specify the path to the webdriver.  
