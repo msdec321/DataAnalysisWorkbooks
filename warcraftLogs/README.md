@@ -1,4 +1,4 @@
-# WarcraftLogs Restoration Druid Data Scraper v1.03  
+# WarcraftLogs TBC Restoration Druid Data Scraper v1.03  
 
 This repository scrapes encounter data from WarcraftLogs which can be used in a data analysis. Currently scrapes:   
 &emsp; • Character name, server, region  
