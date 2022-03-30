@@ -22,7 +22,7 @@ The related source code can be found in src.py
 &emsp; • Selenium, pandas, openpyxl, win32com  
   
 &emsp; • Get the selenium chromedriver at (version number must match Google Chrome version):  
-  https://chromedriver.storage.googleapis.com/index.html  
+&emsp; https://chromedriver.storage.googleapis.com/index.html  
   
 &emsp; • For firefox users, can try using GeckoDriver (not yet tested and likely won't work).  
   
