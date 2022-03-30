@@ -356,6 +356,8 @@ def download_csv(browser, temp_url, id_tag, path):
     
            
 def clean_dmg_taken_csv(boss):
+    
+    correct_csv_whitespace('damage_taken/dmg_taken')
 
     df = pd.read_csv('damage_taken/dmg_taken.csv')
     df = df.drop(['Unnamed: 2'], axis=1)
@@ -415,18 +417,18 @@ def clean_cast_sequence_csv():
 
     df = df.drop(['Source → Target'], axis=1)
     
-    correct_cast_csv_whitespace()
+    correct_csv_whitespace('cast_sequence/casts')
     
     return df
 
 
 # Fix orrcurances where there is a double whitespace in the pandas dataframe
-def correct_cast_csv_whitespace():
+def correct_csv_whitespace(path):
 
-    filename = 'cast_sequence/casts.csv'
+    filename = path+'.csv'
     with open(filename, 'r') as csvfile:
-        outputFile = open("cast_sequence/casts_fixed.csv", "w")
-
+        outputFile = open(path+"_fixed.csv", "w")
+        
         datareader = csv.reader(csvfile)
         outputWriter = csv.writer(outputFile, lineterminator='\n')
 
@@ -438,7 +440,7 @@ def correct_cast_csv_whitespace():
             outputWriter.writerow(row)
         outputFile.close()
 
-    os.system("mv cast_sequence/casts_fixed.csv cast_sequence/casts.csv")
+    os.system("mv "+ path + "_fixed.csv " + path + ".csv")    
 
 
 
