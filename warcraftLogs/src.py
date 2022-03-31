@@ -111,7 +111,7 @@ def get_spell_info(browser, total_HPS):
     for spell in spell_ids:
         
         try:
-            search = scroll(browser.find_element_by_id(spell))
+            search = browser.find_element_by_id(spell)
 
             td_p_input = search.find_element_by_xpath('.//ancestor::td')
             tr_p_input = search.find_element_by_xpath('.//ancestor::tr')
@@ -160,7 +160,6 @@ def check_spriest(browser):
     a = browser.find_element_by_id("spell-100")
     time.sleep(0.5)
     a.click()
-    
     
     time.sleep(1)
     b = browser.find_elements_by_class_name("main-table-name")
@@ -538,7 +537,6 @@ def calculate_rotations(df, boss, boss_tanks):
     rotation_2 = [max_key, rotations_dict[max_key]]
 
     return [rotation_1, rotation_2]
-    
     
     
 def countX(lst, x):
