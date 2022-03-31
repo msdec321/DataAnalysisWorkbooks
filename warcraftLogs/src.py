@@ -29,7 +29,7 @@ def load_environment(path, char_name, char_server, char_region):
     return browser.current_url, browser    
     
 
-def get_phase3_bosses(browser):
+def get_t6_bosses(browser):
     link = browser.find_elements_by_id("boss-table-1011")
 
     table = list(link[0].text.split("\n"))
@@ -49,41 +49,7 @@ def get_character_info(char_url):
     char_region = temp[-3].swapcase()
     
     return char_name + " " + "(" + char_server + " " + char_region + ")"
-
-
-# This function will try to click on an element, but if it isn't visible on the page then it will scroll down and try again.
-def scroll_click(command):
-    link = command
-    time.sleep(1)
-    
-    while True:
-        try:
-            link.click()
-            break
-            
-        except ElementClickInterceptedException:
-            body = browser.find_element_by_css_selector('body')
-            body.click()
-            body.send_keys(Keys.PAGE_DOWN)
-            time.sleep(1)
-            
-            
-# Scroll down without clicking            
-def scroll(command):
-    link = command
-    time.sleep(1)
-    
-    while True:
-        try:
-            return link
-            break
-            
-        except ElementClickInterceptedException:
-            body = browser.find_element_by_css_selector('body')
-            body.click()
-            body.send_keys(Keys.PAGE_DOWN)
-            time.sleep(1)
-            
+         
             
 def check_if_parse_already_recorded(i, browser, search, boss, char_name, char_server, char_region):
     
@@ -137,15 +103,10 @@ def get_boss_data(browser, i):
             
 def get_spell_info(browser, total_HPS):
 
-    #df = pd.DataFrame(pd.np.empty((0, 10)))
-    #df.columns = ["Spell", "Amount", "Casts", "Avg Cast", "Hits", "Avg Hit", "Crit %", "Uptime %", "Overheal", "HPS"]
-    
-
     # Lifebloom (tick), Lifebloom (bloom), Rejuv, Regrowth, Swiftmend
-    LB_uptime = 0
     spell_percent_HPS_dict = {"ability-33763-0" : 0, "ability-33778-0" : 0, "ability-26982-0" : 0, "ability-26980-0" : 0, "ability-18562-0" : 0}
     spell_ids = ['ability-33763-0', 'ability-33778-0', 'ability-26982-0', 'ability-26980-0', 'ability-18562-0']
-
+    LB_uptime = 0
     
     for spell in spell_ids:
         
@@ -155,41 +116,16 @@ def get_spell_info(browser, total_HPS):
             td_p_input = search.find_element_by_xpath('.//ancestor::td')
             tr_p_input = search.find_element_by_xpath('.//ancestor::tr')
             td_p_input = tr_p_input.find_elements(By.XPATH, 'td')
-
-            ''' # Outdated
-            table_dict["Spell"] = search.text
-            table_dict["Amount"] = td_p_input[1].text.split('\n')[1]
-            table_dict["Casts"] = td_p_input[2].text
-
-            if spell == 'ability-26980-0':
-                table_dict["Avg Cast"] = td_p_input[3].text.split()[0]
-                table_dict["Hits"] = td_p_input[4].text.split()[0]
-                table_dict["Avg Hit"] = td_p_input[5].text.split()[0]
-
-            else:
-                table_dict["Avg Cast"] = td_p_input[3].text
-                table_dict["Hits"] = td_p_input[4].text
-                table_dict["Avg Hit"] = td_p_input[5].text
-
-            table_dict["Crit %"] = td_p_input[6].text
-            table_dict["Uptime %"] = td_p_input[7].text
-            table_dict["Overheal"] = td_p_input[8].text
-            table_dict["HPS"] = td_p_input[9].text
-            '''
             
             spell_percent_HPS_dict[spell] = round(float(td_p_input[9].text.replace(",", "")) / float(total_HPS), 2)
             
             if spell == 'ability-33763-0':
                 LB_uptime = td_p_input[7].text
-            #df = df.append(table_dict, ignore_index=True)
             
         except:
             pass
         
-    #print(df.head())
-
     return spell_percent_HPS_dict['ability-33763-0'], spell_percent_HPS_dict['ability-33778-0'], spell_percent_HPS_dict['ability-26982-0'], spell_percent_HPS_dict['ability-26980-0'], spell_percent_HPS_dict['ability-18562-0'], LB_uptime
-    #return table_dict
     
     
 def get_nHealers(browser):
@@ -206,37 +142,6 @@ def get_tanks(browser):
     
     tanks = row[0].text.split("\n")
     tanks.pop(0)
-    
-    return tanks
-
-
-def get_boss_tanks(browser, all_tanks, nTanks):
-    
-    temp_url = browser.current_url
-    
-    scroll_click(browser.find_element_by_link_text("Damage Taken"))
-    time.sleep(1)
-
-    search = browser.find_element_by_id("main-table-0")
-    tb_p_input = search.find_elements(By.XPATH, 'tbody')
-    td_p_input = tb_p_input[0].find_elements(By.XPATH, 'tr')
-
-    tanks = []
-    
-    i = 0
-    while True:
-        if len(tanks) == nTanks: break
-     
-        if td_p_input[i].text.split("\n")[0] not in all_tanks:
-            i += 1
-            continue
-         
-        else:
-            tanks.append(td_p_input[i].text.split("\n")[0])
-            
-        i += 1
-    
-    browser.get(temp_url)
     
     return tanks
         
@@ -443,7 +348,6 @@ def correct_csv_whitespace(path):
     os.system("mv "+ path + "_fixed.csv " + path + ".csv")    
 
 
-
 # Add boss target to df by checking the boss' melee target
 def add_boss_target(boss, df, df2):
     for index, row in (df.iterrows()):
@@ -459,7 +363,6 @@ def add_boss_target(boss, df, df2):
                 break
                 
     return df2
-
 
 
 # Fix NaN boss targets by replacing NaN with the most recent boss target
