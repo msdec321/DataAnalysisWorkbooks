@@ -18,6 +18,7 @@ The dataset is stored in character_data/ as an excel spreadsheet.
 The data scraper can be run via scrape_character_data.ipynb  
 The related source code can be found in src.py  
 
+
 # Dependencies  
 &emsp; • Selenium, pandas, openpyxl, win32com  
   
@@ -29,3 +30,10 @@ The related source code can be found in src.py
 &emsp; • In the Configurations cell of scrape_character_data.ipynb, specify the path to the webdriver.  
  
 &emsp; • All other dependencies can be installed via pip
+
+
+# TODO list
+&emsp; • Add a script that scrapes data from the top N Druids per boss
+
+&emsp; • Add a dashboard to visualize the top rotations used per boss
+
