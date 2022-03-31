@@ -33,7 +33,7 @@ The related source code can be found in src.py
 
 
 # TODO list
-&emsp; • Add a script that scrapes data from the top N Druids per boss
+&emsp; • Add a script that automatically scrapes data from the top N Druids per boss every 2 weeks
 
 &emsp; • Add a dashboard to visualize the top rotations used per boss
 
