@@ -132,7 +132,7 @@ def get_boss_data(browser, i):
     
     date = date.text
     date = date.replace(",", "")
-    return rank, date, rank.text, HPS.text.replace(",", ""), time.text           
+    return rank, date, rank.text, HPS.text.replace(",", ""), time.text, HPS           
             
             
 def get_spell_info(browser, total_HPS):
@@ -276,7 +276,7 @@ def check_innervate(browser):
     time.sleep(0.5)
     
     try:
-        a = browser.find_element_by_id("main-table-128-0")
+        a = browser.find_element_by_id("main-table-256-0")
         b = a.text.split('\n')
 
         # Check if innervate is present in the table.
@@ -286,7 +286,7 @@ def check_innervate(browser):
         else: 
             return 'No'
         
-    # If the 'major group cooldown' table is not present then the player wasn't innervated.
+    # If the 'major individual cooldown' table is not present then the player wasn't innervated.
     except: 
         return 'No'
    
@@ -484,7 +484,10 @@ def fix_boss_target(df):
 def fix_cast_time(df):
     temp = []
     for i, row in df.iterrows():
-        if row['Ability'] in ['Regrowth', 'Rebirth'] and row["Cast Time"] != "Canceled":
+        if row['Ability'] in ['Regrowth'] and row["Cast Time"] is None: 
+            temp.append(row["Time"])
+        
+        elif row['Ability'] in ['Regrowth', 'Rebirth'] and row["Cast Time"] != "Canceled":
             a = str(datetime.strptime(str(row['Minute']) + ":" + str(row['Second']), "%M:%S.%f") - datetime.strptime(row['Cast Time'], "%S.%f"))
             a = a.split(".")
             if len(a) == 1: a.append('000000')
