@@ -153,7 +153,7 @@ def get_boss_data_top_N_scraper(browser, i):
     a = browser.find_elements_by_id(f"row-601-{i}")
     b = a[0].find_elements(By.XPATH, 'td')
     
-    return b[0].text, b[1].text, b[6].text, b[4].text.replace(",", ""), b[7].text
+    return int(b[0].text), b[1].text, b[6].text, b[4].text.replace(",", ""), b[7].text
             
             
 def get_spell_info(browser, total_HPS):
@@ -658,7 +658,10 @@ def add_row_to_xlsx(boss, char_name, filename):
                 elements = line.split(",")
 
                 for i2, element in enumerate(elements):
-                    sheet[chr(i2 + 65) + str(i + rows)] = element
+                    if i2 == 0: 
+                        sheet[chr(i2 + 65) + str(i + rows)] = int(float(element))
+                    else: 
+                        sheet[chr(i2 + 65) + str(i + rows)] = element
 
     wb.save(f'character_data/{filename}.xlsx')
     
@@ -670,7 +673,7 @@ def sort_excel(boss, filename):
     sheet = wb[boss]
     rows = ws.max_row
     
-    if filename == 'character_data.xlsx':
+    if filename == 'character_data':
         order_cell, ordering = 'E', 2
        
     else:
@@ -679,6 +682,6 @@ def sort_excel(boss, filename):
     excel = win32com.client.Dispatch("Excel.Application")
     wb = excel.Workbooks.Open(f'C:\\Users\\Matth\\git\\DataAnalysisWorkbooks\\warcraftLogs\\character_data\\{filename}.xlsx')
     ws = wb.Worksheets(boss)
-    ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range(order_cell+'1'), Order1 = ordering, Orientation = 1)
+    ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
     wb.Save()
     excel.Application.Quit()
