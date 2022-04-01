@@ -259,35 +259,6 @@ def download_csv(browser, temp_url, id_tag, download_path, path):
     time.sleep(1)
     
            
-def clean_dmg_taken_csv(boss):
-    
-    correct_csv_whitespace('character_data/dmg_taken')
-
-    df = pd.read_csv('character_data/dmg_taken.csv')
-    df = df.drop(['Unnamed: 2'], axis=1)
-
-    temp_df = df['Event'].str.split(" ", expand=True)
-    
-    if boss in ["Kaz'rogal", "Archimonde", "Supremus"]:
-        df['Source'] = temp_df[0]
-        df['Action'] = temp_df[1]
-        df['Target'] = temp_df[2]
-        
-    elif boss in ["Rage Winterchill", "Teron Gorefiend", "Gurtogg Bloodboil", "Mother Shahraz"]:
-        df['Source'] = temp_df[0] + " " + temp_df[1]
-        df['Action'] = temp_df[2]
-        df['Target'] = temp_df[3]
-        
-    elif boss in ["High Warlord Naj'entus"]:
-        df['Source'] = temp_df[0] + " " + temp_df[1] + " " + temp_df[2]
-        df['Action'] = temp_df[3]
-        df['Target'] = temp_df[4]
-        
-    df = df.drop(['Event'], axis=1)
-    
-    return df    
-
- 
 def clean_cast_sequence_csv():
     df = pd.read_csv('character_data/cast_sequence.csv')
     
@@ -345,39 +316,6 @@ def correct_csv_whitespace(path):
         outputFile.close()
 
     os.system("mv "+ path + "_fixed.csv " + path + ".csv")    
-
-
-# Add boss target to df by checking the boss' melee target
-def add_boss_target(boss, df, df2):
-    for index, row in (df.iterrows()):
-    
-        for index2, row2 in (df2.iterrows()):
-
-            t1 = datetime.strptime(str(row['Time']), "%M:%S.%f") 
-            t2 = datetime.strptime(str(row2['Time']), "%M:%S.%f") 
-
-            if str(t2 - t1)[0] != "-" and row["Source"] == boss and row["Action"] == "Melee":
-
-                df2["Boss Target"].iloc[index2] = row["Target"]
-                break
-                
-    return df2
-
-
-# Fix NaN boss targets by replacing NaN with the most recent boss target
-def fix_boss_target(df):
-
-    temp = ['', '']
-    for i, row in df.iterrows():
-
-        if pd.isna(row['Boss Target']):
-            df["Boss Target"].iloc[i] = temp[0]
-
-        else:
-            temp[0] = temp[1]
-            temp[1] = row['Boss Target']
-        
-    return df
 
 
 # For non-instant casts, the time is specified at the end of the cast. This causes issues when regrowth is followed by an instant cases
@@ -444,73 +382,60 @@ def calculate_rotations(df, boss, boss_tanks):
         if not temp[1]: 
             continue  
             
-        # For most single-tank bosses, the main tank is the boss' current melee target.
-        if boss in ["Rage Winterchill", "Kaz'rogal", "Archimonde", "High Warlord Naj'entus", "Supremus", 
-                    "Teron Gorefiend", "Gurtogg Bloodboil", "Mother Shahraz"]:
-            
-            if row['Ability'] == 'Lifebloom' and row['Target'] == row['Boss Target']:
-                if len(sequence) >= 2:
-                    rotations_dict = count_rotations(sequence, rotations_dict)
+        # If LB refreshed on primary tank, record and restart the sequence
+        if row['Ability'] == 'Lifebloom' and row["Target"] == starting_tank:
+            if len(sequence) > 0: 
+                rotations_dict = count_rotations(sequence, rotations_dict)
 
-                sequence = []
-                sequence.append(row['Ability'])
-                continue  
-                
-        else:               
-            # If LB refreshed on primary tank, record and restart the sequence
-            if row['Ability'] == 'Lifebloom' and row["Target"] == starting_tank:
+            sequence = []
+            LB_tank_flags = [False, False, False]
+            if row["Target"] == boss_tanks[0]: LB_tank_flags[0] = True
+            elif row["Target"] == boss_tanks[1]: LB_tank_flags[1] = True
+            elif row["Target"] == boss_tanks[2]: LB_tank_flags[2] = True
+
+
+            sequence.append(row["Ability"])
+            continue
+
+        # Single tank
+        if row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[0] and LB_tank_flags[0] == False:
+            if LB_tank_flags[1] == False and LB_tank_flags[2] == False: 
+                starting_tank = boss_tanks[0]
                 if len(sequence) > 0: 
                     rotations_dict = count_rotations(sequence, rotations_dict)
-                    
                 sequence = []
-                LB_tank_flags = [False, False, False]
-                if row["Target"] == boss_tanks[0]: LB_tank_flags[0] = True
-                elif row["Target"] == boss_tanks[1]: LB_tank_flags[1] = True
-                elif row["Target"] == boss_tanks[2]: LB_tank_flags[2] = True
-                
-                
-                sequence.append(row["Ability"])
-                continue
 
-            # Single tank
-            if row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[0] and LB_tank_flags[0] == False:
-                if LB_tank_flags[1] == False and LB_tank_flags[2] == False: 
-                    starting_tank = boss_tanks[0]
-                    if len(sequence) > 0: 
-                        rotations_dict = count_rotations(sequence, rotations_dict)
-                    sequence = []
+            sequence.append(row['Ability'])
 
-                sequence.append(row['Ability'])
+            LB_tank_flags[0] = True
+            continue
 
-                LB_tank_flags[0] = True
-                continue
+        # If two tanks (Anetheron, Azgalor, ..)
+        elif row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[1] and LB_tank_flags[1] == False:
+            if LB_tank_flags[0] == False and LB_tank_flags[2] == False: 
+                starting_tank = boss_tanks[1]
+                if len(sequence) > 0: 
+                    rotations_dict = count_rotations(sequence, rotations_dict)
+                sequence = []
 
-            # If two tanks (Anetheron, Azgalor, ..)
-            elif row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[1] and LB_tank_flags[1] == False:
-                if LB_tank_flags[0] == False and LB_tank_flags[2] == False: 
-                    starting_tank = boss_tanks[1]
-                    if len(sequence) > 0: 
-                        rotations_dict = count_rotations(sequence, rotations_dict)
-                    sequence = []
+            sequence.append(row['Ability'])
 
-                sequence.append(row['Ability'])
-
-                LB_tank_flags[1] = True
-                continue
+            LB_tank_flags[1] = True
+            continue
 
 
-            # If three tanks (Akama, Council)
-            elif row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[2] and LB_tank_flags[2] == False:
-                if LB_tank_flags[0] == False and LB_tank_flags[1] == False: 
-                    starting_tank = boss_tanks[2]
-                    if len(sequence) > 0: 
-                        rotations_dict = count_rotations(sequence, rotations_dict)
-                    sequence = []
+        # If three tanks (Akama, Council)
+        elif row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[2] and LB_tank_flags[2] == False:
+            if LB_tank_flags[0] == False and LB_tank_flags[1] == False: 
+                starting_tank = boss_tanks[2]
+                if len(sequence) > 0: 
+                    rotations_dict = count_rotations(sequence, rotations_dict)
+                sequence = []
 
-                sequence.append(row['Ability'])
+            sequence.append(row['Ability'])
 
-                LB_tank_flags[2] = True
-                continue
+            LB_tank_flags[2] = True
+            continue
 
 
         if row['Ability'] == "Regrowth": 
@@ -633,72 +558,18 @@ def track_off_GCD(row, GCD_time):  # Spell casts that are off-GCD (trinkets, etc
             return [GCD_time, True]
 
     return [GCD_time, True]
-
-
-def clear_character_data():
-    p = Path('./character_data/')
-    
-    for f in os.listdir(p):
-        os.remove(os.path.join(p, f))
-
-
-# Combine multiple csv files into a single excel spreadsheet.
-def combine_character_data(char_name, char_server, char_region, date, rank, boss):
-    try:
-        wb = openpyxl.load_workbook('character_data/character_data.xlsx')
         
-        try:
-            ws = wb.get_sheet_by_name(boss.replace(" ", ""))
-            for row in ws.iter_rows():
-                if [char_name, char_server + " " + char_region, date, rank] == [row[0].value, row[1].value, row[2].value, row[4].value]:
-                    wb.save('character_data/character_data.xlsx')
-                    return True
+        
+def export_to_excel(boss, to_append, player_df, char_name):
+    series = pd.Series(to_append, index = player_df.columns)
+    player_df = player_df.append(series, ignore_index = True)
 
-        except KeyError:
-            temp = str(filename).replace('\\', '_')
-            temp = temp.replace(" ", "")
-            temp = temp.split("_")
-            wb.create_sheet(temp[2])
-            sheet = wb[temp[2]]
-             
-            with open(filename, 'r') as myFile:
+    # Export dataframe to csv
+    player_df.to_csv(f"character_data/{boss.replace(' ', '')}_{char_name}.csv", index = None)
 
-                for i2, line in enumerate(myFile.readlines()):
-                    line = line[ : -1]  # Remove the newline character at the end of each string
-                    elements = line.split(",")
-
-                    for i3, element in enumerate(elements):
-                        sheet[chr(i3 + 65) + str(i2 + 1)] = element
-
-            wb.save('character_data/character_data.xlsx')
-            
-    except FileNotFoundError:
-    
-        wb = openpyxl.Workbook()
-        p = Path('./character_data/')
-
-        for i, filename in enumerate(p.glob('*.csv')):
-            # Pick out the boss name for the name of the worksheet
-            temp = str(filename).replace('\\', '_')
-            temp = temp.replace(" ", "")
-            temp = temp.split("_")
-            wb.create_sheet(temp[2])
-            sheet = wb[temp[2]]
-
-            with open(filename, 'r') as myFile:
-
-                for i2, line in enumerate(myFile.readlines()):
-                    line = line[ : -1]  # Remove the newline character at the end of each string
-                    elements = line.split(",")
-
-                    for i3, element in enumerate(elements):
-                        sheet[chr(i3 + 65) + str(i2 + 1)] = element
-
-        # Remove the first blank sheet
-        std = wb.get_sheet_by_name('Sheet')
-        wb.remove_sheet(std)
-
-        wb.save(p/"character_data.xlsx")
+    # Add data to the excel spreadsheet, sort sheet by rank
+    add_row_to_xlsx(boss, char_name)
+    sort_excel(boss)
     
     
 def add_row_to_xlsx(boss, char_name):
