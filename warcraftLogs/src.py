@@ -11,7 +11,7 @@ from pathlib import Path
 from datetime import datetime
 
 
-def load_environment(path, char_name, char_server, char_region):
+def load_individual_char_scraper(path, char_name, char_server, char_region):
     chrome_options = Options()
     chrome_options.add_argument('load-extension=' + path)
 
@@ -26,7 +26,25 @@ def load_environment(path, char_name, char_server, char_region):
     cookie = browser.find_element_by_class_name("cc-compliance")
     cookie.click()
     
-    return browser.current_url, browser    
+    return browser.current_url, browser  
+
+
+def load_top_N_scraper(path, boss, boss_link_dict):
+    chrome_options = Options()
+    chrome_options.add_argument('load-extension=' + path)
+
+    browser = webdriver.Chrome(chrome_options=chrome_options)
+    browser.create_options()
+    time.sleep(5)
+
+    browser.switch_to.window(browser.window_handles[0])
+    browser.get(f"https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps")
+    time.sleep(3)
+    
+    cookie = browser.find_element_by_class_name("cc-compliance")
+    cookie.click()
+    
+    return browser.current_url, browser 
     
 
 def get_t6_bosses(browser):
@@ -51,7 +69,7 @@ def get_character_info(char_url):
     return char_name + " " + "(" + char_server + " " + char_region + ")"
          
             
-def check_if_parse_already_recorded(i, browser, search, boss, char_name, char_server, char_region):
+def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_name, char_server, char_region):
     
     try:
         wb = openpyxl.load_workbook('character_data/character_data.xlsx')
@@ -85,10 +103,40 @@ def check_if_parse_already_recorded(i, browser, search, boss, char_name, char_se
         wb.save('character_data/character_data.xlsx')
         return False
        
+    return False    
+
+
+def check_if_parse_already_recorded_top_N(boss, rank, char_name):
+    try:
+        wb = openpyxl.load_workbook('character_data/top_N_druids.xlsx')
+        
+    except FileNotFoundError: 
+        return False
+    
+    boss = boss.replace(" ", "")
+    
+    try:
+        ws = wb.get_sheet_by_name(boss)
+        for row in ws.iter_rows():
+            if [rank, char_name] == [row[0].value, row[1].value]:
+                wb.save('character_data/top_N_druids.xlsx')
+                return True
+
+    # If the boss sheet isn't in the excel file, add it
+    except KeyError:
+        wb.create_sheet(boss)
+        sheet = wb[boss]
+        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        for i, item in enumerate(header):
+            sheet[chr(i + 65) + str(1)] = item
+            
+        wb.save('character_data/top_N_druids.xlsx')
+        return False
+       
     return False       
                   
             
-def get_boss_data(browser, i):
+def get_boss_data_char_scraper(browser, i):
     search = browser.find_elements_by_class_name("character-table-link")
 
     rank = browser.find_element_by_link_text(search[i*6].text)
@@ -98,7 +146,14 @@ def get_boss_data(browser, i):
     
     date = date.text
     date = date.replace(",", "")
-    return rank, date, rank.text, HPS.text.replace(",", ""), time.text, HPS           
+    return rank, date, rank.text, HPS.text.replace(",", ""), time.text, HPS
+
+
+def get_boss_data_top_N_scraper(browser, i):
+    a = browser.find_elements_by_id(f"row-601-{i}")
+    b = a[0].find_elements(By.XPATH, 'td')
+    
+    return b[0].text, b[1].text, b[6].text, b[4].text.replace(",", ""), b[7].text
             
             
 def get_spell_info(browser, total_HPS):
@@ -164,8 +219,9 @@ def check_spriest(browser):
     time.sleep(1)
     b = browser.find_elements_by_class_name("main-table-name")
     
+    # 吸血鬼之触 = Vampiric touch
     for i in range(len(b)):
-        if b[i].text == 'Vampiric Touch':
+        if b[i].text in ['Vampiric Touch', '吸血鬼之触']:
             return 'Yes'
             
     return 'No'
@@ -185,6 +241,10 @@ def check_innervate(browser):
 
         # Check if innervate is present in the table.
         if len(fnmatch.filter(b, 'Innervate??')) > 0: 
+            return 'Yes'
+        
+        # Check for innervate on chinese WCL
+        elif len(fnmatch.filter(b, '激活??')) > 0:
             return 'Yes'
 
         else: 
@@ -260,7 +320,7 @@ def download_csv(browser, temp_url, id_tag, download_path, path):
     
            
 def clean_cast_sequence_csv():
-    df = pd.read_csv('character_data/cast_sequence.csv')
+    df = pd.read_csv('character_data/cast_sequence.csv', encoding='utf-8-sig')
     
     df = df.drop(['Unnamed: 4'], axis=1)
     
@@ -301,8 +361,8 @@ def clean_cast_sequence_csv():
 def correct_csv_whitespace(path):
 
     filename = path+'.csv'
-    with open(filename, 'r') as csvfile:
-        outputFile = open(path+"_fixed.csv", "w")
+    with open(filename, 'r', encoding='utf-8-sig') as csvfile:
+        outputFile = open(path+"_fixed.csv", "w", encoding='utf-8-sig')
         
         datareader = csv.reader(csvfile)
         outputWriter = csv.writer(outputFile, lineterminator='\n')
@@ -324,10 +384,10 @@ def correct_csv_whitespace(path):
 def fix_cast_time(df):
     temp = []
     for i, row in df.iterrows():
-        if row['Ability'] in ['Regrowth'] and row["Cast Time"] is None: 
+        if row['Ability'] in ['Regrowth', '愈合'] and row["Cast Time"] is None: 
             temp.append(row["Time"])
         
-        elif row['Ability'] in ['Regrowth', 'Rebirth'] and row["Cast Time"] != "Canceled":
+        elif row['Ability'] in ['Regrowth', 'Rebirth', '愈合'] and row["Cast Time"] != "Canceled":
             a = str(datetime.strptime(str(row['Minute']) + ":" + str(row['Second']), "%M:%S.%f") - datetime.strptime(row['Cast Time'], "%S.%f"))
             a = a.split(".")
             if len(a) == 1: a.append('000000')
@@ -377,13 +437,14 @@ def calculate_rotations(df, boss, boss_tanks):
 
         # Ignore casts that are off the global cooldown
         if row["Ability"] in ["Hopped", "Essence", "Dark", "Restore"]: continue
+        if row["Ability"] in ["恢复法力", "黑暗符文", "自然迅捷", "殉难者精华", "佳酿"]: continue
         temp = track_off_GCD(row, GCD_time)
         GCD_time = temp[0]
         if not temp[1]: 
             continue  
             
         # If LB refreshed on primary tank, record and restart the sequence
-        if row['Ability'] == 'Lifebloom' and row["Target"] == starting_tank:
+        if row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == starting_tank:
             if len(sequence) > 0: 
                 rotations_dict = count_rotations(sequence, rotations_dict)
 
@@ -394,51 +455,51 @@ def calculate_rotations(df, boss, boss_tanks):
             elif row["Target"] == boss_tanks[2]: LB_tank_flags[2] = True
 
 
-            sequence.append(row["Ability"])
+            sequence.append('Lifebloom')
             continue
 
         # Single tank
-        if row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[0] and LB_tank_flags[0] == False:
+        if row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == boss_tanks[0] and LB_tank_flags[0] == False:
             if LB_tank_flags[1] == False and LB_tank_flags[2] == False: 
                 starting_tank = boss_tanks[0]
                 if len(sequence) > 0: 
                     rotations_dict = count_rotations(sequence, rotations_dict)
                 sequence = []
 
-            sequence.append(row['Ability'])
+            sequence.append('Lifebloom')
 
             LB_tank_flags[0] = True
             continue
 
         # If two tanks (Anetheron, Azgalor, ..)
-        elif row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[1] and LB_tank_flags[1] == False:
+        elif row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == boss_tanks[1] and LB_tank_flags[1] == False:
             if LB_tank_flags[0] == False and LB_tank_flags[2] == False: 
                 starting_tank = boss_tanks[1]
                 if len(sequence) > 0: 
                     rotations_dict = count_rotations(sequence, rotations_dict)
                 sequence = []
 
-            sequence.append(row['Ability'])
+            sequence.append('Lifebloom')
 
             LB_tank_flags[1] = True
             continue
 
 
         # If three tanks (Akama, Council)
-        elif row['Ability'] == 'Lifebloom' and row["Target"] == boss_tanks[2] and LB_tank_flags[2] == False:
+        elif row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == boss_tanks[2] and LB_tank_flags[2] == False:
             if LB_tank_flags[0] == False and LB_tank_flags[1] == False: 
                 starting_tank = boss_tanks[2]
                 if len(sequence) > 0: 
                     rotations_dict = count_rotations(sequence, rotations_dict)
                 sequence = []
 
-            sequence.append(row['Ability'])
+            sequence.append('Lifebloom')
 
             LB_tank_flags[2] = True
             continue
 
 
-        if row['Ability'] == "Regrowth": 
+        if row['Ability'] in ["Regrowth", '愈合']: 
             sequence.append("Regrowth")
 
         else: 
@@ -501,6 +562,9 @@ def count_rotations(lst, rotations_dict):
                 
             elif I_count == 0 and RG_count == 1:
                 rotations_dict["3LB 1RG"] += 1
+             
+        else:
+            rotations_dict["Other"] += 1
             
 
     elif len(lst) == 3:
@@ -524,6 +588,9 @@ def count_rotations(lst, rotations_dict):
         elif LB_count == 3:
             if I_count == 0 and RG_count == 0:
                 rotations_dict["3LB"] += 1
+                
+        else:
+            rotations_dict["Other"] += 1
             
             
     elif len(lst) == 2:
@@ -537,6 +604,9 @@ def count_rotations(lst, rotations_dict):
         elif LB_count == 2:
             if I_count == 0 and RG_count == 0:
                 rotations_dict["2LB"] += 1
+                
+        else: 
+            rotations_dict["Other"] += 1
                       
     else:
         rotations_dict["Other"] += 1
@@ -560,26 +630,27 @@ def track_off_GCD(row, GCD_time):  # Spell casts that are off-GCD (trinkets, etc
     return [GCD_time, True]
         
         
-def export_to_excel(boss, to_append, player_df, char_name):
+def export_to_excel(boss, to_append, player_df, char_name, filename):
     series = pd.Series(to_append, index = player_df.columns)
     player_df = player_df.append(series, ignore_index = True)
 
     # Export dataframe to csv
-    player_df.to_csv(f"character_data/{boss.replace(' ', '')}_{char_name}.csv", index = None)
+    player_df.to_csv(f"character_data/{boss.replace(' ', '')}_{char_name}.csv", index = None, encoding='utf-8-sig')
 
     # Add data to the excel spreadsheet, sort sheet by rank
-    add_row_to_xlsx(boss, char_name)
-    sort_excel(boss)
+    add_row_to_xlsx(boss, char_name, filename)
+    sort_excel(boss, filename)
     
     
-def add_row_to_xlsx(boss, char_name):
+def add_row_to_xlsx(boss, char_name, filename):
     boss = boss.replace(" ", "")
-    wb = openpyxl.load_workbook('character_data/character_data.xlsx')
+    wb = openpyxl.load_workbook(f'character_data/{filename}.xlsx')
     ws = wb.get_sheet_by_name(boss)
     sheet = wb[boss]
     rows = ws.max_row
 
-    with open(f'character_data/{boss}_{char_name}.csv', 'r') as csvfile:
+    with open(f'character_data/{boss}_{char_name}.csv', 'r', encoding='utf-8-sig') as csvfile:
+        
             for i, line in enumerate(csvfile.readlines()):
                 if i == 0: continue  # Skip header
 
@@ -589,19 +660,25 @@ def add_row_to_xlsx(boss, char_name):
                 for i2, element in enumerate(elements):
                     sheet[chr(i2 + 65) + str(i + rows)] = element
 
-    wb.save('character_data/character_data.xlsx')
+    wb.save(f'character_data/{filename}.xlsx')
     
     
-def sort_excel(boss):
+def sort_excel(boss, filename):
     boss = boss.replace(" ", "")
-    wb = openpyxl.load_workbook('character_data/character_data.xlsx')
+    wb = openpyxl.load_workbook(f'character_data/{filename}.xlsx')
     ws = wb.get_sheet_by_name(boss)
     sheet = wb[boss]
     rows = ws.max_row
     
+    if filename == 'character_data.xlsx':
+        order_cell, ordering = 'E', 2
+       
+    else:
+        order_cell, ordering = 'A', 1
+    
     excel = win32com.client.Dispatch("Excel.Application")
-    wb = excel.Workbooks.Open('C:\\Users\\Matth\\git\\DataAnalysisWorkbooks\\warcraftLogs\\character_data\\character_data.xlsx')
+    wb = excel.Workbooks.Open(f'C:\\Users\\Matth\\git\\DataAnalysisWorkbooks\\warcraftLogs\\character_data\\{filename}.xlsx')
     ws = wb.Worksheets(boss)
-    ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range('E1'), Order1 = 2, Orientation = 1)
+    ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range(order_cell+'1'), Order1 = ordering, Orientation = 1)
     wb.Save()
     excel.Application.Quit()
