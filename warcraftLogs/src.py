@@ -239,7 +239,7 @@ def click_on_element_by_class_name(browser, class_tag):
             body.send_keys(Keys.PAGE_UP)
             
             
-def download_csv(browser, temp_url, id_tag, path):
+def download_csv(browser, temp_url, id_tag, download_path, path):
     body = browser.find_element_by_css_selector('body')
     body.send_keys(Keys.PAGE_UP)
     time.sleep(1)
@@ -253,7 +253,7 @@ def download_csv(browser, temp_url, id_tag, path):
     click_on_element_by_class_name(browser, "buttons-csv")
     time.sleep(3)
     
-    shutil.move("C:/Users/Matth/Downloads/Warcraft Logs - Combat Analysis for Warcraft.csv", f"C:/Users/Matth/git/DataAnalysisWorkbooks/warcraftLogs/{path}")
+    shutil.move(f"{download_path}/Warcraft Logs - Combat Analysis for Warcraft.csv", path)
     
     browser.get(temp_url)
     time.sleep(1)
