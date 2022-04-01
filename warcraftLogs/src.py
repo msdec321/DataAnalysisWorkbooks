@@ -261,9 +261,9 @@ def download_csv(browser, temp_url, id_tag, path):
            
 def clean_dmg_taken_csv(boss):
     
-    correct_csv_whitespace('damage_taken/dmg_taken')
+    correct_csv_whitespace('character_data/dmg_taken')
 
-    df = pd.read_csv('damage_taken/dmg_taken.csv')
+    df = pd.read_csv('character_data/dmg_taken.csv')
     df = df.drop(['Unnamed: 2'], axis=1)
 
     temp_df = df['Event'].str.split(" ", expand=True)
@@ -289,7 +289,7 @@ def clean_dmg_taken_csv(boss):
 
  
 def clean_cast_sequence_csv():
-    df = pd.read_csv('cast_sequence/casts.csv')
+    df = pd.read_csv('character_data/cast_sequence.csv')
     
     df = df.drop(['Unnamed: 4'], axis=1)
     
@@ -321,7 +321,7 @@ def clean_cast_sequence_csv():
 
     df = df.drop(['Source → Target'], axis=1)
     
-    correct_csv_whitespace('cast_sequence/casts')
+    correct_csv_whitespace('character_data/cast_sequence')
     
     return df
 
