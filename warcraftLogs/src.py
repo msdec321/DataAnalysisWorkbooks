@@ -119,6 +119,21 @@ def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_
         wb = openpyxl.load_workbook('data/character_data.xlsx')
         
     except FileNotFoundError: 
+        wb = openpyxl.Workbook()
+        
+        boss = boss.replace(" ", "")
+        wb.create_sheet(boss)
+        sheet = wb[boss]
+        
+        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        for i, item in enumerate(header):
+            sheet[chr(i + 65) + str(1)] = item
+
+        std = wb.get_sheet_by_name('Sheet')
+        wb.remove_sheet(std)
+        
+        wb.save(f'data/character_data.xlsx')
+        
         return False
 
     date = browser.find_element_by_id('date-hps-'+str(i+1))
@@ -720,7 +735,9 @@ def export_to_excel(boss, to_append, player_df, char_name, filename, convertRank
     
 def add_row_to_xlsx(boss, char_name, filename, convertRank):
     boss = boss.replace(" ", "")
+
     wb = openpyxl.load_workbook(f'data/{filename}.xlsx')
+
     ws = wb.get_sheet_by_name(boss)
     sheet = wb[boss]
     rows = ws.max_row
