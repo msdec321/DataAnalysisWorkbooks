@@ -14,9 +14,9 @@ This repository scrapes encounter data from WarcraftLogs which can be used in a 
 &emsp; • Number of healers  
 &emsp; • Shadowpriest in group  
 &emsp; • Innervate used on player  
-&emsp; • Bloodlust/heroism used on player
-&emsp; • Power Infusion used on player
-&emsp; • Is Nature's Grace spec?
+&emsp; • Bloodlust/heroism used on player  
+&emsp; • Power Infusion used on player  
+&emsp; • Is Nature's Grace spec?  
 &emsp; • Lifebloom uptime %  
 &emsp; • Total HPS  
 &emsp; • % HPS of: Lifebloom (tick), Lifebloom (bloom), Rejuvenation, Regrowth, Swiftmend  
