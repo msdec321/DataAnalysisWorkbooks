@@ -2,7 +2,7 @@
 
 #-----------------------------------------  
 *Author: Mercychan - Benediction (US)  
-Discord: Mercy#9226  *
+Discord: Mercy#9226  *  
 #-----------------------------------------  
 
 
