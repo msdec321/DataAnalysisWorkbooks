@@ -149,8 +149,8 @@ def get_boss_data_char_scraper(browser, i):
     return rank, date, rank.text, HPS.text.replace(",", ""), time.text, HPS
 
 
-def get_boss_data_top_N_scraper(browser, i):
-    a = browser.find_elements_by_id(f"row-601-{i}")
+def get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i):
+    a = browser.find_elements_by_id(f"row-{boss_link_dict[boss].split('=')[1]}-{i}")
     b = a[0].find_elements(By.XPATH, 'td')
     
     return int(b[0].text), b[1].text, b[6].text, b[4].text.replace(",", ""), b[7].text
@@ -410,6 +410,7 @@ def fix_cast_time(df):
 # Rotation calculator. This function checks when lifebloom is refreshed on the primary tank and what sequence of spells (Instant, Regrowth)
 # are cast before the initial lifebloom is refreshed. The rotations are tallied in a rotation dictionary and a final count is returned.
     
+# TODO: Refactor this shit please
 def calculate_rotations(df, boss, boss_tanks):
 
     GCD_time = {"t1" : 0, "t2" : 0}
