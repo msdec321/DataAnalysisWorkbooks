@@ -1,9 +1,9 @@
 # WarcraftLogs TBC Restoration Druid Data Scraper v1.04  
 
-#-------------------------------------  
+#-----------------------------------------  
 Author: Mercychan - Benediction (US)  
 Discord: Mercy#9226  
-#-------------------------------------  
+#-----------------------------------------  
 
 
 This repository scrapes encounter data from WarcraftLogs which can be used in a data analysis. Currently scrapes:   
