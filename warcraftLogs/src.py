@@ -67,12 +67,56 @@ def get_character_info(char_url):
     char_region = temp[-3].swapcase()
     
     return char_name + " " + "(" + char_server + " " + char_region + ")"
+
+
+def check_if_rank_changed(boss, rank, name, date):
+    wb = openpyxl.load_workbook('data/top_N_druids.xlsx')
+
+    boss = boss.replace(" ", "")
+    
+    try:
+        ws = wb.get_sheet_by_name(boss)
+    
+    except KeyError:
+        temp = str(boss).replace(" ", "")
+        wb.create_sheet(temp)
+        sheet = wb[temp]
+        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        for i, item in enumerate(header):
+            sheet[chr(i + 65) + str(1)] = item
+            
+        ws = wb.get_sheet_by_name(boss)
+    
+    for row in ws.iter_rows():
+        if [rank, name, date] == [row[0].value, row[1].value, row[3].value]:
+            wb.save('data/top_N_druids.xlsx')
+            return False
+            
+        elif [name, date] == [row[1].value, row[3].value] and rank != row[0].value:
+            wb.save('data/top_N_druids.xlsx')
+            return True
+        
+    wb.save('data/top_N_druids.xlsx')
+    return False 
+
+
+def update_rank(boss, rank, name, date):
+    wb = openpyxl.load_workbook('data/top_N_druids.xlsx')
+    
+    boss = boss.replace(" ", "")
+
+    ws = wb.get_sheet_by_name(boss)
+    for i, row in enumerate(ws.iter_rows()):
+        if [name, date] == [row[1].value, row[3].value]:
+            row[0].value = rank
+        
+    wb.save('data/top_N_druids.xlsx')
          
             
 def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_name, char_server, char_region):
     
     try:
-        wb = openpyxl.load_workbook('character_data/character_data.xlsx')
+        wb = openpyxl.load_workbook('data/character_data.xlsx')
         
     except FileNotFoundError: 
         return False
@@ -88,7 +132,7 @@ def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_
         ws = wb.get_sheet_by_name(boss.replace(" ", ""))
         for row in ws.iter_rows():
             if [char_name, char_server + " " + char_region, date, rank] == [row[0].value, row[1].value, row[2].value, row[4].value]:
-                wb.save('character_data/character_data.xlsx')
+                wb.save('data/character_data.xlsx')
                 return True
 
     # If the boss sheet isn't in the excel file, add it
@@ -100,7 +144,7 @@ def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_
         for i, item in enumerate(header):
             sheet[chr(i + 65) + str(1)] = item
             
-        wb.save('character_data/character_data.xlsx')
+        wb.save('data/character_data.xlsx')
         return False
        
     return False    
@@ -108,7 +152,7 @@ def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_
 
 def check_if_parse_already_recorded_top_N(boss, rank, char_name):
     try:
-        wb = openpyxl.load_workbook('character_data/top_N_druids.xlsx')
+        wb = openpyxl.load_workbook('data/top_N_druids.xlsx')
         
     except FileNotFoundError: 
         return False
@@ -119,7 +163,7 @@ def check_if_parse_already_recorded_top_N(boss, rank, char_name):
         ws = wb.get_sheet_by_name(boss)
         for row in ws.iter_rows():
             if [rank, char_name] == [row[0].value, row[1].value]:
-                wb.save('character_data/top_N_druids.xlsx')
+                wb.save('data/top_N_druids.xlsx')
                 return True
 
     # If the boss sheet isn't in the excel file, add it
@@ -130,7 +174,7 @@ def check_if_parse_already_recorded_top_N(boss, rank, char_name):
         for i, item in enumerate(header):
             sheet[chr(i + 65) + str(1)] = item
             
-        wb.save('character_data/top_N_druids.xlsx')
+        wb.save('data/top_N_druids.xlsx')
         return False
        
     return False       
@@ -150,10 +194,25 @@ def get_boss_data_char_scraper(browser, i):
 
 
 def get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i):
-    a = browser.find_elements_by_id(f"row-{boss_link_dict[boss].split('=')[1]}-{i}")
-    b = a[0].find_elements(By.XPATH, 'td')
+    row = browser.find_elements_by_id(f"row-{boss_link_dict[boss].split('=')[1]}-{i}")
+    cell = row[0].find_elements(By.XPATH, 'td')
     
-    return int(b[0].text), b[1].text, b[6].text, b[4].text.replace(",", ""), b[7].text
+    char_info = cell[1].text
+    
+    name = char_info.split("\n")[0]
+    server_region = char_info.split("-")
+
+    if len(server_region) == 1:
+        server_region = char_info.split("\n")[1]
+        server = server_region.split(" ")[0]
+        region = server_region.split(" ")[1]
+
+    else:
+        server_region = char_info.split("-")[1]
+        server = server_region.split(" ")[1]
+        region = server_region.split(" ")[2]
+    
+    return int(cell[0].text), name, server, region, cell[6].text, cell[4].text.replace(",", ""), cell[7].text
             
             
 def get_spell_info(browser, total_HPS):
@@ -320,7 +379,7 @@ def download_csv(browser, temp_url, id_tag, download_path, path):
     
            
 def clean_cast_sequence_csv():
-    df = pd.read_csv('character_data/cast_sequence.csv', encoding='utf-8-sig')
+    df = pd.read_csv('data/cast_sequence.csv', encoding='utf-8-sig')
     
     df = df.drop(['Unnamed: 4'], axis=1)
     
@@ -352,7 +411,7 @@ def clean_cast_sequence_csv():
 
     df = df.drop(['Source → Target'], axis=1)
     
-    correct_csv_whitespace('character_data/cast_sequence')
+    correct_csv_whitespace('data/cast_sequence')
     
     return df
 
@@ -636,7 +695,7 @@ def export_to_excel(boss, to_append, player_df, char_name, filename):
     player_df = player_df.append(series, ignore_index = True)
 
     # Export dataframe to csv
-    player_df.to_csv(f"character_data/{boss.replace(' ', '')}_{char_name}.csv", index = None, encoding='utf-8-sig')
+    player_df.to_csv(f"data/{boss.replace(' ', '')}_{char_name}.csv", index = None, encoding='utf-8-sig')
 
     # Add data to the excel spreadsheet, sort sheet by rank
     add_row_to_xlsx(boss, char_name, filename)
@@ -645,12 +704,12 @@ def export_to_excel(boss, to_append, player_df, char_name, filename):
     
 def add_row_to_xlsx(boss, char_name, filename):
     boss = boss.replace(" ", "")
-    wb = openpyxl.load_workbook(f'character_data/{filename}.xlsx')
+    wb = openpyxl.load_workbook(f'data/{filename}.xlsx')
     ws = wb.get_sheet_by_name(boss)
     sheet = wb[boss]
     rows = ws.max_row
 
-    with open(f'character_data/{boss}_{char_name}.csv', 'r', encoding='utf-8-sig') as csvfile:
+    with open(f'data/{boss}_{char_name}.csv', 'r', encoding='utf-8-sig') as csvfile:
         
             for i, line in enumerate(csvfile.readlines()):
                 if i == 0: continue  # Skip header
@@ -664,12 +723,12 @@ def add_row_to_xlsx(boss, char_name, filename):
                     else: 
                         sheet[chr(i2 + 65) + str(i + rows)] = element
 
-    wb.save(f'character_data/{filename}.xlsx')
+    wb.save(f'data/{filename}.xlsx')
     
     
 def sort_excel(boss, filename):
     boss = boss.replace(" ", "")
-    wb = openpyxl.load_workbook(f'character_data/{filename}.xlsx')
+    wb = openpyxl.load_workbook(f'data/{filename}.xlsx')
     ws = wb.get_sheet_by_name(boss)
     sheet = wb[boss]
     rows = ws.max_row
@@ -681,7 +740,7 @@ def sort_excel(boss, filename):
         order_cell, ordering = 'A', 1
     
     excel = win32com.client.Dispatch("Excel.Application")
-    wb = excel.Workbooks.Open(f'C:\\Users\\Matth\\git\\DataAnalysisWorkbooks\\warcraftLogs\\character_data\\{filename}.xlsx')
+    wb = excel.Workbooks.Open(f'C:\\Users\\Matth\\git\\DataAnalysisWorkbooks\\warcraftLogs\\data\\{filename}.xlsx')
     ws = wb.Worksheets(boss)
     ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
     wb.Save()
