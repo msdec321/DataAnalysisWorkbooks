@@ -1,9 +1,9 @@
 # WarcraftLogs TBC Restoration Druid Data Scraper v1.04  
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-Author: Mercychan - Benediction (US)
-Discord: Mercy#9226
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+Author: Mercychan - Benediction (US)  
+Discord: Mercy#9226  
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 
 This repository scrapes encounter data from WarcraftLogs which can be used in a data analysis. Currently scrapes:   
 &emsp; • Character name, server, region  
@@ -30,8 +30,8 @@ The related source code can be found in src.py
 # Dependencies  
 &emsp; • Selenium, pandas, openpyxl, win32com  
   
-&emsp; • Get the selenium chromedriver at (version number must match your Google Chrome version):  
-&emsp; https://chromedriver.storage.googleapis.com/index.html  
+&emsp; • Get the selenium chromedriver at (version number must match your Google Chrome version):   
+&emsp; https://chromedriver.storage.googleapis.com/index.html   
 
 &emsp; • Get Adblock plus for selenium (see the following link for installation guide):
 &emsp; https://www.reddit.com/r/learnpython/comments/4zzn69/how_do_i_get_adblockplus_to_work_with_selenium/d70036l/
