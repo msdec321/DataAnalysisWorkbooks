@@ -140,7 +140,7 @@ def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_
         temp = str(boss).replace(" ", "")
         wb.create_sheet(temp)
         sheet = wb[temp]
-        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
         for i, item in enumerate(header):
             sheet[chr(i + 65) + str(1)] = item
             
@@ -170,7 +170,7 @@ def check_if_parse_already_recorded_top_N(boss, rank, char_name):
     except KeyError:
         wb.create_sheet(boss)
         sheet = wb[boss]
-        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
         for i, item in enumerate(header):
             sheet[chr(i + 65) + str(1)] = item
             
@@ -208,9 +208,10 @@ def get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i):
         region = server_region.split(" ")[1]
 
     else:
-        server_region = char_info.split("-")[1]
-        server = server_region.split(" ")[1]
-        region = server_region.split(" ")[2]
+        j = len(server_region)
+        server_region = char_info.split("-")[j-1]
+        server = server_region.split(" ")[j-2]
+        region = server_region.split(" ")[j-1]
     
     return int(cell[0].text), name, server, region, cell[6].text, cell[4].text.replace(",", ""), cell[7].text
             
@@ -286,7 +287,9 @@ def check_spriest(browser):
     return 'No'
 
 
-def check_innervate(browser):
+def check_buffs(browser):
+    innervate, bloodlust, powerInfusion, naturesGrace = 'No', 'No', 'No', 'No'
+    
     body = browser.find_element_by_css_selector('body')
     body.send_keys(Keys.PAGE_UP)
     time.sleep(1)
@@ -297,21 +300,32 @@ def check_innervate(browser):
     try:
         a = browser.find_element_by_id("main-table-256-0")
         b = a.text.split('\n')
-
-        # Check if innervate is present in the table.
-        if len(fnmatch.filter(b, 'Innervate??')) > 0: 
-            return 'Yes'
-        
-        # Check for innervate on chinese WCL
-        elif len(fnmatch.filter(b, '激活??')) > 0:
-            return 'Yes'
-
-        else: 
-            return 'No'
-        
-    # If the 'major individual cooldown' table is not present then the player wasn't innervated.
+        if len(fnmatch.filter(b, 'Innervate??')) > 0 or len(fnmatch.filter(b, '激活??')) > 0: 
+            innervate = 'Yes'
+       
     except: 
-        return 'No'
+        pass
+               
+    try:
+        a = browser.find_element_by_id("main-table-1-0")
+        b = a.text.split('\n')
+               
+        if len(fnmatch.filter(b, 'Bloodlust??')) > 0 or len(fnmatch.filter(b, 'Heroism??')) > 0:
+            bloodlust = 'Yes'
+            
+        elif len(fnmatch.filter(b, '嗜血??')) > 0 or len(fnmatch.filter(b, '英勇??')) > 0:
+            bloodlust = 'Yes'
+            
+        if len(fnmatch.filter(b, 'Power Infusion??')) > 0 or len(fnmatch.filter(b, '能量灌注??')) > 0: 
+            powerInfusion = 'Yes'
+                              
+        if len(fnmatch.filter(b, "Nature's Grace??")) > 0 or len(fnmatch.filter(b, '自然之赐??')) > 0: 
+            naturesGrace = 'Yes'
+            
+    except:
+        pass
+    
+    return innervate, bloodlust, powerInfusion, naturesGrace
    
         
 def click_on_element_by_id(browser, id_tag):    
@@ -692,7 +706,7 @@ def track_off_GCD(row, GCD_time):  # Spell casts that are off-GCD (trinkets, etc
     return [GCD_time, True]
         
         
-def export_to_excel(boss, to_append, player_df, char_name, filename):
+def export_to_excel(boss, to_append, player_df, char_name, filename, convertRank):
     series = pd.Series(to_append, index = player_df.columns)
     player_df = player_df.append(series, ignore_index = True)
 
@@ -700,11 +714,11 @@ def export_to_excel(boss, to_append, player_df, char_name, filename):
     player_df.to_csv(f"data/{boss.replace(' ', '')}_{char_name}.csv", index = None, encoding='utf-8-sig')
 
     # Add data to the excel spreadsheet, sort sheet by rank
-    add_row_to_xlsx(boss, char_name, filename)
+    add_row_to_xlsx(boss, char_name, filename, convertRank)
     sort_excel(boss, filename)
     
     
-def add_row_to_xlsx(boss, char_name, filename):
+def add_row_to_xlsx(boss, char_name, filename, convertRank):
     boss = boss.replace(" ", "")
     wb = openpyxl.load_workbook(f'data/{filename}.xlsx')
     ws = wb.get_sheet_by_name(boss)
@@ -720,7 +734,7 @@ def add_row_to_xlsx(boss, char_name, filename):
                 elements = line.split(",")
 
                 for i2, element in enumerate(elements):
-                    if i2 == 0: 
+                    if i2 == 0 and convertRank: 
                         sheet[chr(i2 + 65) + str(i + rows)] = int(float(element))
                     else: 
                         sheet[chr(i2 + 65) + str(i + rows)] = element
