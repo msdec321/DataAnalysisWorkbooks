@@ -50,3 +50,5 @@ The related source code can be found in src.py
 
 &emsp; • Track non-rotations (RG spam, 3 RG + 1I, etc)
 
+&emsp; • Speed up scraping tool (Currently ~1min per character scrape)
+
