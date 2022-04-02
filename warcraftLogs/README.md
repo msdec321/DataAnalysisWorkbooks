@@ -24,7 +24,7 @@ This repository scrapes encounter data from WarcraftLogs which can be used in a 
   
 The scraped datasets are stored in data/ as excel spreadsheets.  
 
-The individual character scraper can be run via specific_character_scraper.ipynb 
+The individual character scraper can be run via specific_character_scraper.ipynb  
 The top druid rank scraper can be run via top_rank_scraper.ipynb  
 (Note: general users don't need to run these, you can just use the premade datasets found in data/)
 
