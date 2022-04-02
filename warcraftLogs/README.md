@@ -34,7 +34,7 @@ The related source code can be found in src.py
 &emsp; • Get the selenium chromedriver at (version number must match your Google Chrome version):   
 &emsp; https://chromedriver.storage.googleapis.com/index.html   
 
-&emsp; • Get Adblock plus for selenium (see the following link for installation guide):
+&emsp; • Get Adblock plus for selenium (see the following link for installation guide):  
 &emsp; https://www.reddit.com/r/learnpython/comments/4zzn69/how_do_i_get_adblockplus_to_work_with_selenium/d70036l/
   
 &emsp; • Other browsers (Firefox, IE6, etc) are not currently supported 
