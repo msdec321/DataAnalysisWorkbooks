@@ -44,7 +44,7 @@ The related source code can be found in src.py
 
 # TODO list
 
-&emsp; • Add checks for heroism, power infusion
+&emsp; • Add checks for heroism, power infusion, nature's grace
 
 &emsp; • Add a dashboard to visualize the top rotations used per boss with filters for kill time, N healers, spriest/innervate, etc
 
