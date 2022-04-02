@@ -1,8 +1,8 @@
 # WarcraftLogs TBC Restoration Druid Data Scraper v1.04  
 
 #-----------------------------------------  
-Author: Mercychan - Benediction (US)  
-Discord: Mercy#9226  
+*Author: Mercychan - Benediction (US)  
+Discord: Mercy#9226  *
 #-----------------------------------------  
 
 
