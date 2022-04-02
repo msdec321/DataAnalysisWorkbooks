@@ -81,7 +81,7 @@ def check_if_rank_changed(boss, rank, name, date):
         temp = str(boss).replace(" ", "")
         wb.create_sheet(temp)
         sheet = wb[temp]
-        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
         for i, item in enumerate(header):
             sheet[chr(i + 65) + str(1)] = item
             
@@ -315,12 +315,12 @@ def check_innervate(browser):
    
         
 def click_on_element_by_id(browser, id_tag):    
-    a = browser.find_element_by_id(id_tag)
+    tag = browser.find_element_by_id(id_tag)
     time.sleep(1)
     
-    while True:
+    for j in range(20):
         action = ActionChains(browser)
-        action.move_to_element(a)
+        action.move_to_element(tag)
         time.sleep(0.5)
         
         try:
@@ -333,16 +333,16 @@ def click_on_element_by_id(browser, id_tag):
         except:
             body = browser.find_element_by_css_selector('body')
             body.click()
-            body.send_keys(Keys.PAGE_UP)
+            body.send_keys(Keys.PAGE_UP) 
     
 
 def click_on_element_by_class_name(browser, class_tag):  
-    b = browser.find_element_by_class_name(class_tag)
+    tag = browser.find_element_by_class_name(class_tag)
     time.sleep(1)
     
-    while True:
+    for j in range(20):
         action = ActionChains(browser)
-        action.move_to_element(b)
+        action.move_to_element(tag)
         time.sleep(0.5)
         
         try:
@@ -379,7 +379,10 @@ def download_csv(browser, temp_url, id_tag, download_path, path):
     
            
 def clean_cast_sequence_csv():
+    correct_csv_whitespace('data/cast_sequence')
+    
     df = pd.read_csv('data/cast_sequence.csv', encoding='utf-8-sig')
+    #df = pd.read_csv('data/cast_sequence.csv', "cp1251")
     
     df = df.drop(['Unnamed: 4'], axis=1)
     
@@ -411,8 +414,6 @@ def clean_cast_sequence_csv():
 
     df = df.drop(['Source → Target'], axis=1)
     
-    correct_csv_whitespace('data/cast_sequence')
-    
     return df
 
 
@@ -431,6 +432,7 @@ def correct_csv_whitespace(path):
 
             for i, item in enumerate(row):
                 row[i] = row[i].replace("  ", " ")
+                row[i] = row[i].replace('"', '')
             outputWriter.writerow(row)
         outputFile.close()
 
