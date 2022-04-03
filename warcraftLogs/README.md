@@ -7,10 +7,11 @@
 
 
 This tool scrapes encounter data from WarcraftLogs which can be used in a data analysis. Currently scrapes the following data:   
+&emsp; • Rank (*Top rank scraper only*)  
 &emsp; • Character name, server, region  
 &emsp; • Date  
 &emsp; • Kill time  
-&emsp; • Parse percentile  
+&emsp; • Parse percentile (*Individual character scraper only*)
 &emsp; • Number of healers  
 &emsp; • Shadowpriest in group  
 &emsp; • Innervate used on player  
