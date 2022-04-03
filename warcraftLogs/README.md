@@ -13,7 +13,7 @@ This tool scrapes encounter data from WarcraftLogs which can be used in a data a
 &emsp; • Kill time  
 &emsp; • Parse percentile (*Individual character scraper only*)  
 &emsp; • Number of healers  
-&emsp; • Shadowpriest in group  
+&emsp; • Shadowpriest in group?  
 &emsp; • Innervate received?  
 &emsp; • Bloodlust/heroism received?  
 &emsp; • Power Infusion received?   
