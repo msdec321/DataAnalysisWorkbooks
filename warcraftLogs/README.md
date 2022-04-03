@@ -15,8 +15,8 @@ This tool scrapes encounter data from WarcraftLogs which can be used in a data a
 &emsp; • Number of healers  
 &emsp; • Shadowpriest in group  
 &emsp; • Innervate used on player  
-&emsp; • Bloodlust/heroism
-&emsp; • Power Infusion
+&emsp; • Bloodlust/heroism  
+&emsp; • Power Infusion  
 &emsp; • Is Nature's Grace spec?  
 &emsp; • Lifebloom uptime %  
 &emsp; • Total HPS  
