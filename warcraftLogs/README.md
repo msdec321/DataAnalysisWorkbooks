@@ -53,8 +53,6 @@ The related source code can be found in src.py
 
 &emsp; • Track hasted rotations (Lifebloom + 4 instants, LB + 3I + 1RG, etc).
 
-&emsp; • Track non-rotations (RG spam, 3 RG + 1I, etc)
-
 &emsp; • Speed up scraping tool (Currently ~1min per character scrape)
 
 &emsp; • Add a dataset for Dreamstate spec
