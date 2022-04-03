@@ -6,7 +6,7 @@
 #-----------------------------------------  
 
 
-This repository scrapes encounter data from WarcraftLogs which can be used in a data analysis. Currently scrapes:   
+This tool scrapes encounter data from WarcraftLogs which can be used in a data analysis. Currently scrapes the following data:   
 &emsp; • Character name, server, region  
 &emsp; • Date  
 &emsp; • Kill time  
