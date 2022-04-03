@@ -514,8 +514,6 @@ def fix_cast_time(df):
 
 # Rotation calculator. This function checks when lifebloom is refreshed on the primary tank and what sequence of spells (Instant, Regrowth)
 # are cast before the initial lifebloom is refreshed. The rotations are tallied in a rotation dictionary and a final count is returned.
-    
-# TODO: Refactor this shit please
 def calculate_rotations(df, boss, boss_tanks):
 
     GCD_time = {"t1" : 0, "t2" : 0}
@@ -525,26 +523,24 @@ def calculate_rotations(df, boss, boss_tanks):
                       "3LB 1I" : 0, "3LB 1RG" : 0, "3LB" : 0,
                       "0LB 4RG" : 0,  "0LB 3RG 1I" : 0,  "0LB 2RG 2I" : 0,  "0LB 1RG 3I" : 0,  "0LB 4I" : 0,
                       "Other" : 0}
-    sequence = []
 
-    i = 0
-    while len(boss_tanks) < 3:
-        boss_tanks.append("X")
-        i += 1
+    for i in range(3):
+        if len(boss_tanks) < 3: boss_tanks.append("X")
 
-    LB_tank_flags = [False, False, False]
-    starting_tank = None
+    sequence, LB_tank_flags = [], [False, False, False]
+    starting_tank, LB_on_tank = None, False
 
     for i, row in (df.iterrows()):
         
+        # If seq gets to 4 casts, record and reset. TODO: For hasted rotations this can be 5
         if len(sequence) == 4:
             rotations_dict = count_rotations(sequence, rotations_dict)
             LB_tank_flags = [False, False, False]
             sequence = []
 
         # Ignore casts that are off the global cooldown
-        if row["Ability"] in ["Hopped", "Essence", "Dark", "Restore"]: continue
-        if row["Ability"] in ["恢复法力", "黑暗符文", "自然迅捷", "殉难者精华", "佳酿"]: continue
+        if row["Ability"] in ["Hopped", "Essence", "Dark", "Restore",
+                              "恢复法力", "黑暗符文", "自然迅捷", "殉难者精华", "佳酿"]: continue
         temp = track_off_GCD(row, GCD_time)
         GCD_time = temp[0]
         if not temp[1]: 
@@ -557,61 +553,45 @@ def calculate_rotations(df, boss, boss_tanks):
 
             sequence = []
             LB_tank_flags = [False, False, False]
-            if row["Target"] == boss_tanks[0]: LB_tank_flags[0] = True
-            elif row["Target"] == boss_tanks[1]: LB_tank_flags[1] = True
-            elif row["Target"] == boss_tanks[2]: LB_tank_flags[2] = True
-
+            for j in range(3):
+                if row["Target"] == boss_tanks[j]: LB_tank_flags[j] = True
 
             sequence.append('Lifebloom')
             continue
 
-        # Single tank
-        if row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == boss_tanks[0] and LB_tank_flags[0] == False:
-            if LB_tank_flags[1] == False and LB_tank_flags[2] == False: 
-                starting_tank = boss_tanks[0]
-                if len(sequence) > 0: 
-                    rotations_dict = count_rotations(sequence, rotations_dict)
-                sequence = []
+        # Otherwise check if LB placed on a tank, restart sequence if necessary
+        for j in range(3):
 
-            sequence.append('Lifebloom')
+            if row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == boss_tanks[j] and not LB_tank_flags[j]:
+                
+                if True not in LB_tank_flags:
+                    starting_tank = boss_tanks[j]
+                    if len(sequence) > 0: 
+                        rotations_dict = count_rotations(sequence, rotations_dict)
+                    sequence = []
 
-            LB_tank_flags[0] = True
-            continue
-
-        # If two tanks (Anetheron, Azgalor, ..)
-        elif row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == boss_tanks[1] and LB_tank_flags[1] == False:
-            if LB_tank_flags[0] == False and LB_tank_flags[2] == False: 
-                starting_tank = boss_tanks[1]
-                if len(sequence) > 0: 
-                    rotations_dict = count_rotations(sequence, rotations_dict)
-                sequence = []
-
-            sequence.append('Lifebloom')
-
-            LB_tank_flags[1] = True
+                sequence.append('Lifebloom')
+                LB_tank_flags[j] = True
+                LB_on_tank = True
+                
+        if LB_on_tank:
+            LB_on_tank = False
             continue
 
 
-        # If three tanks (Akama, Council)
-        elif row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == boss_tanks[2] and LB_tank_flags[2] == False:
-            if LB_tank_flags[0] == False and LB_tank_flags[1] == False: 
-                starting_tank = boss_tanks[2]
-                if len(sequence) > 0: 
-                    rotations_dict = count_rotations(sequence, rotations_dict)
-                sequence = []
-
-            sequence.append('Lifebloom')
-
-            LB_tank_flags[2] = True
-            continue
-
-
+        # Track regrowth casts specifically
         if row['Ability'] in ["Regrowth", '愈合']: 
             sequence.append("Regrowth")
 
+        # All other casts are considered 'instant'. (Including spells with cast times like Rebirth or Drums)
         else: 
-            sequence.append("Instant")    
+            sequence.append("Instant")     
 
+    return update_rotation_dict(rotations_dict)
+
+            
+def update_rotation_dict(rotations_dict):
+    
     # Convert rotation counts to percentages
     total = 0
     for key in rotations_dict:
@@ -622,13 +602,13 @@ def calculate_rotations(df, boss, boss_tanks):
         
     nontank_rotation_percent = rotations_dict["0LB 4RG"] + rotations_dict["0LB 3RG 1I"] + rotations_dict["0LB 2RG 2I"] + rotations_dict["0LB 1RG 3I"] + rotations_dict["0LB 4I"] + rotations_dict["Other"]
     
+    # Check if player is actually rotating on the tank and not just raid healing.
     if nontank_rotation_percent > 0.7: 
         rotating_on_tank = "No"
         
     else:
         rotating_on_tank = "Yes"
     
-
     # Pick out the top two rotations used
     max_key = max(rotations_dict, key = rotations_dict. get)
     rotation1 = max_key
@@ -750,19 +730,19 @@ def count_rotations(lst, rotations_dict):
     return rotations_dict
 
         
-def track_off_GCD(row, GCD_time):  # Spell casts that are off-GCD (trinkets, etc) should not go into the rotation
-    GCD_time["t1"] = GCD_time["t2"]
-    GCD_time["t2"] = datetime.strptime(str(row['Minute']) + ":" + str(row['Second']), "%M:%S.%f") 
+def delta_t(row, time):  # Spell casts that are off-GCD (trinkets, etc) should not go into the rotation
+    time["t1"] = time["t2"]
+    time["t2"] = datetime.strptime(str(row['Minute']) + ":" + str(row['Second']), "%M:%S.%f") 
     
-    if type(GCD_time["t2"]) == datetime and type(GCD_time["t1"]) == datetime:
+    if type(time["t2"]) == datetime and type(time["t1"]) == datetime:
         
         try:
-            if float(str((GCD_time["t2"] - GCD_time["t1"]))[5:]) < 0.4:
-                return [GCD_time, False]
+            if float(str((time["t2"] - time["t1"]))[5:]) < 0.4:
+                return [time, False]
         except ValueError:
-            return [GCD_time, True]
+            return [time, True]
 
-    return [GCD_time, True]
+    return [time, True]
         
         
 def export_to_excel(boss, to_append, player_df, char_name, filename, convertRank):
