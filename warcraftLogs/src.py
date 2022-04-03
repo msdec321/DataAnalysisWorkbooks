@@ -81,7 +81,7 @@ def check_if_rank_changed(boss, rank, name, date):
         temp = str(boss).replace(" ", "")
         wb.create_sheet(temp)
         sheet = wb[temp]
-        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
         for i, item in enumerate(header):
             sheet[chr(i + 65) + str(1)] = item
             
@@ -125,7 +125,7 @@ def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_
         wb.create_sheet(boss)
         sheet = wb[boss]
         
-        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
         for i, item in enumerate(header):
             sheet[chr(i + 65) + str(1)] = item
 
@@ -155,7 +155,7 @@ def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_
         temp = str(boss).replace(" ", "")
         wb.create_sheet(temp)
         sheet = wb[temp]
-        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        header = ["Name", "Server", "Date", "Kill time", "Rank", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
         for i, item in enumerate(header):
             sheet[chr(i + 65) + str(1)] = item
             
@@ -170,6 +170,21 @@ def check_if_parse_already_recorded_top_N(boss, rank, char_name):
         wb = openpyxl.load_workbook('data/top_N_druids.xlsx')
         
     except FileNotFoundError: 
+        wb = openpyxl.Workbook()
+        
+        boss = boss.replace(" ", "")
+        wb.create_sheet(boss)
+        sheet = wb[boss]
+        
+        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
+        for i, item in enumerate(header):
+            sheet[chr(i + 65) + str(1)] = item
+
+        std = wb.get_sheet_by_name('Sheet')
+        wb.remove_sheet(std)
+        
+        wb.save(f'data/top_N_druids.xlsx')
+        
         return False
     
     boss = boss.replace(" ", "")
@@ -185,7 +200,7 @@ def check_if_parse_already_recorded_top_N(boss, rank, char_name):
     except KeyError:
         wb.create_sheet(boss)
         sheet = wb[boss]
-        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotations"]
+        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
         for i, item in enumerate(header):
             sheet[chr(i + 65) + str(1)] = item
             
@@ -266,7 +281,7 @@ def get_nHealers(browser):
 
 def get_tanks(browser):
     click_on_element_by_id(browser, "filter-summary-tab")  
-    time.sleep(0.5)
+    time.sleep(1)
     
     row = browser.find_elements_by_class_name("composition-row")
     
@@ -334,7 +349,7 @@ def check_buffs(browser):
         if len(fnmatch.filter(b, 'Power Infusion??')) > 0 or len(fnmatch.filter(b, '能量灌注??')) > 0: 
             powerInfusion = 'Yes'
                               
-        if len(fnmatch.filter(b, "Nature's Grace??")) > 0 or len(fnmatch.filter(b, '自然之赐??')) > 0: 
+        if len(fnmatch.filter(b, "Nature's Grace???")) > 0 or len(fnmatch.filter(b, '自然之赐???')) > 0: 
             naturesGrace = 'Yes'
             
     except:
@@ -508,6 +523,7 @@ def calculate_rotations(df, boss, boss_tanks):
                       "1LB 1I 1RG" : 0, "1LB 2I" : 0, "1LB 1RG": 0, "1LB 1I": 0, 
                       "2LB 2I" : 0, "2LB 2RG" : 0, "2LB 1I 1RG" : 0, "2LB 1I" : 0, "2LB 1RG" : 0, "2LB" : 0, 
                       "3LB 1I" : 0, "3LB 1RG" : 0, "3LB" : 0,
+                      "0LB 4RG" : 0,  "0LB 3RG 1I" : 0,  "0LB 2RG 2I" : 0,  "0LB 1RG 3I" : 0,  "0LB 4I" : 0,
                       "Other" : 0}
     sequence = []
 
@@ -603,17 +619,32 @@ def calculate_rotations(df, boss, boss_tanks):
 
     for key in rotations_dict:
         rotations_dict[key] = round(float(rotations_dict[key]) / total, 3)
+        
+    nontank_rotation_percent = rotations_dict["0LB 4RG"] + rotations_dict["0LB 3RG 1I"] + rotations_dict["0LB 2RG 2I"] + rotations_dict["0LB 1RG 3I"] + rotations_dict["0LB 4I"] + rotations_dict["Other"]
+    
+    if nontank_rotation_percent > 0.7: 
+        rotating_on_tank = "No"
+        
+    else:
+        rotating_on_tank = "Yes"
+    
 
     # Pick out the top two rotations used
     max_key = max(rotations_dict, key = rotations_dict. get)
-    rotation_1 = [max_key, rotations_dict[max_key]]
+    rotation1 = max_key
+    rotation1_percent = rotations_dict[max_key]
 
     rotations_dict.pop(max_key)
 
     max_key = max(rotations_dict, key=rotations_dict. get)
-    rotation_2 = [max_key, rotations_dict[max_key]]
+    if rotation1_percent == 1.0:
+        rotation2 = 'None'
+    
+    else:
+        rotation2 = max_key
+    rotation2_percent = rotations_dict[max_key] 
 
-    return [rotation_1, rotation_2]
+    return rotation1, rotation1_percent, rotation2, rotation2_percent, rotating_on_tank
     
     
 def countX(lst, x):
@@ -654,8 +685,21 @@ def count_rotations(lst, rotations_dict):
             elif I_count == 0 and RG_count == 1:
                 rotations_dict["3LB 1RG"] += 1
              
-        else:
-            rotations_dict["Other"] += 1
+        elif LB_count == 0:
+            if I_count == 0 and RG_count == 4:
+                rotations_dict["0LB 4RG"] += 1
+                
+            elif I_count == 1 and RG_count == 3:
+                rotations_dict["0LB 3RG 1I"] += 1   
+            
+            elif I_count == 2 and RG_count == 2:
+                rotations_dict["0LB 2RG 2I"] += 1
+                
+            elif I_count == 3 and RG_count == 1:
+                rotations_dict["0LB 1RG 3I"] += 1
+                
+            elif I_count == 4 and RG_count == 0:
+                rotations_dict["0LB 4I"] += 1
             
 
     elif len(lst) == 3:
@@ -698,7 +742,7 @@ def count_rotations(lst, rotations_dict):
                 
         else: 
             rotations_dict["Other"] += 1
-                      
+                
     else:
         rotations_dict["Other"] += 1
         
@@ -773,7 +817,7 @@ def sort_excel(boss, filename):
         order_cell, ordering = 'A', 1
     
     excel = win32com.client.Dispatch("Excel.Application")
-    wb = excel.Workbooks.Open(f'C:\\Users\\Matth\\git\\DataAnalysisWorkbooks\\warcraftLogs\\data\\{filename}.xlsx')
+    wb = excel.Workbooks.Open(f'C:\\Users\\Hugh\\git\\warcraftLogs\\data\\{filename}.xlsx')
     ws = wb.Worksheets(boss)
     ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
     wb.Save()
