@@ -21,6 +21,7 @@ This tool scrapes encounter data from WarcraftLogs which can be used in a data a
 &emsp; • Lifebloom uptime %  
 &emsp; • Total HPS  
 &emsp; • % HPS of: Lifebloom (tick), Lifebloom (bloom), Rejuvenation, Regrowth, Swiftmend  
+&emsp; • Rotating on tank? ('No' means the Druid is ignoring the tank and just raid healing)
 &emsp; • Top two rotations used  
   
 The scraped datasets are stored in data/ as excel spreadsheets.  
