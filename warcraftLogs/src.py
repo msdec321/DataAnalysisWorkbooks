@@ -59,6 +59,16 @@ def get_t6_bosses(browser):
     return bosses
 
 
+def get_twilio_info():
+    with open('twilio_info.csv', 'r') as csvfile:
+        datareader = csv.reader(csvfile)
+
+        for i, row in enumerate(datareader):
+            if i == 0: continue
+                
+            return row[0], row[1], row[2], row[3]
+
+
 def get_character_info(char_url):
     
     temp = char_url.split("/")
@@ -517,12 +527,7 @@ def fix_cast_time(df):
 def calculate_rotations(df, boss, boss_tanks):
 
     GCD_time = {"t1" : 0, "t2" : 0}
-    rotations_dict = {"1LB 1I 2RG" : 0, "1LB 3I" : 0, "1LB 2I 1RG" : 0, "1LB 2RG" : 0, 
-                      "1LB 1I 1RG" : 0, "1LB 2I" : 0, "1LB 1RG": 0, "1LB 1I": 0, 
-                      "2LB 2I" : 0, "2LB 2RG" : 0, "2LB 1I 1RG" : 0, "2LB 1I" : 0, "2LB 1RG" : 0, "2LB" : 0, 
-                      "3LB 1I" : 0, "3LB 1RG" : 0, "3LB" : 0,
-                      "0LB 4RG" : 0,  "0LB 3RG 1I" : 0,  "0LB 2RG 2I" : 0,  "0LB 1RG 3I" : 0,  "0LB 4I" : 0,
-                      "Other" : 0}
+    rotations_dict = {}
 
     for i in range(3):
         if len(boss_tanks) < 3: boss_tanks.append("X")
@@ -544,7 +549,7 @@ def calculate_rotations(df, boss, boss_tanks):
         # Ignore casts that are off the global cooldown
         if row["Ability"] in ["Hopped", "Essence", "Dark", "Restore",
                               "恢复法力", "黑暗符文", "自然迅捷", "殉难者精华", "佳酿"]: continue
-        temp = track_off_GCD(row, GCD_time)
+        temp = delta_t(row, GCD_time)
         GCD_time = temp[0]
         if not temp[1]: 
             continue  
@@ -603,10 +608,13 @@ def update_rotation_dict(rotations_dict):
     for key in rotations_dict:
         rotations_dict[key] = round(float(rotations_dict[key]) / total, 3)
         
-    nontank_rotation_percent = rotations_dict["0LB 4RG"] + rotations_dict["0LB 3RG 1I"] + rotations_dict["0LB 2RG 2I"] + rotations_dict["0LB 1RG 3I"] + rotations_dict["0LB 4I"] + rotations_dict["Other"]
+    nontank_rotation_percent = 0
+    for key in rotations_dict:
+        if key[0] == 0:
+            nontank_rotation_percent += rotations_dict[key]
     
     # Check if player is actually rotating on the tank and not just raid healing.
-    if nontank_rotation_percent > 0.7: 
+    if nontank_rotation_percent >= 0.7: 
         rotating_on_tank = "No"
         
     else:
@@ -638,98 +646,11 @@ def count_rotations(lst, rotations_dict):
     LB_count = countX(lst, "Lifebloom")
     I_count = countX(lst, "Instant")
     RG_count = countX(lst, "Regrowth")
-    
-    if len(lst) == 4:
-        if LB_count == 1:
-            if I_count == 1 and RG_count == 2:
-                rotations_dict["1LB 1I 2RG"] += 1
-                
-            elif I_count == 2 and RG_count == 1:
-                rotations_dict["1LB 2I 1RG"] += 1
-                
-            elif I_count == 3 and RG_count == 0:
-                rotations_dict["1LB 3I"] += 1
-            
-            
-        elif LB_count == 2:
-            if I_count == 2 and RG_count == 0:
-                rotations_dict["2LB 2I"] += 1
-                
-            elif I_count == 0 and RG_count == 2:
-                rotations_dict["2LB 2RG"] += 1
 
-            elif I_count == 1 and RG_count == 1:
-                rotations_dict["2LB 1I 1RG"] += 1
-                
-        elif LB_count == 3:
-            if I_count == 1 and RG_count == 0:
-                rotations_dict["3LB 1I"] += 1
-                
-            elif I_count == 0 and RG_count == 1:
-                rotations_dict["3LB 1RG"] += 1
-             
-        elif LB_count == 0:
-            if I_count == 0 and RG_count == 4:
-                rotations_dict["0LB 4RG"] += 1
-                
-            elif I_count == 1 and RG_count == 3:
-                rotations_dict["0LB 3RG 1I"] += 1   
-            
-            elif I_count == 2 and RG_count == 2:
-                rotations_dict["0LB 2RG 2I"] += 1
-                
-            elif I_count == 3 and RG_count == 1:
-                rotations_dict["0LB 1RG 3I"] += 1
-                
-            elif I_count == 4 and RG_count == 0:
-                rotations_dict["0LB 4I"] += 1
-            
+    # Add rotation key to dictionary if it isn't a key yet
+    rotations_dict.setdefault(f'{LB_count}LB {I_count}I {RG_count}RG', 0)
+    rotations_dict[f'{LB_count}LB {I_count}I {RG_count}RG'] += 1
 
-    elif len(lst) == 3:
-        if LB_count == 1: 
-            if I_count == 1 and RG_count == 1:
-                rotations_dict["1LB 1I 1RG"] += 1
-            
-            elif I_count == 2 and RG_count == 0:
-                rotations_dict["1LB 2I"] += 1
-            
-            elif I_count == 0 and RG_count == 2:
-                rotations_dict["1LB 2RG"] += 1  
-                
-        elif LB_count == 2:
-            if I_count == 1 and RG_count == 0:
-                rotations_dict["2LB 1I"] += 1
-                
-            elif I_count == 0 and RG_count == 1:
-                rotations_dict["2LB 1RG"] += 1
-                
-        elif LB_count == 3:
-            if I_count == 0 and RG_count == 0:
-                rotations_dict["3LB"] += 1
-                
-        else:
-            rotations_dict["Other"] += 1
-            
-            
-    elif len(lst) == 2:
-        if LB_count == 1:
-            if I_count == 1 and RG_count == 0:
-                rotations_dict["1LB 1I"] += 1
-                
-            elif I_count == 0 and RG_count == 1:
-                rotations_dict["1LB 1RG"] += 1
-                
-        elif LB_count == 2:
-            if I_count == 0 and RG_count == 0:
-                rotations_dict["2LB"] += 1
-                
-        else: 
-            rotations_dict["Other"] += 1
-                
-    else:
-        rotations_dict["Other"] += 1
-        
-        
     return rotations_dict
 
         
@@ -805,13 +726,3 @@ def sort_excel(boss, filename):
     ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
     wb.Save()
     excel.Application.Quit()
-    
-    
-def get_twilio_info():
-    with open('twilio_info.csv', 'r') as csvfile:
-        datareader = csv.reader(csvfile)
-
-        for i, row in enumerate(datareader):
-            if i == 0: continue
-                
-            return row[0], row[1], row[2], row[3]
