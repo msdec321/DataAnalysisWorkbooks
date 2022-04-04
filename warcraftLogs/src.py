@@ -414,7 +414,7 @@ def download_csv(browser, temp_url, id_tag, download_path, path):
     time.sleep(1)
     
     click_on_element_by_class_name(browser, "buttons-csv")
-    time.sleep(3)
+    time.sleep(5)
     
     shutil.move(f"{download_path}/Warcraft Logs - Combat Analysis for Warcraft.csv", path)
     
@@ -531,6 +531,9 @@ def calculate_rotations(df, boss, boss_tanks):
     starting_tank, LB_on_tank = None, False
 
     for i, row in (df.iterrows()):
+        
+        # Ignore p1 for ROS
+        if boss == "Reliquary of Souls" and row["Ability"] in ["Wrath", "Moonfire", "Starfire"]: continue
         
         # If seq gets to 4 casts, record and reset. TODO: For hasted rotations this can be 5
         if len(sequence) == 4:
@@ -802,3 +805,13 @@ def sort_excel(boss, filename):
     ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
     wb.Save()
     excel.Application.Quit()
+    
+    
+def get_twilio_info():
+    with open('twilio_info.csv', 'r') as csvfile:
+        datareader = csv.reader(csvfile)
+
+        for i, row in enumerate(datareader):
+            if i == 0: continue
+                
+            return row[0], row[1], row[2], row[3]
