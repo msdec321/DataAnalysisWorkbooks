@@ -49,6 +49,8 @@ The related source code can be found in src.py
 
 # TODO list
 
+&emsp; • Add other language support for rotation calculator (Russian, German, Korean, etc)
+
 &emsp; • Add a dashboard to visualize the top rotations used per boss with filters for kill time, N healers, spriest/innervate, etc
 
 &emsp; • Track hasted rotations (Lifebloom + 4 instants, LB + 3I + 1RG, etc).
