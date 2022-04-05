@@ -499,10 +499,10 @@ def correct_csv_whitespace(path):
 def fix_cast_time(df):
     temp = []
     for i, row in df.iterrows():
-        if row['Ability'] in ['Regrowth', '愈合'] and row["Cast Time"] is None: 
+        if row['Ability'] in ['Regrowth', '癒合', '愈合', 'Восстановление'] and row["Cast Time"] is None: 
             temp.append(row["Time"])
         
-        elif row['Ability'] in ['Regrowth', 'Rebirth', '愈合'] and row["Cast Time"] != "Canceled":
+        elif row['Ability'] in ['Regrowth', 'Rebirth', '癒合', '愈合', 'Восстановление'] and row["Cast Time"] != "Canceled":
             a = str(datetime.strptime(str(row['Minute']) + ":" + str(row['Second']), "%M:%S.%f") - datetime.strptime(row['Cast Time'], "%S.%f"))
             a = a.split(".")
             if len(a) == 1: a.append('000000')
@@ -524,7 +524,7 @@ def fix_cast_time(df):
 
 # Rotation calculator. This function checks when lifebloom is refreshed on the primary tank and what sequence of spells (Instant, Regrowth)
 # are cast before the initial lifebloom is refreshed. The rotations are tallied in a rotation dictionary and a final count is returned.
-def calculate_rotations(df, boss, boss_tanks):
+def calculate_rotations(df, boss, boss_tanks, LB_uptime):
 
     GCD_time = {"t1" : 0, "t2" : 0}
     rotations_dict = {}
@@ -541,7 +541,7 @@ def calculate_rotations(df, boss, boss_tanks):
         if boss == "Reliquary of Souls" and row["Ability"] in ["Wrath", "Moonfire", "Starfire"]: continue
         
         # If seq gets to 4 casts, record and reset. TODO: For hasted rotations this can be 5
-        if len(sequence) == 4:
+        if len(sequence) == 5:
             rotations_dict = count_rotations(sequence, rotations_dict)
             LB_tank_flags = [False, False, False]
             sequence = []
@@ -555,7 +555,7 @@ def calculate_rotations(df, boss, boss_tanks):
             continue  
             
         # If LB refreshed on primary tank, record and restart the sequence
-        if row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == starting_tank:
+        if row['Ability'] in ['Lifebloom', '生命绽放', 'Жизнецвет'] and row["Target"] == starting_tank:
             if len(sequence) > 0: 
                 rotations_dict = count_rotations(sequence, rotations_dict)
 
@@ -570,7 +570,7 @@ def calculate_rotations(df, boss, boss_tanks):
         # Otherwise check if LB placed on a tank, restart sequence if necessary
         for j in range(3):
 
-            if row['Ability'] in ['Lifebloom', '生命绽放'] and row["Target"] == boss_tanks[j] and not LB_tank_flags[j]:
+            if row['Ability'] in ['Lifebloom', '生命绽放', 'Жизнецвет'] and row["Target"] == boss_tanks[j] and not LB_tank_flags[j]:
                 
                 if True not in LB_tank_flags:
                     starting_tank = boss_tanks[j]
@@ -588,17 +588,17 @@ def calculate_rotations(df, boss, boss_tanks):
 
 
         # Track regrowth casts specifically
-        if row['Ability'] in ["Regrowth", '愈合']: 
+        if row['Ability'] in ["Regrowth", '癒合', '愈合', 'Восстановление']:
             sequence.append("Regrowth")
 
         # All other casts are considered 'instant'. (Including spells with cast times like Rebirth or Drums)
         else: 
             sequence.append("Instant")     
 
-    return update_rotation_dict(rotations_dict)
+    return update_rotation_dict(rotations_dict, LB_uptime)
 
             
-def update_rotation_dict(rotations_dict):
+def update_rotation_dict(rotations_dict, LB_uptime):
     
     # Convert rotation counts to percentages
     total = 0
@@ -609,16 +609,21 @@ def update_rotation_dict(rotations_dict):
         rotations_dict[key] = round(float(rotations_dict[key]) / total, 3)
         
     nontank_rotation_percent = 0
+    print(LB_uptime)
     for key in rotations_dict:
-        if key[0] == 0:
+        print(key, rotations_dict[key])
+        if key[0] == '0':
             nontank_rotation_percent += rotations_dict[key]
+    print(nontank_rotation_percent)
     
     # Check if player is actually rotating on the tank and not just raid healing.
-    if nontank_rotation_percent >= 0.7: 
+    if nontank_rotation_percent >= 0.5:# and float(str(LB_uptime).replace("%", "")) < 50.0: 
         rotating_on_tank = "No"
         
     else:
         rotating_on_tank = "Yes"
+        
+    print("Rotating on tank?: ", rotating_on_tank)
     
     # Pick out the top two rotations used
     max_key = max(rotations_dict, key = rotations_dict. get)
@@ -627,13 +632,14 @@ def update_rotation_dict(rotations_dict):
 
     rotations_dict.pop(max_key)
 
-    max_key = max(rotations_dict, key=rotations_dict. get)
-    if rotation1_percent == 1.0:
-        rotation2 = 'None'
-    
-    else:
+    try:
+        max_key = max(rotations_dict, key=rotations_dict. get)
         rotation2 = max_key
-    rotation2_percent = rotations_dict[max_key] 
+        rotation2_percent = rotations_dict[max_key]
+        
+    except ValueError:
+        rotation2 = 'None'
+        rotation2_percent = 0.0
 
     return rotation1, rotation1_percent, rotation2, rotation2_percent, rotating_on_tank
     
@@ -643,15 +649,21 @@ def countX(lst, x):
 
 
 def count_rotations(lst, rotations_dict):
-    LB_count = countX(lst, "Lifebloom")
-    I_count = countX(lst, "Instant")
-    RG_count = countX(lst, "Regrowth")
+    
+    # Ignore sequences length 2 or less
+    if len(lst) <= 2: 
+        return rotations_dict
+    
+    else:
+        LB_count = countX(lst, "Lifebloom")
+        I_count = countX(lst, "Instant")
+        RG_count = countX(lst, "Regrowth")
+    
+        # Add rotation key to dictionary if it isn't a key yet       
+        rotations_dict.setdefault(f'{LB_count}LB {I_count}I {RG_count}RG', 0)
+        rotations_dict[f'{LB_count}LB {I_count}I {RG_count}RG'] += 1
 
-    # Add rotation key to dictionary if it isn't a key yet
-    rotations_dict.setdefault(f'{LB_count}LB {I_count}I {RG_count}RG', 0)
-    rotations_dict[f'{LB_count}LB {I_count}I {RG_count}RG'] += 1
-
-    return rotations_dict
+        return rotations_dict
 
         
 def delta_t(row, time):  # Spell casts that are off-GCD (trinkets, etc) should not go into the rotation
@@ -723,6 +735,6 @@ def sort_excel(boss, filename):
     excel = win32com.client.Dispatch("Excel.Application")
     wb = excel.Workbooks.Open(f'C:\\Users\\Hugh\\git\\warcraftLogs\\data\\{filename}.xlsx')
     ws = wb.Worksheets(boss)
-    ws.Range('A2:Q'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
+    ws.Range('A2:W'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
     wb.Save()
     excel.Application.Quit()
