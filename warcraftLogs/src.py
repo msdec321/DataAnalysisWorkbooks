@@ -111,7 +111,7 @@ def get_latest_ranks(browser, boss, boss_link_dict, N_parses):
 
     temp_df.to_csv(f"temp.csv", index = None, encoding='utf-8-sig')
     
-    update_ranks(boss)
+    return update_ranks(boss)
 
 
 def update_ranks(boss):
@@ -123,6 +123,8 @@ def update_ranks(boss):
     ws = wb.get_sheet_by_name(boss)
     sheet = wb[boss]
     rows = ws.max_row
+    
+    already_recorded_indices = []
 
     for row in ws.iter_rows():
         if row[0].value == "Rank": continue  # Skip header
@@ -136,6 +138,7 @@ def update_ranks(boss):
                 elements = line.split(",")
 
                 if [int(float(elements[0])), elements[1], elements[2]] == [row[0].value, row[1].value, row[3].value]:
+                    already_recorded_indices.append(i)
                     break
 
                 elif [elements[1], elements[2]] == [row[1].value, row[3].value] and int(float(elements[0])) != row[0].value:
@@ -144,6 +147,8 @@ def update_ranks(boss):
                     
     wb.save('data/top_N_druids.xlsx')
     os.remove(f"temp.csv")
+    
+    return already_recorded_indices
          
             
 def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_name, char_server, char_region):
@@ -195,52 +200,7 @@ def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_
         wb.save('data/character_data.xlsx')
         return False
        
-    return False    
-
-
-def check_if_parse_already_recorded_top_N(boss, rank, char_name):
-    try:
-        wb = openpyxl.load_workbook('data/top_N_druids.xlsx')
-        
-    except FileNotFoundError: 
-        wb = openpyxl.Workbook()
-        
-        boss = boss.replace(" ", "")
-        wb.create_sheet(boss)
-        sheet = wb[boss]
-        
-        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
-        for i, item in enumerate(header):
-            sheet[chr(i + 65) + str(1)] = item
-
-        std = wb.get_sheet_by_name('Sheet')
-        wb.remove_sheet(std)
-        
-        wb.save(f'data/top_N_druids.xlsx')
-        
-        return False
-    
-    boss = boss.replace(" ", "")
-    
-    try:
-        ws = wb.get_sheet_by_name(boss)
-        for row in ws.iter_rows():
-            if [rank, char_name] == [row[0].value, row[1].value]:
-                wb.save('data/top_N_druids.xlsx')
-                return True
-
-    # If the boss sheet isn't in the excel file, add it
-    except KeyError:
-        wb.create_sheet(boss)
-        sheet = wb[boss]
-        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
-        for i, item in enumerate(header):
-            sheet[chr(i + 65) + str(1)] = item
-            
-        wb.save('data/top_N_druids.xlsx')
-        return False
-       
-    return False       
+    return False         
                   
             
 def get_boss_data_char_scraper(browser, i):
