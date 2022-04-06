@@ -89,48 +89,61 @@ def get_character_info(char_url):
     return char_name + " " + "(" + char_server + " " + char_region + ")"
 
 
-def check_if_rank_changed(boss, rank, name, date):
-    wb = openpyxl.load_workbook('data/top_N_druids.xlsx')
+def get_latest_ranks(browser, boss, boss_link_dict, N_parses):
 
-    boss = boss.replace(" ", "")
+    temp_df = pd.DataFrame(pd.np.empty((0, 3)))
+    temp_df.columns = ["Rank", "Name", "Date"]
     
-    try:
-        ws = wb.get_sheet_by_name(boss)
-    
-    except KeyError:
-        temp = str(boss).replace(" ", "")
-        wb.create_sheet(temp)
-        sheet = wb[temp]
-        header = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Power Infusion?", "Nature's Grace?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
-        for i, item in enumerate(header):
-            sheet[chr(i + 65) + str(1)] = item
-            
-        ws = wb.get_sheet_by_name(boss)
-    
-    for row in ws.iter_rows():
-        if [rank, name, date] == [row[0].value, row[1].value, row[3].value]:
-            wb.save('data/top_N_druids.xlsx')
-            return False
-            
-        elif [name, date] == [row[1].value, row[3].value] and rank != row[0].value:
-            wb.save('data/top_N_druids.xlsx')
-            return True
+    page = 1
+
+    for i in range(1, N_parses):
+        rank, name, server, region, date, HPS, duration = get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i)
+
+        to_append = [rank, name, date]
+
+        series = pd.Series(to_append, index = temp_df.columns)
+        temp_df = temp_df.append(series, ignore_index = True)
         
-    wb.save('data/top_N_druids.xlsx')
-    return False 
+        if i % 100 == 0: 
+            page += 1
+            browser.get(f'https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps&page={page}')
+            time.sleep(2) 
 
-
-def update_rank(boss, rank, name, date):
-    wb = openpyxl.load_workbook('data/top_N_druids.xlsx')
+    temp_df.to_csv(f"temp.csv", index = None, encoding='utf-8-sig')
     
+    update_ranks(boss)
+
+
+def update_ranks(boss):
+
     boss = boss.replace(" ", "")
+
+    wb = openpyxl.load_workbook(f'data/top_N_druids.xlsx')
 
     ws = wb.get_sheet_by_name(boss)
-    for i, row in enumerate(ws.iter_rows()):
-        if [name, date] == [row[1].value, row[3].value]:
-            row[0].value = rank
-        
+    sheet = wb[boss]
+    rows = ws.max_row
+
+    for row in ws.iter_rows():
+        if row[0].value == "Rank": continue  # Skip header
+
+        with open(f'temp.csv', 'r', encoding='utf-8-sig') as csvfile:
+
+            for i, line in enumerate(csvfile.readlines()):
+                if i == 0: continue  # Skip header
+
+                line = line[ : -1]  # Remove the newline character at the end of each string
+                elements = line.split(",")
+
+                if [int(float(elements[0])), elements[1], elements[2]] == [row[0].value, row[1].value, row[3].value]:
+                    break
+
+                elif [elements[1], elements[2]] == [row[1].value, row[3].value] and int(float(elements[0])) != row[0].value:
+                    print(f"Rank updated: {row[0].value} to {int(float(elements[0]))}, {elements[1]}, {elements[2]}")
+                    row[0].value = int(float(elements[0]))
+                    
     wb.save('data/top_N_druids.xlsx')
+    os.remove(f"temp.csv")
          
             
 def check_if_parse_already_recorded_char_scraper(i, browser, search, boss, char_name, char_server, char_region):
@@ -714,17 +727,17 @@ def add_row_to_xlsx(boss, char_name, filename, convertRank):
 
     with open(f'data/{boss}_{char_name}.csv', 'r', encoding='utf-8-sig') as csvfile:
         
-            for i, line in enumerate(csvfile.readlines()):
-                if i == 0: continue  # Skip header
+        for i, line in enumerate(csvfile.readlines()):
+            if i == 0: continue  # Skip header
 
-                line = line[ : -1]  # Remove the newline character at the end of each string
-                elements = line.split(",")
+            line = line[ : -1]  # Remove the newline character at the end of each string
+            elements = line.split(",")
 
-                for i2, element in enumerate(elements):
-                    if i2 == 0 and convertRank: 
-                        sheet[chr(i2 + 65) + str(i + rows)] = int(float(element))
-                    else: 
-                        sheet[chr(i2 + 65) + str(i + rows)] = element
+            for i2, element in enumerate(elements):
+                if i2 == 0 and convertRank: 
+                    sheet[chr(i2 + 65) + str(i + rows)] = int(float(element))
+                else: 
+                    sheet[chr(i2 + 65) + str(i + rows)] = element
 
     wb.save(f'data/{filename}.xlsx')
     
