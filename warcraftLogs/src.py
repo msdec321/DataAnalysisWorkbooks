@@ -609,12 +609,12 @@ def update_rotation_dict(rotations_dict, LB_uptime):
         rotations_dict[key] = round(float(rotations_dict[key]) / total, 3)
         
     nontank_rotation_percent = 0
-    print(LB_uptime)
+    print(f"Lifebloom uptime %: {LB_uptime}")
     for key in rotations_dict:
         print(key, rotations_dict[key])
         if key[0] == '0':
             nontank_rotation_percent += rotations_dict[key]
-    print(nontank_rotation_percent)
+    print(f"Non-tank rotations %: {round(nontank_rotation_percent, 2)}")
     
     # Check if player is actually rotating on the tank and not just raid healing.
     if nontank_rotation_percent >= 0.5:# and float(str(LB_uptime).replace("%", "")) < 50.0: 
@@ -623,7 +623,7 @@ def update_rotation_dict(rotations_dict, LB_uptime):
     else:
         rotating_on_tank = "Yes"
         
-    print("Rotating on tank?: ", rotating_on_tank)
+    print(f"Rotating on tank?: {rotating_on_tank}")
     
     # Pick out the top two rotations used
     max_key = max(rotations_dict, key = rotations_dict. get)
