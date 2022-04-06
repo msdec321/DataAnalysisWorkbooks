@@ -59,6 +59,16 @@ def get_t6_bosses(browser):
     return bosses
 
 
+def get_path_settings():
+    with open('configs.csv', 'r') as csvfile:
+        datareader = csv.reader(csvfile)
+
+        for i, row in enumerate(datareader):
+            if i == 0: continue
+                
+            return row[0], row[1]
+
+
 def get_twilio_info():
     with open('twilio_info.csv', 'r') as csvfile:
         datareader = csv.reader(csvfile)
@@ -490,7 +500,7 @@ def correct_csv_whitespace(path):
             outputWriter.writerow(row)
         outputFile.close()
 
-    os.system("mv "+ path + "_fixed.csv " + path + ".csv")    
+    shutil.move(path + "_fixed.csv", path + ".csv")    
 
 
 # For non-instant casts, the time is specified at the end of the cast. This causes issues when regrowth is followed by an instant cases
@@ -733,7 +743,7 @@ def sort_excel(boss, filename):
         order_cell, ordering = 'A', 1
     
     excel = win32com.client.Dispatch("Excel.Application")
-    wb = excel.Workbooks.Open(f'C:\\Users\\Hugh\\git\\warcraftLogs\\data\\{filename}.xlsx')
+    wb = excel.Workbooks.Open(os.getcwd()+f"\data\{filename}.xlsx")
     ws = wb.Worksheets(boss)
     ws.Range('A2:W'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
     wb.Save()
