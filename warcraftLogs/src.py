@@ -136,12 +136,12 @@ def update_ranks(boss):
 
                 line = line[ : -1]  # Remove the newline character at the end of each string
                 elements = line.split(",")
-
-                if [int(float(elements[0])), elements[1], elements[2]] == [row[0].value, row[1].value, row[3].value]:
+                
+                # If character already in spreadsheet (could be correct rank or not), don't want to rescrape that character.
+                if [elements[1], elements[2]] == [row[1].value, row[3].value]:
                     already_recorded_indices.append(i)
-                    break
 
-                elif [elements[1], elements[2]] == [row[1].value, row[3].value] and int(float(elements[0])) != row[0].value:
+                if [elements[1], elements[2]] == [row[1].value, row[3].value] and int(float(elements[0])) != row[0].value:
                     print(f"Rank updated: {row[0].value} to {int(float(elements[0]))}, {elements[1]}, {elements[2]}")
                     row[0].value = int(float(elements[0]))
                     
