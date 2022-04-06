@@ -482,7 +482,7 @@ def correct_csv_whitespace(path):
 def fix_cast_time(df):
     temp = []
     for i, row in df.iterrows():
-        if row['Ability'] in ['Regrowth', '癒合', '愈合', 'Восстановление'] and row["Cast Time"] is None: 
+        if row['Ability'] in ['Regrowth', 'Rebirth', '癒合', '愈合', 'Восстановление'] and row["Cast Time"] is None: 
             temp.append(row["Time"])
         
         elif row['Ability'] in ['Regrowth', 'Rebirth', '癒合', '愈合', 'Восстановление'] and row["Cast Time"] != "Canceled":
@@ -507,7 +507,7 @@ def fix_cast_time(df):
 
 # Rotation calculator. This function checks when lifebloom is refreshed on the primary tank and what sequence of spells (Instant, Regrowth)
 # are cast before the initial lifebloom is refreshed. The rotations are tallied in a rotation dictionary and a final count is returned.
-def calculate_rotations(df, boss, boss_tanks, LB_uptime):
+def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotation):
 
     GCD_time = {"t1" : 0, "t2" : 0}
     rotations_dict = {}
@@ -517,6 +517,10 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime):
 
     sequence, LB_tank_flags = [], [False, False, False]
     starting_tank, LB_on_tank = None, False
+    
+    if verbose_rotation:
+        print("Printing full rotation..")
+        print("--------")
 
     for i, row in (df.iterrows()):
         
@@ -525,6 +529,7 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime):
         
         # If seq gets to 4 casts, record and reset. TODO: For hasted rotations this can be 5
         if len(sequence) == 5:
+            if verbose_rotation: print(sequence)
             rotations_dict = count_rotations(sequence, rotations_dict)
             LB_tank_flags = [False, False, False]
             sequence = []
@@ -539,7 +544,8 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime):
             
         # If LB refreshed on primary tank, record and restart the sequence
         if row['Ability'] in ['Lifebloom', '生命绽放', 'Жизнецвет'] and row["Target"] == starting_tank:
-            if len(sequence) > 0: 
+            if len(sequence) > 0:
+                if verbose_rotation: print(sequence)
                 rotations_dict = count_rotations(sequence, rotations_dict)
 
             sequence = []
@@ -557,7 +563,8 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime):
                 
                 if True not in LB_tank_flags:
                     starting_tank = boss_tanks[j]
-                    if len(sequence) > 0: 
+                    if len(sequence) > 0:
+                        if verbose_rotation: print(sequence)
                         rotations_dict = count_rotations(sequence, rotations_dict)
                     sequence = []
 
@@ -577,11 +584,13 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime):
         # All other casts are considered 'instant'. (Including spells with cast times like Rebirth or Drums)
         else: 
             sequence.append("Instant")     
+            
+    if verbose_rotation: print("--------")
 
-    return update_rotation_dict(rotations_dict, LB_uptime)
+    return update_rotation_dict(rotations_dict, LB_uptime, verbose)
 
             
-def update_rotation_dict(rotations_dict, LB_uptime):
+def update_rotation_dict(rotations_dict, LB_uptime, verbose):
     
     # Convert rotation counts to percentages
     total = 0
@@ -592,12 +601,12 @@ def update_rotation_dict(rotations_dict, LB_uptime):
         rotations_dict[key] = round(float(rotations_dict[key]) / total, 3)
         
     nontank_rotation_percent = 0
-    print(f"Lifebloom uptime %: {LB_uptime}")
+    if verbose: print(f"Lifebloom uptime %: {LB_uptime}")
     for key in rotations_dict:
-        print(key, rotations_dict[key])
+        if verbose: print(key, rotations_dict[key])
         if key[0] == '0':
             nontank_rotation_percent += rotations_dict[key]
-    print(f"Non-tank rotations %: {round(nontank_rotation_percent, 2)}")
+    if verbose: print(f"Non-tank rotations %: {round(nontank_rotation_percent, 2)}")
     
     # Check if player is actually rotating on the tank and not just raid healing.
     if nontank_rotation_percent >= 0.5:# and float(str(LB_uptime).replace("%", "")) < 50.0: 
@@ -606,7 +615,7 @@ def update_rotation_dict(rotations_dict, LB_uptime):
     else:
         rotating_on_tank = "Yes"
         
-    print(f"Rotating on tank?: {rotating_on_tank}")
+    if verbose: print(f"Rotating on tank?: {rotating_on_tank}")
     
     # Pick out the top two rotations used
     max_key = max(rotations_dict, key = rotations_dict. get)
