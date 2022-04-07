@@ -759,9 +759,8 @@ def remove_xlsx_duplicates(boss, filename):
             if temp[0] == temp[1]:
                 duplicate_count += 1
                 ws.delete_rows(i)
-                print("Duplicate!", i)
 
-        wb.save('data/top_N_druids.xlsx')
+        wb.save(f'data/{filename}.xlsx')
 
         if duplicate_count == 0:
             print("Duplicate removal complete!")
