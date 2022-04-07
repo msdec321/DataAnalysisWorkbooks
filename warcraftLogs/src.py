@@ -683,6 +683,7 @@ def export_to_excel(boss, to_append, player_df, char_name, filename, convertRank
     # Add data to the excel spreadsheet, sort sheet by rank
     add_row_to_xlsx(boss, char_name, filename, convertRank)
     sort_excel(boss, filename)
+    remove_xlsx_duplicates(boss, filename)
     
     
 def add_row_to_xlsx(boss, char_name, filename, convertRank):
@@ -730,3 +731,38 @@ def sort_excel(boss, filename):
     ws.Range('A2:W'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
     wb.Save()
     excel.Application.Quit()
+    
+
+def remove_xlsx_duplicates(boss, filename):
+
+    print("Removing spreadsheet duplicates..")
+
+    while True:
+
+        boss = boss.replace(" ", "")
+        wb = openpyxl.load_workbook(f'data/{filename}.xlsx')
+
+        ws = wb.get_sheet_by_name(boss)
+        sheet = wb[boss]
+        rows = ws.max_row
+
+        temp = ["", ""]
+        duplicate_count = 0
+
+        for i, row in enumerate(ws.iter_rows()):
+
+            temp[0] = temp[1]
+            temp[1] = row[0].value
+
+            if i==0: continue
+
+            if temp[0] == temp[1]:
+                duplicate_count += 1
+                ws.delete_rows(i)
+                print("Duplicate!", i)
+
+        wb.save('data/top_N_druids.xlsx')
+
+        if duplicate_count == 0:
+            print("Duplicate removal complete!")
+            break
