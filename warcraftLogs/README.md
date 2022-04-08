@@ -49,8 +49,6 @@ The related source code can be found in src.py
 
 # TODO list
 
-&emsp; • Add other language support for rotation calculator (German, Korean, etc)
-
 &emsp; • Add a dashboard to visualize the top rotations used per boss with filters for kill time, N healers, spriest/innervate, etc. Export to a webapp  
 
 &emsp; • Speed up scraping tool (Currently ~1min per character scrape) (Try running multiple scrapers in parallel?)
