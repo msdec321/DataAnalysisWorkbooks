@@ -350,7 +350,8 @@ def check_buffs(browser):
              bloodlust = 'Yes'
                 
         # German bloodlust?
-        elif len(fnmatch.filter(b, '')) > 0 or len(fnmatch.filter(b, 'Heldentum??')) > 0:
+        #elif len(fnmatch.filter(b, '')) > 0 or len(fnmatch.filter(b, 'Heldentum??')) > 0:
+        elif len(fnmatch.filter(b, 'Heldentum??')) > 0:
             bloodlust = 'Yes'
             
         # German PI?
