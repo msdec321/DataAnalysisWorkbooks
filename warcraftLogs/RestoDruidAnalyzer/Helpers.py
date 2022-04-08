@@ -5,6 +5,32 @@ import pandas as pd
 import numpy as np
 
 
+def apply_filters(df, rotating_on_tank, spriest, innervate, bloodlust, natures_grace, power_infusion, nHealers):
+    
+    if rotating_on_tank in ['Yes', 'No']:
+        df = df.loc[df['Rotating on tank?'] == rotating_on_tank]
+
+    if nHealers in [4, 5, 6]:
+        df = df.loc[df['nHealers'] == nHealers]
+
+    if spriest in ['Yes', 'No']:
+        df = df.loc[df['Spriest?'] == spriest]
+
+    if innervate in ['Yes', 'No']:
+        df = df.loc[df['Innervate?'] == innervate]
+        
+    if bloodlust in ['Yes', 'No']:
+        df = df.loc[df['Bloodlust?'] == bloodlust]
+        
+    if natures_grace in ['Yes', 'No']:
+        df = df.loc[df["Nature's Grace?"] == natures_grace]
+        
+    if power_infusion in ['Yes', 'No']:
+        df = df.loc[df["Power Infusion?"] == power_infusion]
+        
+    return df
+
+
 def plot_rotations(boss, df):
     rotations =  df['Rotation 1'].unique().tolist()
     rot_data = []
@@ -44,3 +70,4 @@ def plot_rotations(boss, df):
     plt.ylabel('Rotation', fontsize = 24, loc = 'top')
 
     plt.show()
+    
