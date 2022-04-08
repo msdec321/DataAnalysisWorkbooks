@@ -97,6 +97,7 @@ def get_latest_ranks(browser, boss, boss_link_dict, N_parses):
     page = 1
 
     for i in range(1, N_parses):
+        #print(i)
         rank, name, server, region, date, HPS, duration = get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i)
 
         to_append = [rank, name, date]
@@ -302,9 +303,9 @@ def check_spriest(browser):
     time.sleep(1)
     b = browser.find_elements_by_class_name("main-table-name")
     
-    # 吸血鬼之触 = Vampiric touch
+    # German Spriest?
     for i in range(len(b)):
-        if b[i].text in ['Vampiric Touch', '吸血鬼之触']:
+        if b[i].text in ['Vampiric Touch', '吸血鬼之触', '흡혈의 손길', 'Прикосновение вампира', 'Toucher vampirique']:
             return 'Yes'
             
     return 'No'
@@ -323,7 +324,7 @@ def check_buffs(browser):
     try:
         a = browser.find_element_by_id("main-table-256-0")
         b = a.text.split('\n')
-        if len(fnmatch.filter(b, 'Innervate??')) > 0 or len(fnmatch.filter(b, '激活??')) > 0: 
+        if len(fnmatch.filter(b, 'Innervate??')) > 0 or len(fnmatch.filter(b, '激活??')) > 0  or len(fnmatch.filter(b, '정신 자극??')) > 0 or len(fnmatch.filter(b, 'Озарение??')) > 0 or len(fnmatch.filter(b, 'Innervation??')) > 0 or len(fnmatch.filter(b, 'Anregen??')) > 0: 
             innervate = 'Yes'
        
     except: 
@@ -339,10 +340,24 @@ def check_buffs(browser):
         elif len(fnmatch.filter(b, '嗜血??')) > 0 or len(fnmatch.filter(b, '英勇??')) > 0:
             bloodlust = 'Yes'
             
-        if len(fnmatch.filter(b, 'Power Infusion??')) > 0 or len(fnmatch.filter(b, '能量灌注??')) > 0: 
+        elif len(fnmatch.filter(b, '피의 욕망??')) > 0 or len(fnmatch.filter(b, '영웅심??')) > 0: 
+            bloodlust = 'Yes'
+            
+        elif len(fnmatch.filter(b, 'Кровожадность')) > 0 or len(fnmatch.filter(b, 'Героизм??')) > 0:
+            bloodlust = 'Yes'
+            
+        elif len(fnmatch.filter(b, 'Furie sanguinaire??')) > 0 or len(fnmatch.filter(b, 'Héroïsme??')) > 0:
+             bloodlust = 'Yes'
+                
+        # German bloodlust?
+        elif len(fnmatch.filter(b, '')) > 0 or len(fnmatch.filter(b, 'Heldentum??')) > 0:
+            bloodlust = 'Yes'
+            
+        # German PI?
+        if len(fnmatch.filter(b, 'Power Infusion??')) > 0 or len(fnmatch.filter(b, '能量灌注??')) > 0 or len(fnmatch.filter(b, '마력 주입??')) > 0 or len(fnmatch.filter(b, 'Придание сил??')) > 0 or len(fnmatch.filter(b, 'Infusion de puissance??')) > 0: 
             powerInfusion = 'Yes'
-                              
-        if len(fnmatch.filter(b, "Nature's Grace???")) > 0 or len(fnmatch.filter(b, '自然之赐???')) > 0: 
+                     
+        if len(fnmatch.filter(b, "Nature's Grace???")) > 0 or len(fnmatch.filter(b, '自然之赐???')) > 0  or len(fnmatch.filter(b, '자연의 은혜???')) > 0 or len(fnmatch.filter(b, 'Благоволение природы???')) > 0 or len(fnmatch.filter(b, 'Grâce de la nature???')) > 0 or len(fnmatch.filter(b, 'Anmut der Natur???')) > 0:
             naturesGrace = 'Yes'
             
     except:
@@ -419,7 +434,6 @@ def clean_cast_sequence_csv():
     correct_csv_whitespace('data/cast_sequence')
     
     df = pd.read_csv('data/cast_sequence.csv', encoding='utf-8-sig')
-    #df = pd.read_csv('data/cast_sequence.csv', "cp1251")
     
     df = df.drop(['Unnamed: 4'], axis=1)
     
@@ -482,10 +496,10 @@ def correct_csv_whitespace(path):
 def fix_cast_time(df):
     temp = []
     for i, row in df.iterrows():
-        if row['Ability'] in ['Regrowth', 'Rebirth', '癒合', '愈合', 'Восстановление'] and row["Cast Time"] is None: 
+        if row['Ability'] in ['Regrowth', 'Rebirth', '癒合', '愈合', '재생', '환생', 'Восстановление', 'Rétablissement', 'Renaissance', 'Nachwachsen', 'Wiedergeburt'] and row["Cast Time"] is None: 
             temp.append(row["Time"])
         
-        elif row['Ability'] in ['Regrowth', 'Rebirth', '癒合', '愈合', 'Восстановление'] and row["Cast Time"] != "Canceled":
+        elif row['Ability'] in ['Regrowth', 'Rebirth', '癒合', '愈合', '재생', '환생', 'Восстановление', 'Rétablissement', 'Renaissance', 'Nachwachsen', 'Wiedergeburt'] and row["Cast Time"] != "Canceled":
             a = str(datetime.strptime(str(row['Minute']) + ":" + str(row['Second']), "%M:%S.%f") - datetime.strptime(row['Cast Time'], "%S.%f"))
             a = a.split(".")
             if len(a) == 1: a.append('000000')
@@ -535,15 +549,21 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
             sequence = []
 
         # Ignore casts that are off the global cooldown
+        # Spells that should definitely be off GCD (trinkets, mana potion, dark rune):
         if row["Ability"] in ["Hopped", "Essence", "Dark", "Restore",
-                              "恢复法力", "黑暗符文", "自然迅捷", "殉难者精华", "佳酿"]: continue
+                              "恢复法力", "黑暗符文", "自然迅捷", "殉难者精华", "佳酿",
+                              "마나", "순교자의", "홉", "생명의",
+                              "Сущность", "Приподнятый", "Восполнение",
+                              "Houblonné", "Restauration", "Rune",
+                              "Essenz", "Hopfen", "Mana"]: continue
+        # Check GCD manually to catch any not included in the above:
         temp = delta_t(row, GCD_time)
         GCD_time = temp[0]
         if not temp[1]: 
             continue  
             
         # If LB refreshed on primary tank, record and restart the sequence
-        if row['Ability'] in ['Lifebloom', '生命绽放', 'Жизнецвет'] and row["Target"] == starting_tank:
+        if row['Ability'] in ['Lifebloom', '生命绽放', '피어나는 생명', 'Жизнецвет', 'Fleur de vie', 'Blühendes Leben'] and row["Target"] == starting_tank:
             if len(sequence) > 0:
                 if verbose_rotation: print(sequence)
                 rotations_dict = count_rotations(sequence, rotations_dict)
@@ -559,7 +579,7 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
         # Otherwise check if LB placed on a tank, restart sequence if necessary
         for j in range(3):
 
-            if row['Ability'] in ['Lifebloom', '生命绽放', 'Жизнецвет'] and row["Target"] == boss_tanks[j] and not LB_tank_flags[j]:
+            if row['Ability'] in ['Lifebloom', '生命绽放', '피어나는 생명', 'Жизнецвет', 'Fleur de vie', 'Blühendes Leben'] and row["Target"] == boss_tanks[j] and not LB_tank_flags[j]:
                 
                 if True not in LB_tank_flags:
                     starting_tank = boss_tanks[j]
@@ -578,7 +598,7 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
 
 
         # Track regrowth casts specifically
-        if row['Ability'] in ["Regrowth", '癒合', '愈合', 'Восстановление']:
+        if row['Ability'] in ["Regrowth", '癒合', '愈合', '재생', 'Восстановление', 'Rétablissement']:
             sequence.append("Regrowth")
 
         # All other casts are considered 'instant'. (Including spells with cast times like Rebirth or Drums)
@@ -680,7 +700,7 @@ def export_to_excel(boss, to_append, player_df, char_name, filename, convertRank
     # Export dataframe to csv
     player_df.to_csv(f"data/{boss.replace(' ', '')}_{char_name}.csv", index = None, encoding='utf-8-sig')
 
-    # Add data to the excel spreadsheet, sort sheet by rank
+    # Add data to the excel spreadsheet, sort sheet by rank and clean duplicates
     add_row_to_xlsx(boss, char_name, filename, convertRank)
     sort_excel(boss, filename)
     remove_xlsx_duplicates(boss, filename)
