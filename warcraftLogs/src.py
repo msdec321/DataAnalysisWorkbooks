@@ -225,21 +225,25 @@ def get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i):
     
     char_info = cell[1].text
     
-    name = char_info.split("\n")[0]
+    name = char_info.split("\n")[0]    
     server_region = char_info.split("-")
 
-    if len(server_region) == 1:
-        server_region = char_info.split("\n")[1]
-        server = server_region.split(" ")[0]
-        region = server_region.split(" ")[1]
+    try:
+        if len(server_region) == 1:
+            server_region = char_info.split("\n")[1]
+            server = server_region.split(" ")[0]
+            region = server_region.split(" ")[1]
 
-    else:
-        j = len(server_region)
-        server_region = char_info.split("-")[j-1]
-        server = server_region.split(" ")[j-2]
-        region = server_region.split(" ")[j-1]
+        else:
+            j = len(server_region)
+            server_region = char_info.split("-")[j-1]
+            server = server_region.split(" ")[j-2]
+            region = server_region.split(" ")[j-1]
+
+        return int(cell[0].text), name, server, region, cell[6].text, cell[4].text.replace(",", ""), cell[7].text
     
-    return int(cell[0].text), name, server, region, cell[6].text, cell[4].text.replace(",", ""), cell[7].text
+    except: # Sometimes the player's guildname is so long that it breaks the scraper (almost always for Chinese parses). In these cases just ignore the server/region
+        return int(cell[0].text), name, "---", "---", cell[6].text, cell[4].text.replace(",", ""), cell[7].text
             
             
 def get_spell_info(browser, total_HPS):
