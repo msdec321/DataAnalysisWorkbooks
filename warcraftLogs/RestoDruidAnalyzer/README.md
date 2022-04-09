@@ -27,7 +27,7 @@ To simplify things I use the following notation when talking about rotations:
 "xLB yI zRG", where x, y, z are numbers and LB, I, RG are "Lifebloom", "Instant", and "Regrowth", respectively.  
 Here, "LB" refers to lifeblooms being rolled on _tanks_. Lifeblooms being used to raidheal go into the 'instant' bucket.  
 * Example 1: "1LB 2I 1RG" can mean: 'Lifebloom 1 tank -> use 2x instant casts (lifebloom, rejuv, swiftmend, etc) -> cast 1x regrowth, repeat. The instants and regrowths can be cast in any order.
-* Example 2: "2LB 1I 1RG" -> "Lifebloom tank 1 -> Lifebloom tank 2 -> 1x Instant (like a rejuv on tank or raid) -> 1x Regrowth (on tank or raid), repeat.  
+* Example 2: "2LB 1I 1RG" -> Lifebloom tank 1 -> Lifebloom tank 2 -> 1x Instant (like a rejuv on tank or raid) -> 1x Regrowth (on tank or raid), repeat. The order is not important, you could even do "Lifebloom tank 1 -> 1x Regrowth -> 1x rejuv -> Lifebloom tank 2, repeat and that will be called "2LB 1I 1RG".  
  
 You'll also see weird rotations such as 0LB 0I 5RG, 0LB 4I 1RG, etc. These aren't exactly "rotations", because the player isn't rolling lifebloom on the tank at all. They're just raid healing. For this analysis it's useful to keep track of these as well.
 
