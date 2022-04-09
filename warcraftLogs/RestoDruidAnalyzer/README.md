@@ -14,10 +14,6 @@ The motivation of this project is to take a data-driven approach to this problem
 "Healing parses don't matter". Have you heard this before? Whenever I see Druids soliciting feedback online (reddit or elsewhere), this is the most common response. "Did your tank die? No? Then you're fine". Not only is this feedback unsatisfying, but it's not even advice. It's anti-advice, because it leaves the asker with the impression that there's no room for improvement. The hard truth for Druids is that rotations are not built equally. If I want to roll HoTs on the tank(s) and do some raid healing, some rotations are just better than others. In my opinion HPS is the best KPI to compare rotations. While there are some shenanigans that occur in the 99th percentile of Druid parses (for example, Druids who just raid heal with Nature's Grace and ignore their tanks entirely), by aggregating large amounts of data these things are easy to filter out, and comparing Druids who are playing "honestly" becomes relatively straightforward.  
 
 
-# Dataset info
-=todo=
-
-
 # Rotations and notation
 Lifebloom lasts for 7 seconds. When refreshing lifebloom on a tank there is a limited sequence of spells that you can cast before you need to refresh that lifebloom again. This is called a rotation. For a more detailed explanation on rotations, please refer to the [Elitist Jerks guide](http://web.archive.org/web/20080913120521/http://elitistjerks.com/f31/t17783-druid_raiding_tree/#Healing_Strategies).  
 
@@ -30,6 +26,10 @@ Here, "LB" refers to lifeblooms being rolled on _tanks_. Lifeblooms being used t
 * Example 2: "2LB 1I 1RG" -> Lifebloom tank 1 -> Lifebloom tank 2 -> 1x Instant (like a rejuv on tank or raid) -> 1x Regrowth (on tank or raid), repeat. The order is not important, you could even do "Lifebloom tank 1 -> 1x Regrowth -> 1x rejuv -> Lifebloom tank 2, repeat and that will still be called "2LB 1I 1RG".  
  
 You'll also see weird rotations such as 0LB 0I 5RG, 0LB 4I 1RG, etc. These aren't exactly "rotations", because the player isn't rolling lifebloom on the tank at all. They're just raid healing. For this analysis it's useful to keep track of these as well.
+
+
+# Dataset info
+WarcraftLogs data is scraped from the top 3,000 players for each boss, biweekly. This encompasses roughly the 95th percentile and above. For a detailed list of all data scraped, refer to the [README](https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/README.md) in the parent directory. Rotations are determined via the cast sequence data provided by WCL ([an example](https://classic.warcraftlogs.com/reports/VZr6X2MNY73GLktg#fight=47&type=casts&view=events&source=37)). In short, the [rotation calculator](https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/src.py#L529-L617) checks when Lifebloom is cast on a tank which signals the start of a rotation. The following casts are recorded until either 1) The lifebloom is refreshed or 2) The rotation reaches 5 casts. (Note: hasted rotations can go over 5 casts, that will be supported in the future). The rotation is recorded into a dictionary object and at the end, the top 2 rotations are saved to the spreadsheet.  
 
 
 # Analysis
