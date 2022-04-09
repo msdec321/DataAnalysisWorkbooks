@@ -19,7 +19,17 @@ The motivation of this project is to take a data-driven approach to this problem
 
 
 # Rotations and notation
-=todo=
+Lifebloom lasts for 7 seconds. When refreshing lifebloom on a tank there is a limited sequence of spells that you can cast before you need to refresh that lifebloom again. This is called a rotation. For a more detailed explanation on rotations, please refer to the [Elitist Jerks guide](http://web.archive.org/web/20080913120521/http://elitistjerks.com/f31/t17783-druid_raiding_tree/#Healing_Strategies).  
+
+Although rotations have been documented since original TBC, a lot has changed a decade later. For example, much faster kill times these days allow Druids to use more mana-intensive rotations that are regrowth heavy. Additionally, the popularity of Nature's Grace in TBCC adds several new rotations into the mix. With so many rotations available to choose it becomes less clear which subset of rotations are best for specific encounters and the specifics of your raid composition. In my opinion, Resto Druid remains "unsolved" even a decade after original TBC; there is just too much complexity built into the spec.  
+
+To simplify things I use the following notation when talking about rotations:  
+"xLB yI zRG", where x, y, z are numbers and LB, I, RG are "Lifebloom", "Instant", and "Regrowth", respectively.  
+Here, "LB" refers to lifeblooms being rolled on _tanks_. Lifeblooms being used to raidheal go into the 'instant' bucket.  
+* Example 1: "1LB 2I 1RG" can mean: 'Lifebloom 1 tank -> use 2x instant casts (lifebloom, rejuv, swiftmend, etc) -> cast 1x regrowth, repeat. The instants and regrowths can be cast in any order.
+* Example 2: "2LB 1I 1RG" -> "Lifebloom tank 1 -> Lifebloom tank 2 -> 1x Instant (like a rejuv on tank or raid) -> 1x Regrowth (on tank or raid), repeat.  
+ 
+You'll also see weird rotations such as 0LB 0I 5RG, 0LB 4I 1RG, etc. These aren't exactly "rotations", because the player isn't rolling lifebloom on the tank at all. They're just raid healing. For this analysis it's useful to keep track of these as well.
 
 
 # Analysis
