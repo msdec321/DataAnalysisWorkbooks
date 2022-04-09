@@ -96,9 +96,11 @@ def get_latest_ranks(browser, boss, boss_link_dict, N_parses):
     
     page = 1
 
-    for i in range(1, N_parses):
-        #print(i)
+    for i in range(1, N_parses + 50):
+        if i%50 == 0: print(i)
+        
         rank, name, server, region, date, HPS, duration = get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i)
+        if name in ['抄能力']: continue  # These players have broken reports, skip
 
         to_append = [rank, name, date]
 
@@ -133,20 +135,20 @@ def update_ranks(boss):
         with open(f'temp.csv', 'r', encoding='utf-8-sig') as csvfile:
 
             for i, line in enumerate(csvfile.readlines()):
-                if i == 0: continue  # Skip header
 
                 line = line[ : -1]  # Remove the newline character at the end of each string
                 elements = line.split(",")
                 
                 # If character already in spreadsheet (could be correct rank or not), don't want to rescrape that character.
                 if [elements[1], elements[2]] == [row[1].value, row[3].value]:
-                    already_recorded_indices.append(i)
+                    already_recorded_indices.append(row[0].value)
 
                 if [elements[1], elements[2]] == [row[1].value, row[3].value] and int(float(elements[0])) != row[0].value:
                     print(f"Rank updated: {row[0].value} to {int(float(elements[0]))}, {elements[1]}, {elements[2]}")
                     row[0].value = int(float(elements[0]))
                     
     wb.save('data/top_N_druids.xlsx')
+    wb.save('data/top_N_druids_backup.xlsx')
     os.remove(f"temp.csv")
     
     return already_recorded_indices
@@ -782,6 +784,7 @@ def remove_xlsx_duplicates(boss, filename):
                 ws.delete_rows(i)
 
         wb.save(f'data/{filename}.xlsx')
+        wb.save(f'data/{filename}_backup.xlsx')
 
         if duplicate_count == 0:
             print("Duplicate removal complete!")
