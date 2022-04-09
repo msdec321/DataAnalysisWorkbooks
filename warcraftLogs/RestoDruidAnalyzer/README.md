@@ -1,4 +1,8 @@
 # Resto Druid Analyzer  
+#-----------------------------------------  
+*Author: Mercychan - Benediction (US)*    
+*Discord: Mercy#9226*  
+#-----------------------------------------  
 
 # Motivation
 TBC Resto Druid is a complicated spec. The rotation that you choose to use in an encounter can depend on several factors: how many tanks are there? How much mana do you have available? How much do you prioritize healing the tank vs the raid? Is the raid damage constant (Bloodboil, ROS, Azgalor) or sudden and unpredictable (Najentus)? While theorycrafting can determine the best rotations in a vaccuum, boss encounters are messy and effective healing is difficult to model accurately for every encounter.  
