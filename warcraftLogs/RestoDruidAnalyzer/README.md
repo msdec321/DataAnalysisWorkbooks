@@ -15,7 +15,7 @@ The motivation of this project is to take a data-driven approach to this problem
 
 
 # Rotations and notation
-Lifebloom lasts for 7 seconds. When refreshing lifebloom on a tank there is a limited sequence of spells that you can cast before you need to refresh that lifebloom again. This is called a rotation. For a more detailed explanation on rotations, please refer to the [Elitist Jerks guide](http://web.archive.org/web/20080913120521/http://elitistjerks.com/f31/t17783-druid_raiding_tree/#Healing_Strategies).  
+Lifebloom lasts for 7 seconds. When refreshing lifebloom on a tank there is a limited sequence of spells that you can cast before you need to refresh that lifebloom. This is called a rotation. For a more detailed explanation on rotations, please refer to the [Elitist Jerks guide](http://web.archive.org/web/20080913120521/http://elitistjerks.com/f31/t17783-druid_raiding_tree/#Healing_Strategies).  
 
 Although rotations have been documented since original TBC, a lot has changed a decade later. For example, much faster kill times these days allow Druids to use more mana-intensive rotations that are regrowth heavy. Additionally, the popularity of Nature's Grace in TBCC adds several new rotations into the mix. With so many rotations available to choose it becomes less clear which subset of rotations are best for specific encounters and the specifics of your raid composition. In my opinion, Resto Druid remains "unsolved" even a decade after original TBC; there is just too much complexity built into the spec.  
 
