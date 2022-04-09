@@ -137,15 +137,15 @@ def update_ranks(boss):
             for i, line in enumerate(csvfile.readlines()):
 
                 line = line[ : -1]  # Remove the newline character at the end of each string
-                elements = line.split(",")
-                
-                # If character already in spreadsheet (could be correct rank or not), don't want to rescrape that character.
-                if [elements[1], elements[2]] == [row[1].value, row[3].value]:
-                    already_recorded_indices.append(row[0].value)
+                elements = line.split(",")              
 
                 if [elements[1], elements[2]] == [row[1].value, row[3].value] and int(float(elements[0])) != row[0].value:
                     print(f"Rank updated: {row[0].value} to {int(float(elements[0]))}, {elements[1]}, {elements[2]}")
                     row[0].value = int(float(elements[0]))
+                    
+                # If character already in spreadsheet (could be correct rank or not), don't want to rescrape that character.
+                if [elements[1], elements[2]] == [row[1].value, row[3].value]:
+                    already_recorded_indices.append(row[0].value)
                     
     wb.save('data/top_N_druids.xlsx')
     wb.save('data/top_N_druids_backup.xlsx')
@@ -570,7 +570,7 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
             continue  
             
         # If LB refreshed on primary tank, record and restart the sequence
-        if row['Ability'] in ['Lifebloom', '生命绽放', '피어나는 생명', 'Жизнецвет', 'Fleur de vie', 'Blühendes Leben'] and row["Target"] == starting_tank:
+        if row['Ability'] in ['Lifebloom', '生命绽放', '피어나는', 'Жизнецвет', 'Fleur', 'Blühendes'] and row["Target"] == starting_tank:
             if len(sequence) > 0:
                 if verbose_rotation: print(sequence)
                 rotations_dict = count_rotations(sequence, rotations_dict)
@@ -586,7 +586,7 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
         # Otherwise check if LB placed on a tank, restart sequence if necessary
         for j in range(3):
 
-            if row['Ability'] in ['Lifebloom', '生命绽放', '피어나는 생명', 'Жизнецвет', 'Fleur de vie', 'Blühendes Leben'] and row["Target"] == boss_tanks[j] and not LB_tank_flags[j]:
+            if row['Ability'] in ['Lifebloom', '生命绽放', '피어나는', 'Жизнецвет', 'Fleur', 'Blühendes'] and row["Target"] == boss_tanks[j] and not LB_tank_flags[j]:
                 
                 if True not in LB_tank_flags:
                     starting_tank = boss_tanks[j]
