@@ -40,9 +40,9 @@ The related source code can be found in src.py
 &emsp; https://chromedriver.storage.googleapis.com/index.html   
 
 &emsp; • Get ublock for selenium (see the following installation guide, which is for adblockplus but same idea for ublock):  
-&emsp; https://www.reddit.com/r/learnpython/comments/4zzn69/how_do_i_get_adblockplus_to_work_with_selenium/d70036l/
+&emsp; https://www.reddit.com/r/learnpython/comments/4zzn69/how_do_i_get_adblockplus_to_work_with_selenium/d70036l/  
   
-&emsp; • Other browsers (Firefox, IE6, etc) are not currently supported 
+&emsp; • Firefox/geckodriver are supported but browser often freezes. Other browsers are not supported.   
  
 &emsp; • All other dependencies can be installed via pip
 
