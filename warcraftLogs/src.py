@@ -29,13 +29,22 @@ def load_individual_char_scraper(path, char_name, char_server, char_region):
     return browser.current_url, browser  
 
 
-def load_top_N_scraper(path, boss, boss_link_dict):
-    chrome_options = Options()
-    chrome_options.add_argument('load-extension=' + path)
+def load_top_N_scraper(path_ublock, boss, boss_link_dict, chrome, firefox):
+    if chrome and not firefox:
+        chrome_options = Options()
+        chrome_options.add_argument('load-extension=' + path_ublock)
 
-    browser = webdriver.Chrome(chrome_options=chrome_options)
-    browser.create_options()
-    time.sleep(5)
+        browser = webdriver.Chrome(chrome_options=chrome_options)
+
+        time.sleep(5)
+        
+    elif not chrome and firefox:
+        browser = webdriver.Firefox() 
+        browser.install_addon('C:/Users/Matth/Downloads/adblock_plus-3.11.4-an+fx.xpi')
+        
+    else:
+        print("Error: Please choos either Chrome or Firefox for selenium.")
+        return None
 
     browser.switch_to.window(browser.window_handles[0])
     browser.get(f"https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps")
@@ -100,7 +109,8 @@ def get_latest_ranks(browser, boss, boss_link_dict, N_parses):
         if i%50 == 0: print(i)
         
         rank, name, server, region, date, HPS, duration = get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i)
-        if name in ['抄能力']: continue  # These players have broken reports, skip
+        #time.sleep(0.25)
+        if name in ['抄能力', '自然帅', 'Manamia']: continue  # These players have broken reports, skip
 
         to_append = [rank, name, date]
 
@@ -110,7 +120,7 @@ def get_latest_ranks(browser, boss, boss_link_dict, N_parses):
         if i % 100 == 0: 
             page += 1
             browser.get(f'https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps&page={page}')
-            time.sleep(2) 
+            time.sleep(10) 
 
     temp_df.to_csv(f"temp.csv", index = None, encoding='utf-8-sig')
     
@@ -220,31 +230,19 @@ def get_boss_data_char_scraper(browser, i):
 
 
 def get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i):
-    row = browser.find_elements_by_id(f"row-{boss_link_dict[boss].split('=')[1]}-{i}")
-    cell = row[0].find_elements(By.XPATH, 'td')
-    
-    char_info = cell[1].text
-    
-    name = char_info.split("\n")[0]    
-    server_region = char_info.split("-")
 
-    try:
-        if len(server_region) == 1:
-            server_region = char_info.split("\n")[1]
-            server = server_region.split(" ")[0]
-            region = server_region.split(" ")[1]
-
-        else:
-            j = len(server_region)
-            server_region = char_info.split("-")[j-1]
-            server = server_region.split(" ")[j-2]
-            region = server_region.split(" ")[j-1]
-
-        return int(cell[0].text), name, server, region, cell[6].text, cell[4].text.replace(",", ""), cell[7].text
+    row = browser.find_element_by_id(f"row-{boss_link_dict[boss].split('=')[1]}-{i}")
     
-    except: # Sometimes the player's guildname is so long that it breaks the scraper (almost always for Chinese parses). In these cases just ignore the server/region
-        return int(cell[0].text), name, "---", "---", cell[6].text, cell[4].text.replace(",", ""), cell[7].text
-            
+    rank = row.text.split("\n")[0]
+    name = row.text.split("\n")[1]
+    date = row.text.split("\n")[-2].split(" ")[3] + " " + row.text.split("\n")[-2].split(" ")[4]
+    server = row.text.split("\n")[-3].split(" ")[-2]
+    region = row.text.split("\n")[-3].split(" ")[-1]
+    HPS = row.text.split("\n")[-2].split(" ")[1].replace(",", "")
+    duration = row.text.split("\n")[-2].split(" ")[-1]
+
+    return rank, name, server, region, date, HPS, duration 
+
             
 def get_spell_info(browser, total_HPS):
 
@@ -428,8 +426,12 @@ def download_csv(browser, temp_url, id_tag, download_path, path):
     click_on_element_by_id(browser, id_tag)
     time.sleep(1)
     
-    click_on_element_by_class_name(browser, "buttons-csv")
-    time.sleep(5)
+    body.send_keys(Keys.END)
+    time.sleep(1)
+    tag = browser.find_element_by_class_name("buttons-csv")
+    tag.click()
+    #click_on_element_by_class_name(browser, "buttons-csv")
+    time.sleep(8)
     
     shutil.move(f"{download_path}/Warcraft Logs - Combat Analysis for Warcraft.csv", path)
     
@@ -452,8 +454,12 @@ def clean_cast_sequence_csv():
     df['Second'] = pd.to_numeric(df['Second'])
 
     temp_df = df['Ability'].str.split(" ", expand=True)
-    df['Ability'] = temp_df[0]
-    df['Cast Time'] = temp_df[1]
+    try:
+        df['Ability'] = temp_df[0]
+        df['Cast Time'] = temp_df[1]
+        
+    except:  # Pandas will crash if the Druid did not cast any abilities with a cast time
+        df['Ability'] = temp_df[0] 
 
     temp_df = df['Source → Target'].str.split(" ", expand=True)
     
@@ -463,7 +469,7 @@ def clean_cast_sequence_csv():
         if row[2] != "": 
             fixed_target.append(row[2])
             
-        else: 
+        else:
             fixed_target.append(row[3])
             
     df['Target'] = fixed_target
