@@ -51,7 +51,7 @@ The related source code can be found in src.py
 
 # TODO list  
 
-&emsp; • Scrape the top 3,000 - 5,000 for each boss (ETA ~2 weeks)  
+&emsp; • Scrape the top 3,000 - 5,000 players for each boss (ETA ~2 weeks)  
 
 &emsp; • Add a dashboard to visualize the top rotations used per boss with filters for kill time, N healers, spriest/innervate, etc. Export to a webapp  
 
