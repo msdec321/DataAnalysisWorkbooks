@@ -105,7 +105,7 @@ def get_latest_ranks(browser, boss, boss_link_dict, nParses):
         if i%50 == 0: print(i)
         
         rank, name, server, region, date, HPS, duration = get_boss_data_top_N_scraper(browser, i, boss, boss_link_dict)
-        if name in ['抄能力', '自然帅', 'Tables']: continue  # These players have broken reports, skip
+        #if name in ['抄能力', '自然帅', 'Tables']: continue  # These players have broken reports, skip
 
         to_append = [rank, name, date]
 
@@ -132,7 +132,19 @@ def update_ranks(boss):
     sheet = wb[temp]
     rows = ws.max_row
     
-    already_recorded_indices = []
+    already_recorded_indices, blacklist = [], []
+    
+    # Get the blacklist
+    with open(f'blacklist.csv', 'r', encoding='utf-8-sig') as csvfile:
+    
+        for i, line in enumerate(csvfile.readlines()):
+            if i==0: continue  # Skip header
+
+            line = line[ : -1]  # Remove the newline character at the end of each string
+            elements = line.split(",")
+
+            if elements[0] != boss: continue
+            blacklist = elements[1:]
 
     for row in ws.iter_rows():
         if row[0].value == "Rank": continue  # Skip header
@@ -152,6 +164,10 @@ def update_ranks(boss):
                 if [elements[1], elements[2]] == [row[1].value, row[3].value]:
                     already_recorded_indices.append(row[0].value)
                     
+                if elements[1] in blacklist:
+                    already_recorded_indices.append(int(float(elements[0])))
+                    
+                 
     wb.save(r"C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data\top_N_druids.xlsx")
     wb.save(r"C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data\top_N_druids_backup.xlsx")
     os.remove(f"temp.csv")
@@ -660,7 +676,6 @@ def add_rows_to_xlsx(path_to_data_dir, boss, filename, convertRank):
         rows = ws.max_row
 
         if file[0:3] != "cast":
-            print(file)
 
             with open(path_to_data_dir + f"\csv\{file}", 'r', encoding='utf-8-sig') as csvfile:
 

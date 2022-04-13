@@ -15,7 +15,7 @@ verbose = False
 verbose_rotation = False
 
 nCores = 5
-nParses = 301
+nParses = 331
 boss = "Teron Gorefiend"
 boss_link_dict = {"High Warlord Naj'entus" : "#boss=601", "Supremus" : "#boss=602", "Shade of Akama" : "#boss=603", 
                   "Teron Gorefiend" : "#boss=604", "Gurtogg Bloodboil" : "#boss=605", "Reliquary of Souls" : "#boss=606", 
@@ -83,13 +83,10 @@ def main(i):
     to_append = [rank, name, server + " " + region, date, duration, str(nHealers), spriest, innervate, bloodlust, powerInfusion, naturesGrace, LB_uptime, HPS, LBtick_HPS, LBbloom_HPS, rejuv_HPS, regrowth_HPS, swiftmend_HPS, rotating_on_tank, rotation1, rotation1_percent, rotation2, rotation2_percent]
     src.export_to_csv(path_to_data_dir, boss, to_append, player_df, name)#, 'top_N_druids', True)
     
-    #os.remove(path_to_data_dir + f"\csv\{boss.replace(' ', '')}_{name}.csv")
     os.remove(path_to_data_dir + f"\csv\cast_sequence_{name}.csv")
     
     print("-----")
     print(f"Rank: {rank}, Druid: {name}, boss tanks: {boss_tanks}, nHealers: {nHealers}")
-    print(LBtick_HPS, LBbloom_HPS, rejuv_HPS, regrowth_HPS, swiftmend_HPS, LB_uptime)
-    print(f"spriest {spriest}, innervate {innervate}, bloodlust {bloodlust}, powerInfusion {powerInfusion}, naturesGrace {naturesGrace}")
     print(f'Rotations: {rotation1} ({rotation1_percent}), {rotation2} ({rotation2_percent})')  
     
     browser.quit()
