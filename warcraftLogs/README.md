@@ -28,6 +28,8 @@ The scraped datasets are stored in data/ as excel spreadsheets.
 
 The individual character scraper can be run via specific_character_scraper.ipynb  
 The top druid rank scraper can be run via top_rank_scraper.ipynb  
+
+You'll find a multiprocessing version of the top rank scraper in multiprocess_scraper/  
 (Note: general users don't need to run these, you can just use the premade datasets found in data/)  
 
 The related source code can be found in src.py  
@@ -47,11 +49,11 @@ The related source code can be found in src.py
 &emsp; • All other dependencies can be installed via pip
 
 
-# TODO list
+# TODO list  
+
+&emsp; • Scrape the top 3,000 - 5,000 for each boss (ETA ~2 weeks)  
 
 &emsp; • Add a dashboard to visualize the top rotations used per boss with filters for kill time, N healers, spriest/innervate, etc. Export to a webapp  
-
-&emsp; • Speed up scraping tool (Currently ~1min per character scrape) (Try running multiple scrapers in parallel?)
 
 &emsp; • Add a dataset for Dreamstate spec
 
