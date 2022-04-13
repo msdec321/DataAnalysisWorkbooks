@@ -308,6 +308,8 @@ def check_buffs(browser):
     return innervate, bloodlust, powerInfusion, naturesGrace
 
 
+# When running scrapers in parallel the cast CSVs will tend to download at the same time. Unfortunately these download
+# with the same name. To find the specific player's file, open the csvs and see whose file it is.
 def check_if_player_file(name, filename):
     with open(filename, 'r', encoding='utf-8-sig') as csvfile:
         for i, line in enumerate(csvfile.readlines()):
@@ -367,15 +369,14 @@ def download_csv(browser, temp_url, id_tag, download_path, path, name, nCores):
                 
             except: pass
             
-    print(path)
     shutil.move(filename, path)
     time.sleep(1)
     
     
 def clean_cast_sequence_csv(name, path_to_data_dir):
-    correct_csv_whitespace(path_to_data_dir + f"\cast_sequence_{name}")
+    correct_csv_whitespace(path_to_data_dir + f"\csv\cast_sequence_{name}")
     
-    df = pd.read_csv(path_to_data_dir + f"\cast_sequence_{name}.csv", encoding='utf-8-sig')
+    df = pd.read_csv(path_to_data_dir + f"\csv\cast_sequence_{name}.csv", encoding='utf-8-sig')
     
     df = df.drop(['Unnamed: 4'], axis=1)
     
@@ -636,33 +637,32 @@ def delta_t(row, time):  # Spell casts that are off-GCD (trinkets, etc) should n
     return [time, True]
 
 
-def export_to_excel(path_to_data_dir, boss, to_append, player_df, char_name, filename, convertRank):
+def export_to_csv(path_to_data_dir, boss, to_append, player_df, char_name):#, filename, convertRank):
     series = pd.Series(to_append, index = player_df.columns)
     player_df = player_df.append(series, ignore_index = True)
 
     # Export dataframe to csv
-    player_df.to_csv(path_to_data_dir + f"\{boss.replace(' ', '')}_{char_name}.csv", index = None, encoding='utf-8-sig')
-
-    # Add data to the excel spreadsheet, sort sheet by rank and clean duplicates
-    add_row_to_xlsx(path_to_data_dir, boss, char_name, filename, convertRank)
-    time.sleep(3)
-    
-    sort_excel(path_to_data_dir, boss, filename)
-    #remove_xlsx_duplicates(path_to_data_dir, filename)
+    player_df.to_csv(path_to_data_dir + f"\csv\{boss.replace(' ', '')}_{char_name}.csv", index = None, encoding='utf-8-sig')
     
     
-def add_row_to_xlsx(path_to_data_dir, boss, char_name, filename, convertRank):
+def add_rows_to_xlsx(path_to_data_dir, boss, filename, convertRank):
     temp = boss.replace(" ", "")
 
-    while True:
-        try:
-            wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
+    path_to_data_dir = r'C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data'
 
-            ws = wb.get_sheet_by_name(temp)
-            sheet = wb[temp]
-            rows = ws.max_row
+    dirs = os.listdir(path_to_data_dir + f"\csv")
 
-            with open(path_to_data_dir + f"\{temp}_{char_name}.csv", 'r', encoding='utf-8-sig') as csvfile:
+    for file in dirs:
+        wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
+
+        ws = wb.get_sheet_by_name(temp)
+        sheet = wb[temp]
+        rows = ws.max_row
+
+        if file[0:3] != "cast":
+            print(file)
+
+            with open(path_to_data_dir + f"\csv\{file}", 'r', encoding='utf-8-sig') as csvfile:
 
                 for i, line in enumerate(csvfile.readlines()):
                     if i == 0: continue  # Skip header
@@ -676,40 +676,35 @@ def add_row_to_xlsx(path_to_data_dir, boss, char_name, filename, convertRank):
                         else: 
                             sheet[chr(i2 + 65) + str(i + rows)] = element
 
-            wb.save(path_to_data_dir + f"\{filename}.xlsx")
-            break
-            
-        except: pass
-    
-    
+        wb.save(path_to_data_dir + f"\{filename}.xlsx")
+        wb.save(path_to_data_dir + f"\{filename}_backup.xlsx")
+
+        
+
 def sort_excel(path_to_data_dir, boss, filename):
     temp = boss.replace(" ", "")
     
-    while True:
-        try:
-            wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
-            ws = wb.get_sheet_by_name(temp)
-            sheet = wb[temp]
-            rows = ws.max_row
 
-            if filename == 'character_data':
-                order_cell, ordering = 'E', 2
+    wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
+    ws = wb.get_sheet_by_name(temp)
+    sheet = wb[temp]
+    rows = ws.max_row
 
-            else:
-                order_cell, ordering = 'A', 1
+    if filename == 'character_data':
+        order_cell, ordering = 'E', 2
 
-            excel = win32com.client.Dispatch("Excel.Application")
-            wb = excel.Workbooks.Open(path_to_data_dir + f"\{filename}.xlsx")
-            ws = wb.Worksheets(temp)
-            ws.Range('A2:W'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
-            wb.Save()
-            excel.Application.Quit()
-            break
-            
-        except: pass 
+    else:
+        order_cell, ordering = 'A', 1
+
+    excel = win32com.client.Dispatch("Excel.Application")
+    wb = excel.Workbooks.Open(path_to_data_dir + f"\{filename}.xlsx")
+    ws = wb.Worksheets(temp)
+    ws.Range('A2:W'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
+    wb.Save()
+    excel.Application.Quit()
     
 
-def remove_xlsx_duplicates(path_to_data_dir, filename):
+def remove_xlsx_duplicates(path_to_data_dir, boss, filename):
 
     print("Removing spreadsheet duplicates..")
 
@@ -717,32 +712,36 @@ def remove_xlsx_duplicates(path_to_data_dir, filename):
 
         temp = boss.replace(" ", "")
         
-        try:
-            wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
+        wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
 
-            ws = wb.get_sheet_by_name(temp)
-            sheet = wb[temp]
-            rows = ws.max_row
+        ws = wb.get_sheet_by_name(temp)
+        sheet = wb[temp]
+        rows = ws.max_row
 
-            temp = ["", ""]
-            duplicate_count = 0
+        temp = ["", ""]
+        duplicate_count = 0
 
-            for i, row in enumerate(ws.iter_rows()):
+        for i, row in enumerate(ws.iter_rows()):
 
-                temp[0] = temp[1]
-                temp[1] = row[0].value
+            temp[0] = temp[1]
+            temp[1] = row[0].value
 
-                if i==0: continue
+            if i==0: continue
 
-                if temp[0] == temp[1]:
-                    duplicate_count += 1
-                    ws.delete_rows(i)
+            if temp[0] == temp[1]:
+                duplicate_count += 1
+                ws.delete_rows(i)
 
-            wb.save(path_to_data_dir + f"\{filename}.xlsx")
-            wb.save(path_to_data_dir + f"\{filename}_backup.xlsx")
+        wb.save(path_to_data_dir + f"\{filename}.xlsx")
+        wb.save(path_to_data_dir + f"\{filename}_backup.xlsx")
 
-            if duplicate_count == 0:
-                print("Duplicate removal complete!")
-                break
-                
-        except: pass  
+        if duplicate_count == 0:
+            print("Duplicate removal complete!")
+            break
+    
+    
+def clean_csv_dir(path_to_data_dir):
+    dirs = os.listdir(path_to_data_dir + rf"\csv")
+
+    for file in dirs:
+        os.remove(path_to_data_dir + rf"\csv\{file}")
