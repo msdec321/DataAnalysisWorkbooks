@@ -1,6 +1,6 @@
 # Multiprocess Top Rank Scraper  
 
-(Note: general users don't need to run this tool. You'll find a premade dataset in the data/ directory.)
+(Note: general users don't need to run this tool. You'll find a premade dataset in the data/ directory.)  
 (For a list of dependencies see the README in the parent directory)  
 
 This is a version of the top N rank scraper that runs multiple scrapers in parallel via the multiprocessing module. This reduces time spent data scraping roughly by a factor of nCores-1. Unfortunately multiprocessing does not work well with interactive notebooks so this version must be run directly through the Python interpreter (*python multi_scraper.py*).  
