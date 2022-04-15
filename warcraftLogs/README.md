@@ -1,35 +1,17 @@
-# WarcraftLogs TBC Restoration Druid Data Scraper v1.04  
+# WarcraftLogs TBC Restoration Druid Data Scraper v1.05  
 
 #-----------------------------------------  
 *Author: Mercychan - Benediction (US)*    
 *Discord: Mercy#9226*  
 #-----------------------------------------  
 
-
-This tool scrapes encounter data from WarcraftLogs which can be used in a data analysis. Currently scrapes the following data:   
-&emsp; • Rank (*Top rank scraper only*)  
-&emsp; • Character name, server, region  
-&emsp; • Date  
-&emsp; • Kill time  
-&emsp; • Parse percentile (*Individual character scraper only*)  
-&emsp; • Number of healers  
-&emsp; • Shadowpriest in group?  
-&emsp; • Innervate received?  
-&emsp; • Bloodlust/heroism received?  
-&emsp; • Power Infusion received?   
-&emsp; • Is Nature's Grace spec?  
-&emsp; • Lifebloom uptime %  
-&emsp; • Total HPS  
-&emsp; • % HPS of: Lifebloom (tick), Lifebloom (bloom), Rejuvenation, Regrowth, Swiftmend  
-&emsp; • Rotating on tank? ('No' means the Druid is ignoring the tank and just raid healing)  
-&emsp; • Top two rotations used  
-  
+This tool scrapes encounter data from WarcraftLogs which can be used for data analysis.  
 The scraped datasets are stored in data/ as excel spreadsheets.  
 
 The individual character scraper can be run via specific_character_scraper.ipynb  
 The top druid rank scraper can be run via top_rank_scraper.ipynb  
 
-You'll find a multiprocessing version of the top rank scraper in multiprocess_scraper/  
+A multiprocessing version of the top rank scraper is located in multiprocess_scraper/  
 (Note: general users don't need to run these, you can just use the premade datasets found in data/)  
 
 The related source code can be found in src.py  
@@ -53,7 +35,7 @@ The related source code can be found in src.py
 
 &emsp; • Scrape the top 3,000 - 5,000 players for each boss (ETA ~2 weeks)  
 
-&emsp; • Add a dashboard to visualize the top rotations used per boss with filters for kill time, N healers, spriest/innervate, etc. Export to a webapp  
+&emsp; • Export analysis code to a webapp for general use.  
 
-&emsp; • Add a dataset for Dreamstate spec
+&emsp; • Add a dataset for Dreamstate spec  
 
