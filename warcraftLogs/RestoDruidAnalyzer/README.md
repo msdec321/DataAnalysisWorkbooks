@@ -45,7 +45,7 @@ WarcraftLogs data is scraped from the top 3,000 players for each boss. This enco
 # Analysis
 Rotations are determined via the cast sequence data provided by WCL ([an example](https://classic.warcraftlogs.com/reports/VZr6X2MNY73GLktg#fight=47&type=casts&view=events&source=37)). In short, the [rotation calculator](https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/src.py#L535-L623) checks when Lifebloom is cast on a tank which signals the start of a rotation. The following casts are recorded until either 1) The lifebloom is refreshed or 2) The rotation reaches 5 casts. (Note: hasted rotations can go over 5 casts, that will be supported in the future). Casts that are off the global cooldown are ignored. For purely raid healing Druids, the calculator simply counts the number of regrowths/instants cast in a 5-cast window. The rotation is recorded into a dictionary object and at the end the top 2 rotations are saved to the dataset.  
 
-In general, the distribution of HPS for each rotation is exponentially falling with a long tail. Each distribution has a characteristic mean and width (σ). These distributions are used to compare the performance of each rotation, where the relative uncertainty is taken as the standard error: SE = σ / √(n)  
+In general, the distribution of HPS for each rotation is exponentially falling with a long tail. Each distribution has a characteristic mean and width (σ), which can be used to compare the performance of each rotation. The relative uncertainty is taken as the standard error: SE = σ / √(n).    
 <details> 
  <summary>Distribution of HPS</summary><p>
  
