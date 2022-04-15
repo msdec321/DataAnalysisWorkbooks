@@ -7,7 +7,7 @@
 # Motivation
 TBC Resto Druid is complicated. The rotation that you choose to use in an encounter can depend on several factors: number of tanks, total mana available, how much you prioritize healing the tank vs the raid, etc. While theorycrafting can determine the best rotations in a vaccuum, boss fights are messy and effective healing is difficult to model accurately for each encounter.  
 
-The motivation of this project is to take a data-driven approach; what are the top performing players *actually* doing on each boss? Furthermore, what are the best rotations given *your* specific raid composition? There is a vast resource of data provided by WarcraftLogs that is not being used by the community (understandably, building a dataset is time consuming). Regardless of your skill level, I hope that you can learn something from this analysis to improve your playstyle.  
+The motivation of this project is to take a data-driven approach; what are the top performing players actually doing on each boss? Furthermore, what are the best rotations given your specific raid composition? There is a vast resource of data provided by WarcraftLogs that is not being used by the community (understandably, building a dataset is time consuming). Regardless of your skill level, I hope that you can learn something from this analysis to improve your playstyle.  
 
 
 # Rotations and notation
