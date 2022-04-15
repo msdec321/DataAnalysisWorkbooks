@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -19,6 +21,16 @@ def get_path_settings():
             if i == 0: continue
                 
             return row[0], row[1], row[2]
+        
+
+def get_twilio_info():
+    with open("twilio_info.csv", 'r') as csvfile:
+        datareader = csv.reader(csvfile)
+
+        for i, row in enumerate(datareader):
+            if i == 0: continue
+                
+            return row[0], row[1], row[2], row[3]
 
 
 def get_non_recorded_players(path, boss, boss_link_dict, nParses):
@@ -102,7 +114,7 @@ def get_latest_ranks(browser, boss, boss_link_dict, nParses):
     page = 1
 
     for i in range(1, nParses + 50):
-        if i%50 == 0: print(i)
+        if i%100 == 0: print(i)
         
         rank, name, server, region, date, HPS, duration = get_boss_data_top_N_scraper(browser, i, boss, boss_link_dict)
         #if name in ['抄能力', '自然帅', 'Tables']: continue  # These players have broken reports, skip
@@ -499,7 +511,10 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
     for i, row in (df.iterrows()):
         
         # Ignore p1 for ROS
-        if boss == "Reliquary of Souls" and row["Ability"] in ["Wrath", "Moonfire", "Starfire"]: continue
+        if boss == "Reliquary of Souls" and row["Ability"] in ["Wrath", "Moonfire", "Starfire", "Insect", "愤怒", "月火术",
+                                                               "虫群", "星火术", "천벌", "달빛", "별빛", "곤충", "Гнев", 
+                                                               "Лунный", "Звездный", "Рой", "Insektenschwarm", "Mondfeuer",
+                                                               "Zorn", "Sternenfeuer", "Colère", "Eclat", "Feu", "Essaim"]: continue
         
         # If seq gets to 4 casts, record and reset. TODO: For hasted rotations this can be 5
         if len(sequence) == 5:
@@ -661,42 +676,76 @@ def export_to_csv(path_to_data_dir, boss, to_append, player_df, char_name):#, fi
     player_df.to_csv(path_to_data_dir + f"\csv\{boss.replace(' ', '')}_{char_name}.csv", index = None, encoding='utf-8-sig')
     
     
-def add_rows_to_xlsx(path_to_data_dir, boss, filename, convertRank):
+def combine_csv_files(boss):
+
+    player_df = pd.DataFrame(pd.np.empty((0, 23)))
+    player_df.columns = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Nature's Grace?", "Power Infusion?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
+
     temp = boss.replace(" ", "")
 
     path_to_data_dir = r'C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data'
 
     dirs = os.listdir(path_to_data_dir + f"\csv")
 
+    nFiles = 0
     for file in dirs:
-        wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
+        nFiles += 1
 
-        ws = wb.get_sheet_by_name(temp)
-        sheet = wb[temp]
-        rows = ws.max_row
+    for i, file in enumerate(dirs):
 
         if file[0:3] != "cast":
 
             with open(path_to_data_dir + f"\csv\{file}", 'r', encoding='utf-8-sig') as csvfile:
 
-                for i, line in enumerate(csvfile.readlines()):
-                    if i == 0: continue  # Skip header
+                for j, line in enumerate(csvfile.readlines()):
+                    if j == 0: continue  # Skip header
 
-                    line = line[ : -1]  # Remove the newline character at the end of each string
-                    elements = line.split(",")
+                    line = line[ : -1]
+                    to_append = line.split(",")
+                    to_append[-1].replace("\n", "")
 
-                    for i2, element in enumerate(elements):
-                        if i2 == 0 and convertRank: 
-                            sheet[chr(i2 + 65) + str(i + rows)] = int(float(element))
-                        else: 
-                            sheet[chr(i2 + 65) + str(i + rows)] = element
+        series = pd.Series(to_append, index = player_df.columns)
+        player_df = player_df.append(series, ignore_index = True)
 
-        wb.save(path_to_data_dir + f"\{filename}.xlsx")
-        wb.save(path_to_data_dir + f"\{filename}_backup.xlsx")
+    player_df.to_csv(path_to_data_dir + f"\csv\{boss.replace(' ', '')}_all.csv", index = None, encoding='utf-8-sig')
+    
+    
+def add_rows_to_xlsx(path_to_data_dir, boss, filename, convertRank):
+    temp = boss.replace(" ", "")
 
+    path_to_data_dir = r'C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data'
+
+    dirs = os.listdir(path_to_data_dir + f"\csv")
         
+    wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
+
+    ws = wb.get_sheet_by_name(temp)
+    sheet = wb[temp]
+    rows = ws.max_row
+
+    with open(path_to_data_dir + f"\csv\{temp}_all.csv", 'r', encoding='utf-8-sig') as csvfile:
+
+        for i, line in enumerate(csvfile.readlines()):
+            if i == 0: continue  # Skip header
+
+            line = line[ : -1]  # Remove the newline character at the end of each string
+            elements = line.split(",")
+
+            for i2, element in enumerate(elements):
+                if i2 == 0 and convertRank: 
+                    sheet[chr(i2 + 65) + str(i + rows)] = int(float(element))
+                else: 
+                    sheet[chr(i2 + 65) + str(i + rows)] = element
+
+    wb.save(path_to_data_dir + f"\{filename}.xlsx")
+    wb.save(path_to_data_dir + f"\{filename}_backup.xlsx")
+        
+    time.sleep(1)
+      
 
 def sort_excel(path_to_data_dir, boss, filename):
+    print("Sorting spreadsheet rows..")
+    
     temp = boss.replace(" ", "")
     
 

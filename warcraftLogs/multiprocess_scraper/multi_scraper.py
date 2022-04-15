@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 from multiprocessing import Pool
 import pandas as pd
 import numpy as np
@@ -10,13 +12,17 @@ from selenium import webdriver
 
 import src
 
-# Configurations
+# Verbose printout flags
 verbose = False
 verbose_rotation = False
 
+# Enable/disable SMS
+twilio = True
+
+# Other configurations
 nCores = 5
-nParses = 331
-boss = "Teron Gorefiend"
+nParses = 1531
+boss = "High Warlord Naj'entus"
 boss_link_dict = {"High Warlord Naj'entus" : "#boss=601", "Supremus" : "#boss=602", "Shade of Akama" : "#boss=603", 
                   "Teron Gorefiend" : "#boss=604", "Gurtogg Bloodboil" : "#boss=605", "Reliquary of Souls" : "#boss=606", 
                   "Mother Shahraz" : "#boss=607", "The Illidari Council" : "#boss=608", "Illidan Stormrage" : "#boss=609", 
@@ -97,16 +103,32 @@ def main(i):
 if __name__ == '__main__':
     
     path_to_ublock, path_to_download_dir, path_to_data_dir = src.get_path_settings()
-    not_recorded = src.get_non_recorded_players(path_to_ublock, boss, boss_link_dict, nParses)   
     
+    if twilio: 
+        from twilio.rest import Client
+        accountSID, authToken, myTwilioNumber, myCellPhone = src.get_twilio_info()
+        twilioCli = Client(accountSID, authToken)
+    
+    print("Checking for rank changes since last scrape...")
+    not_recorded = src.get_non_recorded_players(path_to_ublock, boss, boss_link_dict, nParses)   
+    print("Rank updates complete.")
+    print('-----------')
+    time.sleep(2)
+    
+    print("Beginning data scrape...")
     with Pool(nCores) as pool:
         results = pool.map(main, not_recorded)
         print(f"Ranks successfully added: {results}")
         
     # Add scraped data to the spreadsheet
     print("Adding data to spreadsheet...")
+    src.combine_csv_files(boss)
     src.add_rows_to_xlsx(path_to_data_dir, boss, "top_N_druids", True)
     src.sort_excel(path_to_data_dir, boss, "top_N_druids")
     print("Spreadsheet updated! Scraping complete.")
+    
     src.remove_xlsx_duplicates(path_to_data_dir, boss, "top_N_druids")
     src.clean_csv_dir(path_to_data_dir)
+    
+    if twilio:
+         message = twilioCli.messages.create(body = 'Data scraping complete!', from_ = myTwilioNumber, to = myCellPhone)
