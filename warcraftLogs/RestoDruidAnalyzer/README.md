@@ -61,5 +61,5 @@ In general, the distribution of HPS for each rotation is exponentially falling w
 Some errorbars are large for two reasons. Primarily, the rotation performs inconsistently; some players perform exceptionally better with the rotation than others (large σ). Second, there are relatively few players doing the rotation (small n). Note that increasing the sample size will not necessarily reduce the error (increasing n requires scraping lower ranked players, which may also increase σ).  
 
 
-# Results
+# Results and discussion
 =todo=
