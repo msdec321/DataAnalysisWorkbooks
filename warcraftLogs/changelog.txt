@@ -2,4 +2,9 @@ v1.03 (03/28/2022)
 *Individual character scraper finished. This script will scrape the top N ranks for a specified character and output data to an excel spreadsheet.
 
 v1.04 (04/02/2022)
-*Added top rank scraper. This script will scrape the top N druid ranks for any t6 boss and output data to an excel spreadsheet.
+*Added top rank scraper. This script will scrape the top N druid ranks for any t6 boss and output data to an excel spreadsheet.  
+*Added non-English language support (CN, RU, KR, FR, GER)  
+*Added Analyzer / plotter with optional filters  
+
+v1.05 (04/13/2022)  
+*Added multiprocessing scraper
