@@ -64,14 +64,19 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
 # Results and discussion
 =todo after data collection=
 
-<details> 
- <summary>Naj'entus</summary><p>
- 
- ![alt text](https://i.imgur.com/VWPltCF.png)
-</p></details>  
+<details>
+  <summary>Unfiltered results</summary><p>
 
-<details> 
- <summary>Supremus</summary><p>
- 
- ![alt text](https://i.imgur.com/yaDpQF5.png)
-</p></details>  
+  <details> 
+   <summary>Naj'entus</summary><p>
+
+   ![alt text](https://i.imgur.com/VWPltCF.png)
+  </p></details>  
+
+  <details> 
+   <summary>Supremus</summary><p>
+
+   ![alt text](https://i.imgur.com/yaDpQF5.png)
+  </p></details>  
+  
+</p></details>
