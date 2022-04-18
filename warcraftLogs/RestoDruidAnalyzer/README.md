@@ -24,7 +24,7 @@ You'll also see me use weird rotations such as 0LB 0I 5RG, 0LB 4I 1RG, etc. Thes
 
 
 # Dataset  
-WarcraftLogs data is scraped from the top 3,000 players for each boss (in progress). This encompasses roughly the 95th percentile and above. The dataset (located in data/top_N_druids.xlsx) contains the following:  
+WarcraftLogs data is scraped from the top 3,000 players for each boss (in progress) for Restoration spec Druids (There are zero Dreamstate druids in the dataset). This encompasses roughly the 95th percentile and above. The dataset (located in data/top_N_druids.xlsx) contains the following:  
 
 &emsp; • Rank  
 &emsp; • Character name, server, region  
@@ -63,3 +63,114 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
 
 # Results and discussion
 =todo after data collection=
+
+<details>
+  <summary>Unfiltered dataset</summary><p>
+
+- <details><summary>Naj'entus</summary>  
+  &nbsp;
+
+  - <details><summary>Rotation rankings</summary><p>
+  
+    ![alt text](https://i.imgur.com/VWPltCF.png)
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players are actually rolling Lifebloom on the tank?</summary><p>
+  
+    ![alt text](https://i.imgur.com/OP28oY0.png)
+  
+    28.1% of players are rolling Lifebloom on the main tank, the rest are purely raid healing. Interestingly, three of the top five rotations involve rolling Lifebloom on the main tank, however the vast majority of rankers choose to purely raid heal with regrowth (0LB 0I 5RG).
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+    ![alt text](https://i.imgur.com/uuzzmEF.png)
+  
+    89.0% of players received either an innervate or shadow priest.
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players are playing Nature's Grace? (Note: There are no Dreamstate Druids in the dataset.)</summary><p>
+  
+    ![alt text](https://i.imgur.com/grkG0i6.png)
+  
+    54.3% of players are Nature's Grace spec.
+    </p></details> 
+  
+  - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
+  
+    ![alt text](https://i.imgur.com/x2OO1lW.png)
+  
+    The top five correlators of HPS in order of importance: 
+    - Using more regrowth heavy rotations  
+    - Having less healers in your raid  
+    - Being Nature's Grace spec  
+    - Not rolling Lifebloom on the tank  
+    - Not using Rejuvenation  
+    &nbsp;
+  
+    A note of caution: These are only correlations for *within* the 95th-100th percentile and isn't necessarily generalizable to the full raiding population. For example, 89% of players in the dataset had access to either innervate or shadowpriest, yet the correlation is relatively low. Does that mean having more mana is not important for getting a good parse? No, and in fact the opposite can be true. 
+  
+    </p></details>
+  </details> 
+
+&nbsp;
+  
+- <details><summary>Supremus</summary>
+  &nbsp;
+
+  - <details><summary>Rotation rankings</summary><p>
+  
+    ![alt text](https://i.imgur.com/yaDpQF5.png)
+   
+    The top performing rotation is a hasted Nature's Grace rotation (1 LB -> 4 Regrowth), however relatively few players are doing it.
+    Interestingly, the third best performing rotation is a 0-Haste rotation (1 LB -> 2 Regrowths).
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
+  
+    ![alt text](https://i.imgur.com/DWhUQNa.png)
+  
+    84.2% of players are rolling Lifebloom on *at least* one tank, the rest are purely raid healing.  
+    42.6% of players roll Lifebloom on only the primary tank.  
+    34.7% of players roll Lifebloom on both the primary tank and the hateful strike tank.  
+  
+    One-tank rotations perform better on average than two-tank rotations. Why? One interpretation is that when rolling LB on the offtank, a lot of the healing is overhealing, as hateful strikes are infrequent and the off-tank gets healed to full fairly quickly. It's arguable that your GCDs are better used with regrowths and just rotating on the primary tank. However, it's also possible that the data is biased because Druids are unlikely to 2-tank rotate during the Kite phase. It would be interesting to split the data between tank phase and kite phase and see how the top rotations differ.  
+  
+    Compared to other bosses, rotations perform very similarly to one another on Supremus, often only differing by tens of HPS on average. 
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+    ![alt text](https://i.imgur.com/L8I4tKm.png)
+  
+    68.2% of players received either an innervate or shadow priest.
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  
+    ![alt text](https://i.imgur.com/KzXd5ca.png)
+  
+    34.9% of players are Nature's Grace spec.
+    </p></details>
+  
+  - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
+  
+    ![alt text](https://i.imgur.com/vN7C4YQ.png)
+  
+    The top five correlators of HPS in order of importance: 
+    - Using more regrowth heavy rotations  
+    - Having less healers in your raid  
+    - Being Nature's Grace spec  
+    - Rolling Lifebloom on a lower number of tanks  
+    - Having power infusion (lol)  
+    &nbsp;
+  
+    A note of caution: These are only correlations for *within* the 95th-100th percentile and isn't necessarily generalizable to the full raiding population. For example, 68% of players in the dataset had access to either innervate or shadowpriest, yet the correlation is relatively low. Does that mean having more mana is not important for getting a good parse? No, and in fact the opposite can be true. 
+  
+    </p></details>
+  
+  </details>  
+  
+  </details>  
+  
+</p></details>
