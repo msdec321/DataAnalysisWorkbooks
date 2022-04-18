@@ -78,7 +78,7 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
   
     ![alt text](https://i.imgur.com/OP28oY0.png)
   
-    28.1% of players are rolling Lifebloom on the main tank, the rest are purely raid healing.
+    28.1% of players are rolling Lifebloom on the main tank, the rest are purely raid healing. Interestingly, three of the top five rotations involve rolling Lifebloom on the main tank, however the vast majority of rankers choose to purely raid heal with regrowth (0LB 0I 5RG).
     </p></details>
   
   - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
