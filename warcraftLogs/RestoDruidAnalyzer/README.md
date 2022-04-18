@@ -101,13 +101,14 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
     ![alt text](https://i.imgur.com/x2OO1lW.png)
   
     The top five correlators of HPS (*within the 95th percentile and above*) in order of importance: 
-    1) Using more regrowth heavy rotations  
-    2) Having less healers in your raid  
-    3) Being Nature's Grace spec  
-    4) Not rolling Lifebloom on the tank  
-    5) Not using Rejuvenation  
+    - Using more regrowth heavy rotations  
+    - Having less healers in your raid  
+    - Being Nature's Grace spec  
+    - Not rolling Lifebloom on the tank  
+    - Not using Rejuvenation  
+    &nbsp;
   
-    A note of caution: These are only correlations for *within* the 95th-100th percentile and aren't necessarily reflective of your raid environment. For example, 89% of players had access to either innervate or shadowpriest, yet the correlation is relatively low. Does that mean having innervate is not important for getting a good parse? No, and in fact the opposite is true. 
+    A note of caution: These are only correlations for *within* the 95th-100th percentile and aren't necessarily generalize to the full raiding population. For example, 89% of players in the dataset had access to either innervate or shadowpriest, yet the correlation is relatively low. Does that mean having innervate is not important for getting a good parse? No, and in fact the opposite can be true. 
   
     </p></details>
   </details> 
