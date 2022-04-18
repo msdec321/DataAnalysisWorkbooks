@@ -102,6 +102,19 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
   - <details><summary>Rotation rankings</summary><p>
   
     ![alt text](https://i.imgur.com/yaDpQF5.png)
+   
+    The top performing rotation is a hasted Nature's Grace rotation (1 LB -> 4 Regrowth), however relatively few players are doing it.
+    Interestingly, the third best performing rotation is a 0-Haste rotation (1 LB -> 2 Regrowths).
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
+  
+    ![alt text](https://i.imgur.com/mO5BmOl.png)
+  
+    90.3% of players are rolling Lifebloom on *at least* one tank, the rest are purely raid healing.  
+    42.6% of players roll Lifebloom on only the primary tank.  
+    34.7% of players roll Lifebloom on both the primary tank and the hateful strike tank.  
+    One-tank rotations perform better on average than two-tank rotations. Why? Perhaps the data is biased because Druids are unlikely to 2-tank rotate during the Kite phase. It would be interesting to split the data between tank phase and kite phase and see how the top rotations differ.  
     </p></details>
   
   - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
