@@ -67,7 +67,8 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
 <details>
   <summary>Unfiltered dataset</summary><p>
 
-- <details><summary>Naj'entus</summary>
+- <details><summary>Naj'entus</summary>  
+  &nbsp;
 
   - <details><summary>Rotation rankings</summary><p>
   
@@ -96,8 +97,10 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
     </p></details>
   </details>  
 
-
+&nbsp;
+  
 - <details><summary>Supremus</summary>
+  &nbsp;
 
   - <details><summary>Rotation rankings</summary><p>
   
