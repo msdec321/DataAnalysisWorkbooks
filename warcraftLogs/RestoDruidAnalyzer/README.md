@@ -109,9 +109,9 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
   
-    ![alt text](https://i.imgur.com/mO5BmOl.png)
+    ![alt text](https://i.imgur.com/DWhUQNa.png)
   
-    90.3% of players are rolling Lifebloom on *at least* one tank, the rest are purely raid healing.  
+    84.2% of players are rolling Lifebloom on *at least* one tank, the rest are purely raid healing.  
     42.6% of players roll Lifebloom on only the primary tank.  
     34.7% of players roll Lifebloom on both the primary tank and the hateful strike tank.  
   
