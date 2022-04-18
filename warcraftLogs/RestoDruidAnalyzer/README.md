@@ -103,6 +103,23 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
   
     ![alt text](https://i.imgur.com/yaDpQF5.png)
     </p></details>
+  
+  - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+    ![alt text](https://i.imgur.com/L8I4tKm.png)
+  
+    68.2% of players received either an innervate or shadow priest.
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players are playing Nature's Grace? (Note: There are no Dreamstate Druids in the dataset.)</summary><p>
+  
+    ![alt text](https://i.imgur.com/KzXd5ca.png)
+  
+    34.9% of players are Nature's Grace spec.
+    </p></details>
+  
+  </details>  
+  
   </details>  
   
 </p></details>
