@@ -88,7 +88,7 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
     89.0% of players received either an innervate or shadow priest.
     </p></details>
   
-  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  - <details><summary>Q. What percentage of players are playing Nature's Grace? (Note: There are no Dreamstate Druids in the dataset.)</summary><p>
   
     ![alt text](https://i.imgur.com/grkG0i6.png)
   
