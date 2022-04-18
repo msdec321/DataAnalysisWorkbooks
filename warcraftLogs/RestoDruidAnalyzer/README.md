@@ -24,7 +24,7 @@ You'll also see me use weird rotations such as 0LB 0I 5RG, 0LB 4I 1RG, etc. Thes
 
 
 # Dataset  
-WarcraftLogs data is scraped from the top 3,000 players for each boss (in progress). This encompasses roughly the 95th percentile and above. The dataset (located in data/top_N_druids.xlsx) contains the following:  
+WarcraftLogs data is scraped from the top 3,000 players for each boss (in progress) for Restoration spec Druids (There are zero Dreamstate druids in the dataset). This encompasses roughly the 95th percentile and above. The dataset (located in data/top_N_druids.xlsx) contains the following:  
 
 &emsp; • Rank  
 &emsp; • Character name, server, region  
