@@ -171,6 +171,16 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
   
   </details>  
   
-  </details>  
+&nbsp;
+  
+- <details><summary>Teron Gorefiend</summary>
+  &nbsp;
+
+  - <details><summary>Rotation rankings</summary><p>
+  
+    ![alt text](https://i.imgur.com/zBfQV3C.png)
+    </p></details>
+  
+  </details>
   
 </p></details>
