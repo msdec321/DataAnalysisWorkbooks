@@ -67,14 +67,20 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
 <details>
   <summary>Unfiltered results</summary><p>
 
-- <details><summary>Naj'entus</summary><p>
+- <details><summary>Naj'entus</summary>
 
-   ![alt text](https://i.imgur.com/VWPltCF.png)
-  </p></details>  
+  - <details><summary>Rotation rankings</summary><p>
+  
+    ![alt text](https://i.imgur.com/VWPltCF.png)
+    </p></details>
+  </details>  
 
-- <details><summary>Supremus</summary><p>
+- <details><summary>Supremus</summary>
 
-   ![alt text](https://i.imgur.com/yaDpQF5.png)
-  </p></details>  
+  - <details><summary>Rotation rankings</summary><p>
+  
+    ![alt text](https://i.imgur.com/yaDpQF5.png)
+    </p></details>
+  </details>  
   
 </p></details>
