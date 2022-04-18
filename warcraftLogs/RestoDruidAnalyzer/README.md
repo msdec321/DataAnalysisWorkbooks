@@ -65,7 +65,7 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
 =todo after data collection=
 
 <details>
-  <summary>Unfiltered results</summary><p>
+  <summary>Unfiltered dataset</summary><p>
 
 - <details><summary>Naj'entus</summary>
 
