@@ -162,7 +162,7 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
     - Having less healers in your raid  
     - Being Nature's Grace spec  
     - Rolling Lifebloom on a lower number of tanks  
-    - Having shadow priest  
+    - Having power infusion (lol)  
     &nbsp;
   
     A note of caution: These are only correlations for *within* the 95th-100th percentile and isn't necessarily generalizable to the full raiding population. For example, 68% of players in the dataset had access to either innervate or shadowpriest, yet the correlation is relatively low. Does that mean having more mana is not important for getting a good parse? No, and in fact the opposite can be true. 
