@@ -85,14 +85,14 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
   
     ![alt text](https://i.imgur.com/Cf9JoFq.png)
   
-    93.5% of players in the 95th percentile and above received either an innervate or shadow priest.
+    93.5% of players received either an innervate or shadow priest.
     </p></details>
   
   - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
   
     ![alt text](https://i.imgur.com/ep6jRC5.png)
   
-    55.6% of players in the 95th percentile and above are Nature's Grace spec.
+    55.6% of players are Nature's Grace spec.
     </p></details>
   </details>  
 
