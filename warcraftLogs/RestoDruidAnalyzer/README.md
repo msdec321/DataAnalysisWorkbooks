@@ -100,7 +100,7 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
   
     ![alt text](https://i.imgur.com/x2OO1lW.png)
   
-    The top five correlators of HPS (*within the 95th percentile and above*) in order of importance: 
+    The top five correlators of HPS in order of importance: 
     - Using more regrowth heavy rotations  
     - Having less healers in your raid  
     - Being Nature's Grace spec  
