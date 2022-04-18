@@ -94,8 +94,23 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
     ![alt text](https://i.imgur.com/grkG0i6.png)
   
     54.3% of players are Nature's Grace spec.
+    </p></details> 
+  
+  - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
+  
+    ![alt text](https://i.imgur.com/x2OO1lW.png)
+  
+    The top five correlators of HPS (*within the 95th percentile and above*) in order of importance: 
+    1) Using more regrowth heavy rotations  
+    2) Having less healers in your raid  
+    3) Being Nature's Grace spec  
+    4) Not rolling Lifebloom on the tank  
+    5) Not using Rejuvenation  
+  
+    A note of caution: These are only correlations for *within* the 95th-100th percentile and aren't necessarily reflective of your raid environment. For example, 89% of players had access to either innervate or shadowpriest, yet the correlation is relatively low. Does that mean having innervate is not important for getting a good parse? No, and in fact the opposite is true. 
+  
     </p></details>
-  </details>  
+  </details> 
 
 &nbsp;
   
