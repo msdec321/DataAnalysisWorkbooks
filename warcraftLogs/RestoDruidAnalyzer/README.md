@@ -73,7 +73,29 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
   
     ![alt text](https://i.imgur.com/VWPltCF.png)
     </p></details>
+  
+  - <details><summary>Q. What percentage of players are actually rolling Lifebloom on the tank?</summary><p>
+  
+    ![alt text](https://i.imgur.com/VWbG5Z1.png)
+  
+    65.3% of players are rolling Lifebloom on the main tank, the rest are purely raid healing.
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+    ![alt text](https://i.imgur.com/Cf9JoFq.png)
+  
+    93.5% of players in the 95th percentile and above received either an innervate or shadow priest.
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  
+    ![alt text](https://i.imgur.com/ep6jRC5.png)
+  
+    55.6% of players in the 95th percentile and above are Nature's Grace spec.
+    </p></details>
   </details>  
+
 
 - <details><summary>Supremus</summary>
 
