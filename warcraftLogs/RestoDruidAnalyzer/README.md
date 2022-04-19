@@ -83,11 +83,11 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     ![alt text](https://i.imgur.com/VWPltCF.png)
   
     The top five rotations:
-    - 0LB 0I 5RG: Not rolling lifebloom on the tank and raid healing with regrowth. 42.1% of players in the dataset use this. It would be interesting to break this up by haste rating.  
-    - 1LB 1I 2RG: ~20 Haste rating rotation
-    - 1LB 0I 3RG: ~120 Haste rating without Nature's Grace, ~20 Haste rating with Nature's grace. It would be interesting to split this category of players by spec.
-    - 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3 out of 4 regrowth casts must proc NG)    
-    - 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional Rejuv. 19.1% of players in the dataset use this.   
+    - 0LB 0I 5RG: Not rolling lifebloom on the tank and raid healing with regrowth, 42.1% of players do this rotation.  
+    - 1LB 1I 2RG: ~20 Haste rating rotation, 1.7% of players do this rotation.  
+    - 1LB 0I 3RG: ~120 Haste rotation without NG, ~20 Haste rotation with NG (and 1 of 3 regrowths proc NG), 2.5% of players do this rotation.  
+    - 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3 out of 4 regrowth casts must proc NG), 2.6% of players do this rotation.      
+    - 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional rejuv, 19.1% of players do this rotation.    
   
     </p></details>
   
