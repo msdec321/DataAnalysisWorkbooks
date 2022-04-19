@@ -155,7 +155,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     The top five rotations:
     - 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3 out of 4 regrowth casts must proc NG), 3.2% of players do this rotation.
-    - 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional Rejuv, 10.7% of players do this rotation.  
+    - 0LB 1I 4RG: Raid healing mostly with Regrowth and the occasional rejuv, 10.7% of players do this rotation.  
     - 1LB 0I 2RG: 0 Haste rotation, 9.9% of players do this rotation.  
     - 0LB 2I 3RG: Raid healing with slightly more rejuvs than above. 3.5% of players do this rotation.  
     - 0LB 0I 5RG: Raid healing with only regrowth. 16.9% of players do this rotation.  
