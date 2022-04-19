@@ -46,19 +46,27 @@ WarcraftLogs data is scraped from the top 3,000 players for each boss (in progre
 Rotations are determined via the cast sequence data provided by WCL ([an example](https://classic.warcraftlogs.com/reports/VZr6X2MNY73GLktg#fight=47&type=casts&view=events&source=37)). In short, the [rotation calculator](https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/src.py#L535-L623) checks when Lifebloom is cast on a tank which signals the start of a rotation. The following casts are recorded until either 1) The lifebloom is refreshed or 2) The rotation reaches 5 casts. (Note: hasted rotations can go over 5 casts, that will be supported in the future). Casts that are off the global cooldown are ignored. For purely raid healing Druids, the calculator simply counts the number of regrowths/instants cast in a 5-cast window. The rotation is recorded into a dictionary object and at the end the top 2 rotations are saved to the dataset.  
 
 In general, the distribution of HPS for each rotation is exponentially falling with a long tail. Each distribution has a characteristic mean and width (σ), which can be used to compare the performance of each rotation. The relative uncertainty is taken as the standard error: SE = σ / √(n).    
-<details> 
- <summary>Distribution of HPS</summary><p>
+ - <details> 
+    <summary>Distribution of HPS</summary><p>
  
- ![alt text](https://i.imgur.com/Vz3K0hv.jpg)
-</p></details>
+    ![alt text](https://i.imgur.com/Vz3K0hv.jpg)
+  </p></details>
 
-<details> 
- <summary>Comparing multiple distributions</summary><p>
+ - <details> 
+    <summary>Comparing multiple distributions</summary><p>
  
- ![alt text](https://i.imgur.com/VWPltCF.png)
-</p></details>  
+    ![alt text](https://i.imgur.com/VWPltCF.png)
+  </p></details>  
 
-Some errorbars are large for two reasons. Primarily, the rotation performs inconsistently; some players perform exceptionally better with the rotation than others (large σ). Second, there are relatively few players doing the rotation (small n). In general, the larger the sample size the smaller the uncertainty.
+Some errorbars are large for two reasons. Primarily, the rotation performs inconsistently; some players perform exceptionally better with the rotation than others (large σ). Second, there are relatively few players doing the rotation (small n). In general, the larger the sample size the smaller the uncertainty.  
+
+Raid compositions and playstyle vary widely, so it can also be useful to look at what variables correlate the strongest with HPS.  
+
+ - <details><summary>Naj'entus example</summary><p>
+  
+    ![alt text](https://i.imgur.com/3BkHcYT.png)  
+  
+Correlations range from +1 to -1. If variable X has a positive correlation with HPS, it means that increasing X tends to increase HPS as well. If X has a negative correlation, it means decreasing X will tend to increase HPS. If the correlation is close to zero, then X has little to no effect on HPS. **>>Caution<<**: These are correlations for *within* the 95th to 100th percentile. That is to say, these factors will help you *if you're already in the 95th percentile or above*. They are not necessarily indicative of how to break into the 95th percentile. For example, innervate appears to correlate weakly with HPS. Does that mean having innervate is not important for getting a high HPS? Not necessarily, because 90% of players in the Naj'entus dataset received an innervate! So please use caution when drawing insights from correlations.  
 
 
 # Results and discussion
@@ -114,9 +122,7 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
     - Being Nature's Grace spec  
     - Not rolling Lifebloom on the tank  
     - Not using Lifebloom to raidheal   
-    &nbsp;
-  
-    A note of caution: These are only correlations for *within* the 95th-100th percentile and isn't necessarily generalizable to the full raiding population. For example, 89% of players in the dataset had access to either innervate or shadowpriest, yet the correlation is relatively low. Does that mean having more mana is not important for getting a good parse? No, and in fact the opposite can be true. 
+    &nbsp; 
   
     </p></details>
   </details> 
@@ -172,8 +178,6 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
     - Shorter fight duration  
     - Rolling Lifebloom on a lower number of tanks  
     &nbsp;
-  
-    A note of caution: These are only correlations for *within* the 95th-100th percentile and isn't necessarily generalizable to the full raiding population. For example, 68% of players in the dataset had access to either innervate or shadowpriest, yet the correlation is relatively low. Does that mean having more mana is not important for getting a good parse? No, and in fact the opposite can be true. 
   
     </p></details>
   
