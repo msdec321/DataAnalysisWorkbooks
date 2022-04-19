@@ -102,6 +102,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
       They perform the same within uncertainty, however there are significantly less Nature's Grace players doing the rotation. With more statistics it's possible to see NG performing better than ToL.    
       </p></details>
+      &nbsp;
   
     </p></details>
   
