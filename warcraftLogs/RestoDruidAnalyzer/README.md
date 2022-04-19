@@ -224,6 +224,25 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 0LB 1I 4RG: Raid healing mostly with regrowth and the occasional rejuv, 10.7% of players do this rotation.   
     - 1LB 1I 2RG: ~20 Haste rating rotation, 4.3% of players do this rotation.      
     - 0LB 2I 3RG: Raid healing mostly with regrowth, but more rejuvs than the above, 3.5% of players do this rotation.   
+    &nbsp;
+  
+    Let's drill down further.
+  
+    - <details><summary>Q. How does 1LB 0I 3RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
+  
+      ![alt text](https://i.imgur.com/YGI3UrS.png)
+  
+      Nature's Grace performs better on average, however number of ToL players doing the rotation is relatively small.  
+      </p></details>
+  
+    - <details><summary>Q. How does 0LB 0I 5RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
+  
+      ![alt text](https://i.imgur.com/w1vituT.png)
+  
+      Nature's Grace wins.  
+      </p></details>
+      &nbsp;
+
     </p></details>
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
