@@ -170,8 +170,6 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     34.7% of players roll Lifebloom on both the primary tank and the hateful strike tank.  
   
     One-tank rotations perform better on average than two-tank rotations. Why? One interpretation is that when rolling LB on the offtank, a lot of the healing is overhealing, as hateful strikes are infrequent and the off-tank gets healed to full fairly quickly. It's arguable that your GCDs are better used with regrowths and just rotating on the primary tank. However, it's also possible that the data is biased because Druids are unlikely to 2-tank rotate during the Kite phase. It would be interesting to split the data between tank phase and kite phase and see how the top rotations differ.  
-  
-    Compared to other bosses, rotations perform very similarly to one another on Supremus, often only differing by tens of HPS on average. 
     </p></details>
   
   - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
