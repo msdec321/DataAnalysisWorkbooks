@@ -88,6 +88,23 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 1LB 0I 3RG: ~120 Haste rotation without NG, ~20 Haste rotation with NG (and 1 of 3 regrowths proc NG), 2.5% of players do this rotation.  
     - 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3 out of 4 regrowth casts must proc NG), 2.6% of players do this rotation.      
     - 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional rejuv, 19.1% of players do this rotation.    
+    &nbsp;
+  
+    Let's drill down further.
+  
+    - <details><summary>Q. How does 0LB 0I 5RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
+  
+      ![alt text](https://i.imgur.com/HVQAiu3.png)
+  
+      Nature's Grace performs significantly better than Tree of Life spec.  
+      </p></details>
+  
+    - <details><summary>Q. How does 1LB 0I 3RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
+  
+      ![alt text](https://i.imgur.com/wFrZzAE.png)
+  
+      They perform the same within uncertainty, however there are significantly less Nature's Grace players doing the rotation. With more statistics it's possible to see NG performing better than ToL.    
+      </p></details>
   
     </p></details>
   
