@@ -181,6 +181,41 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
     ![alt text](https://i.imgur.com/zBfQV3C.png)
     </p></details>
   
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
+  
+    ![alt text](https://i.imgur.com/aM4LxZa.png)
+  
+    68.1% of players are rolling Lifebloom on the tank, the rest are purely raid healing.
+    </p></details>  
+  
+  - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+    ![alt text](https://i.imgur.com/3Mj4tG9.png)
+  
+    91.2% of players received either an innervate or shadow priest.    
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  
+    ![alt text](https://i.imgur.com/aD1IG3H.png)
+  
+    34.9% of players are Nature's Grace spec.
+    </p></details>
+  
+  - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
+  
+    ![alt text](https://i.imgur.com/MB0nDsH.png)
+  
+    The top five correlators of HPS in order of importance: 
+    - Having power infusion  
+    - Using more regrowth heavy rotations  
+    - Having less healers in your raid  
+    - Being Nature's Grace spec  
+    - Having shadowpriest    
+    &nbsp;
+  
+    </p></details>
+  
   </details>
   
 </p></details>
