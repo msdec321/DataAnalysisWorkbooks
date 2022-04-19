@@ -195,6 +195,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   - <details><summary>Rotation rankings</summary><p>
   
     ![alt text](https://i.imgur.com/zBfQV3C.png)
+  
+    The top five rotations:
+    - 1LB 0I 3RG: ~120 Haste rotation without NG, ~20 Haste rotation with NG (and 1 of 3 regrowths proc NG), 3% of players do this rotation.     
+    - 0LB 0I 5RG: Raid healing with only regrowth, 16.9% of players do this rotation.  
+    - 0LB 1I 4RG: Raid healing mostly with regrowth and the occasional rejuv, 10.7% of players do this rotation.   
+    - 1LB 1I 2RG: ~20 Haste rating rotation, 4.3% of players do this rotation.      
+    - 0LB 2I 3RG: Raid healing mostly with regrowth, but more rejuvs than the above, 3.5% of players do this rotation.   
     </p></details>
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
