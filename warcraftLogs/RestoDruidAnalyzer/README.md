@@ -72,9 +72,6 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
 # Results and discussion
 =todo after data collection=
 
-<details>
-  <summary>Unfiltered dataset</summary><p>
-
 - <details><summary>High Warlord Naj'entus</summary>  
   &nbsp;
 
@@ -255,5 +252,3 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     </p></details>
   
   </details>
-  
-</p></details>
