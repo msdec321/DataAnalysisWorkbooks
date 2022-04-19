@@ -75,7 +75,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
 <details>
   <summary>Unfiltered dataset</summary><p>
 
-- <details><summary>Naj'entus</summary>  
+- <details><summary>High Warlord Naj'entus</summary>  
   &nbsp;
 
   - <details><summary>Rotation rankings</summary><p>
@@ -86,7 +86,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 0LB 0I 5RG: Not rolling lifebloom on the tank and raid healing with regrowth. 42.1% of players in the dataset use this. It would be interesting to break this up by haste rating.  
     - 1LB 1I 2RG: ~20 Haste rating rotation
     - 1LB 0I 3RG: ~120 Haste rating without Nature's Grace, ~20 Haste rating with Nature's grace. It would be interesting to split this category of players by spec.
-    - 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3 out of 4 regrowth casts must proc NG) or lower Haste with Bloodlust  
+    - 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3 out of 4 regrowth casts must proc NG)    
     - 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional Rejuv. 19.1% of players in the dataset use this.   
   
     </p></details>
@@ -135,9 +135,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   - <details><summary>Rotation rankings</summary><p>
   
     ![alt text](https://i.imgur.com/yaDpQF5.png)
-   
-    The top performing rotation is a hasted Nature's Grace rotation (1 LB -> 4 Regrowth), however relatively few players are doing it.
-    Interestingly, the third best performing rotation is a 0-Haste rotation (1 LB -> 2 Regrowths).
+  
+    The top five rotations:
+    - 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3 out of 4 regrowth casts must proc NG), 3.2% of players do this rotation.
+    - 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional Rejuv, 10.7% of players do this rotation.  
+    - 1LB 0I 2RG: 0 Haste rotation, 9.9% of players do this rotation.  
+    - 0LB 2I 3RG: Raid healing with slightly more rejuvs than above. 3.5% of players do this rotation.  
+    - 0LB 0I 5RG: Raid healing with only regrowth. 16.9% of players do this rotation.  
     </p></details>
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
