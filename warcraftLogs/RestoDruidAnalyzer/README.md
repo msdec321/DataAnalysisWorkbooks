@@ -73,6 +73,14 @@ Some errorbars are large for two reasons. Primarily, the rotation performs incon
   - <details><summary>Rotation rankings</summary><p>
   
     ![alt text](https://i.imgur.com/VWPltCF.png)
+  
+    The top five rotations:
+    - 1) 0LB 0I 5RG: Not rolling lifebloom on the tank and raid healing with regrowth. 42.1% of players in the top 3,000 are doing this. It would be interesting to break this up by haste rating.  
+    - 2) 1LB 1I 2RG: ~20 Haste rating rotation
+    - 3) 1LB 0I 3RG: ~120 Haste rating without Nature's Grace, ~20 Haste rating with Nature's grace. It would be interesting to split this category of players by spec.
+    - 4) 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3 out of 4 regrowth casts must proc NG) or lower Haste with Bloodlust  
+    - 5) 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional Rejuv   
+  
     </p></details>
   
   - <details><summary>Q. What percentage of players are actually rolling Lifebloom on the tank?</summary><p>
