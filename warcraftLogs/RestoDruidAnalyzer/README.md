@@ -311,4 +311,11 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     ![alt text](https://i.imgur.com/7OXYME5.png)
     </p></details>
   
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
+  
+    ![alt text](https://i.imgur.com/hYE0hJN.png)
+  
+    Most players are evenly distributed between the 25th to 95th percentile. Among the very top performers (top 30), there does appear to be a correlation between kill speed and HPS.  
+    </p></details>
+  
   </details>
