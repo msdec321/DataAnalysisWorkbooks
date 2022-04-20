@@ -115,6 +115,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     </p></details>
   
+  - <details><summary>Duration vs HPS (Color = kill speed percentile, not HPS)</summary><p>
+  
+    ![alt text](https://i.imgur.com/TE1FOsV.png)
+  
+    Most players fall within the 75th to 95th percentile of kill times.
+    </p></details>
+
   - <details><summary>Q. What percentage of players are actually rolling Lifebloom on the tank?</summary><p>
   
     ![alt text](https://i.imgur.com/OP28oY0.png)
@@ -166,6 +173,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 1LB 0I 2RG: 0 Haste rotation, 9.9% of players do this rotation.  
     - 0LB 2I 3RG: Raid healing with slightly more rejuvs than above. 3.5% of players do this rotation.  
     - 0LB 0I 5RG: Raid healing with only regrowth. 16.9% of players do this rotation.  
+    </p></details>
+  
+  - <details><summary>Duration vs HPS (Color = kill speed percentile, not HPS)</summary><p>
+  
+    ![alt text](https://i.imgur.com/t6HNoyD.png)
+  
+    Most players fall within the 75th to 95th percentile of kill times.
     </p></details>
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
@@ -243,6 +257,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
       </p></details>
       &nbsp;
 
+    </p></details>
+  
+  - <details><summary>Duration vs HPS (Color = kill speed percentile, not HPS)</summary><p>
+  
+    ![alt text](https://i.imgur.com/xNLdR8K.png)
+  
+    Most players are evenly distributed between the 25th to 95th percentile.
     </p></details>
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
