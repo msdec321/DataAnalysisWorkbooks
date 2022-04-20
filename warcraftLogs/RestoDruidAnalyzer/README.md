@@ -299,6 +299,16 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - Being Nature's Grace spec  
     &nbsp;
   
+    </p></details>  
+  
+&nbsp;
+  
+- <details><summary>Gurtogg Bloodboil</summary>
+  &nbsp;
+
+  - <details><summary>Rotation rankings</summary><p>
+  
+    ![alt text](https://i.imgur.com/7OXYME5.png)
     </p></details>
   
   </details>
