@@ -318,4 +318,11 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     Most players are evenly distributed between the 25th to 95th percentile.  
     </p></details>
   
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
+  
+    ![alt text](https://i.imgur.com/8ASi4gu.png)
+  
+    48.2% of players are rolling Lifebloom on at least one tank, with 44.4% of players rolling on exactly one tank and 3.3% of players rolling on exactly two tanks.  
+    </p></details>  
+  
   </details>
