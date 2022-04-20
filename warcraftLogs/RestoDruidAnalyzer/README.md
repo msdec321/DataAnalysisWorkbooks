@@ -339,6 +339,19 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     41.3% of players are Nature's Grace spec.  
     </p></details>
   
+  - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
+  
+    ![alt text](https://i.imgur.com/UoB5Lk5.png)
+  
+    The top five correlators of HPS in order of importance: 
+    - % Rotation 1, which is to say, Druids who tend to stick to a particular rotation tend to perform better than Druids who vary their rotation during the fight.   
+    - Less raidhealing with Lifebloom (Preferring Regrowth over Rejuv)   
+    - Less raidhealing with Rejuv (Preferring Regrowth)  
+    - Less number of healers    
+    - Shorter kill time    
+    &nbsp;
+    </p></details>
+  
   </details>
   
   
