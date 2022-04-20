@@ -318,6 +318,14 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     Most players are evenly distributed between the 25th to 95th percentile.  
     </p></details>
   
+  - <details><summary>% Spell HPS scatter plots</summary><p>
+  
+    ![alt text](https://i.imgur.com/hc0svHv.png)
+  
+    The bulk of players tend to have low Lifebloom and Rejuv HPS, preferring to heal with Regrowth. However, the very top performers (top ~20) tend to have high Lifebloom (tick) healing and low Regrowth healing.  
+    </p></details>
+
+  
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
   
     ![alt text](https://i.imgur.com/8ASi4gu.png)
