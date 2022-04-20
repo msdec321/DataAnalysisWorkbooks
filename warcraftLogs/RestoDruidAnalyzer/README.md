@@ -182,6 +182,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     Most players fall within the 75th to 95th percentile of kill times.
     </p></details>
   
+  - <details><summary>% Spell HPS scatter plots</summary><p>
+  
+    ![alt text](https://i.imgur.com/Z8jXoyC.png)
+  
+    The bulk of players do not raid heal with Lifebloom or Rejuv, and instead roll Lifebloom on the main tank with 20-60% of their HPS coming from Regrowth.    
+    </p></details>
+  
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
   
     ![alt text](https://i.imgur.com/DWhUQNa.png)
