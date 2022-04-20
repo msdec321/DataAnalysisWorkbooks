@@ -282,9 +282,9 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>% Spell HPS scatter plots</summary><p>
   
-    ![alt text](https://i.imgur.com/FjbnKmG.png)
+    ![alt text](https://i.imgur.com/7hd2DNg.png)
   
-    The bulk of players do not raid heal with Lifebloom or Rejuv, and instead roll Lifebloom on the main tank with 40-80% of their HPS coming from Regrowth.    
+    The bulk of players do not raid heal with Lifebloom or Rejuv, and instead roll Lifebloom/Rejuv on the main tank with 40-80% of their HPS coming from Regrowth.    
     </p></details>
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
@@ -341,11 +341,10 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>% Spell HPS scatter plots</summary><p>
   
-    ![alt text](https://i.imgur.com/hc0svHv.png)
+    ![alt text](https://i.imgur.com/Rfz7sHT.png)
   
-    The bulk of players tend to have low Lifebloom and Rejuv HPS, preferring to heal with Regrowth. The fraction of HPS from Regrowth appears evenly distributed from 0% to 90%. However, the very top performers (top 5-10) tend to have high Lifebloom (tick) healing and low Regrowth healing.  
+    There is a bit of variation in what players have success with. Some players tend to mainly raidheal with regrowth, others tend to raidheal with rejuv, and for others the bulk of their effective healing comes from Lifebloom ticks. There is a lot of room for personal preference on this boss, although from the rankings, more regrowth-heavy rotations perform slightly better on average.  
     </p></details>
-
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
   
