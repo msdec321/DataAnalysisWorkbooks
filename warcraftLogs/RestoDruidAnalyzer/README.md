@@ -325,4 +325,11 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     48.2% of players are rolling Lifebloom on at least one tank, with 44.4% of players rolling on exactly one tank and 3.3% of players rolling on exactly two tanks.  
     </p></details>  
   
+  - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+    ![alt text](https://i.imgur.com/5Tcb51h.png)
+  
+    88.4% of players received either an innervate or shadow priest.    
+    </p></details>
+  
   </details>
