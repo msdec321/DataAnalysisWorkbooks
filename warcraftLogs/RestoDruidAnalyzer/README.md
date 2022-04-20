@@ -303,9 +303,9 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
   
-    ![alt text](https://i.imgur.com/aD1IG3H.png)
+    ![alt text](https://i.imgur.com/bZL4HHc.png)
   
-    34.9% of players are Nature's Grace spec.
+    49.0% of players are Nature's Grace spec.
     </p></details>
   
   - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
