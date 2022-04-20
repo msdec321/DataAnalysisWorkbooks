@@ -115,7 +115,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     </p></details>
   
-  - <details><summary>Duration vs HPS (Color = kill speed percentile, not HPS)</summary><p>
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
   
     ![alt text](https://i.imgur.com/TE1FOsV.png)
   
@@ -175,7 +175,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 0LB 0I 5RG: Raid healing with only regrowth. 16.9% of players do this rotation.  
     </p></details>
   
-  - <details><summary>Duration vs HPS (Color = kill speed percentile, not HPS)</summary><p>
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
   
     ![alt text](https://i.imgur.com/t6HNoyD.png)
   
@@ -259,7 +259,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
 
     </p></details>
   
-  - <details><summary>Duration vs HPS (Color = kill speed percentile, not HPS)</summary><p>
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
   
     ![alt text](https://i.imgur.com/xNLdR8K.png)
   
