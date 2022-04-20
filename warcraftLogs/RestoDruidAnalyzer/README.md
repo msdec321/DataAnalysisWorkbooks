@@ -332,4 +332,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     88.4% of players received either an innervate or shadow priest.    
     </p></details>
   
+  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  
+    ![alt text](https://i.imgur.com/JqaWQNU.png)
+  
+    41.3% of players are Nature's Grace spec.  
+    </p></details>
+  
   </details>
+  
+  
