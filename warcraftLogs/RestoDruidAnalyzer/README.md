@@ -322,7 +322,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     ![alt text](https://i.imgur.com/hc0svHv.png)
   
-    The bulk of players tend to have low Lifebloom and Rejuv HPS, preferring to heal with Regrowth. However, the very top performers (top ~20) tend to have high Lifebloom (tick) healing and low Regrowth healing.  
+    The bulk of players tend to have low Lifebloom and Rejuv HPS, preferring to heal with Regrowth. However, the very top performers (top 5-10) tend to have high Lifebloom (tick) healing and low Regrowth healing.  
     </p></details>
 
   
