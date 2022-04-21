@@ -426,8 +426,8 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     The top five correlators of HPS in order of importance: 
     - % Rotation 1, which is to say, Druids who tend to stick to a particular rotation tend to perform better than Druids who vary their rotation during the fight.   
-    - Less raidhealing with Lifebloom (Preferring Regrowth over Rejuv)   
-    - Less raidhealing with Rejuv (Preferring Regrowth)  
+    - Less raidhealing with one stack of Lifebloom (Preferring rolling LB > Regrowth > Rejuv)   
+    - Less raidhealing with Rejuv (Preferring Rolling LB > Regrowth)  
     - Less number of healers    
     - Shorter kill time    
     &nbsp;
