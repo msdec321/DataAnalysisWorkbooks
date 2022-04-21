@@ -340,42 +340,45 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 0LB 5I 0RG: Raid healing with LB or Rejuv (see below), 15.0% of players do this rotation.   
     - 0LB 2I 3RG: Mostly raid with with Regrowth, but with more rejuvs than the above ,6.0% of players do this rotation.          
     &nbsp;
-    </p></details>
   
-  - <details><summary>Q. How does 1LB 0I 3RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
+    - <details><summary>Q. How does 1LB 0I 3RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
   
       ![alt text](https://i.imgur.com/hsEfFTw.png)
   
       NG performs better than ToL within uncertainty, but the sample size for the latter is very small.    
       </p></details>
   
-  - <details><summary>Q. How does 0LB 1I 4RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
+    - <details><summary>Q. How does 0LB 1I 4RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
   
       ![alt text](https://i.imgur.com/PGaAhbx.png)
   
       Nature's Grace wins.    
       </p></details>
   
-  - <details><summary>Q. How does 0LB 0I 5RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
+    - <details><summary>Q. How does 0LB 0I 5RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
   
       ![alt text](https://i.imgur.com/G7UTili.png)
   
       Nature's Grace wins.    
       </p></details>
   
-  - <details><summary>Q. For 0LB 5I 0RG, how does Lifebloom compare to Rejuv?</summary><p>
+    - <details><summary>Q. For 0LB 5I 0RG, how does Lifebloom compare to Rejuv?</summary><p>
   
       ![alt text](https://i.imgur.com/lxraQ3F.png)
   
       Lifebloom wins by a wide margin.    
       </p></details>
   
-  - <details><summary>Q. Follow up question, for players raidhealing with Lifebloom, are they using 1 stack of LB or rolling on the bloodboils?</summary><p>
+    - <details><summary>Q. Follow up question, for players raidhealing with Lifebloom, are they using 1 stack of LB or rolling on the bloodboils?</summary><p>
   
       ![alt text](https://i.imgur.com/2vsCzPB.png)
   
       Rolling lifeblooms wins, also by a wide margin! A useful note: bloodboil is a very similar mechanic to Kil'jaedan's Fire Bloom.    
-      </p></details>
+      </p></details>  
+  
+    &nbsp;
+  
+    </p></details>  
   
   - <details><summary>% Spell HPS scatter plots</summary><p>
   
