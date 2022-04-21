@@ -373,7 +373,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
       ![alt text](https://i.imgur.com/2vsCzPB.png)
   
-      Rolling lifeblooms wins, also by a wide margin! A useful note: bloodboil is a very similar mechanic to Kil'jaedan's Fire Bloom.    
+      Rolling lifeblooms wins, also by a wide margin! A useful note: bloodboil is a very similar mechanic to Kil'jaedan's Fire Bloom. As a follow up, it would be interesting to know if these groups are soaking more than one bloodboil stacks.   
       </p></details>  
   
     &nbsp;
@@ -410,7 +410,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
   
-    ![alt text](https://i.imgur.com/JqaWQNU.png)
+    ![alt text](https://i.imgur.com/d3ry8py.png)
   
     41.3% of players are Nature's Grace spec.  
     </p></details>
