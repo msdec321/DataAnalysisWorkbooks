@@ -89,7 +89,9 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional rejuv, 19.1% of players do this rotation.    
     &nbsp;
   
-    Let's drill down further.
+    *Interestingly, there's a big difference between 1LB 0I 2RG and 1LB 0I 3RG, but there isn't a big difference between 1LB 0I 3RG and 1LB 0I 4RG, and the former is performing slightly better within uncertainty. Why is that? Mana constraints are one possibility, but it'd be interesting to look into further.  
+  
+    Let's drill down on some rotations.
   
     - <details><summary>Q. How does 0LB 0I 5RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
   
