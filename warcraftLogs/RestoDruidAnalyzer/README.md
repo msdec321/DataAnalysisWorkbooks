@@ -389,7 +389,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     ![alt text](https://i.imgur.com/Rfz7sHT.png)
   
-    There is a bit of variation in what players have success with. Some players tend to mainly raidheal with regrowth, others tend to raidheal with rejuv, and for others the bulk of their effective healing comes from Lifebloom ticks. There is a lot of room for personal preference on this boss, although from the rankings, more regrowth-heavy rotations perform slightly better on average.  
+    There is a bit of variation in what players have success with. Some players tend to mainly raidheal with regrowth, others tend to raidheal with rejuv, and for others the bulk of their effective healing comes from Lifebloom ticks. There is a lot of room for personal preference on this boss.  
     </p></details>
   
   - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
