@@ -86,7 +86,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 1LB 1I 2RG: ~20 Haste rating rotation, 1.7% of players do this rotation.  
     - 1LB 0I 3RG: ~120 Haste rotation without NG, ~20 Haste rotation with NG (and 1 of 3 regrowths proc NG), 2.5% of players do this rotation.  
     - 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3/4 proc NG, or with Bloodlust), or high haste ToL spec with Bloodlust, 2.6% of players do this rotation.      
-    - 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional rejuv, 19.1% of players do this rotation.    
+    - 0LB 1I 4RG: Mostly raid healing with Regrowth with the occasional rejuv, 19.1% of players do this rotation.    
     &nbsp;
   
     *Interestingly, there's a big difference between 1LB 0I 2RG and 1LB 0I 3RG, but there isn't a big difference between 1LB 0I 3RG and 1LB 0I 4RG, and the former is performing slightly better within uncertainty. Why is that? Mana constraints are one possibility, but it'd be interesting to look into further.  
@@ -338,7 +338,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 0LB 1I 4RG: Mostly raid with with Regrowth with the occasional LB/rejuv, 12.0% of players do this rotation.    
     - 0LB 0I 5RG: Raid healing with regrowth, 13.0% of players do this rotation.  
     - 0LB 5I 0RG: Raid healing with LB or Rejuv (see below), 15.0% of players do this rotation.   
-    - 0LB 2I 3RG: Mostly raid with with Regrowth, but with more rejuvs than the above ,6.0% of players do this rotation.          
+    - 0LB 2I 3RG: Mostly raid healing with Regrowth, but with more rejuvs than the above, 6.0% of players do this rotation.          
     &nbsp;
   
     - <details><summary>Q. How does 1LB 0I 3RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
