@@ -376,6 +376,11 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
       Rolling lifeblooms wins, also by a wide margin! A useful note: bloodboil is a very similar mechanic to Kil'jaedan's Fire Bloom. As a follow up, it would be interesting to know if these groups are soaking more than one bloodboil stacks.   
       </p></details>  
   
+    - <details><summary>Let's look again at the top-5 rotations with all these filters.</summary><p>
+  
+      ![alt text](https://i.imgur.com/lR571Wu.png)
+      </p></details>
+  
     &nbsp;
   
     </p></details>  
