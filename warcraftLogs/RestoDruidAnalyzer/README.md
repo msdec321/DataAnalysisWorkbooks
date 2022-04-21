@@ -115,6 +115,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     </p></details>
   
+  - <details><summary>% Spell HPS scatter plots</summary><p>
+  
+    ![alt text](https://i.imgur.com/dru9e7P.png)
+  
+    The bulk of players do not raid heal with Lifebloom or Rejuv. Players tend to either purely raid heal with regrowth, or roll Lifebloom/Rejuv on the tank and heal the raid with regrowth.  
+    </p></details>
+  
   - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
   
     ![alt text](https://i.imgur.com/TE1FOsV.png)
@@ -122,13 +129,6 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     Most players fall within the 75th to 95th percentile of kill times.
     </p></details>
   
-  - <details><summary>% Spell HPS scatter plots</summary><p>
-  
-    ![alt text](https://i.imgur.com/dru9e7P.png)
-  
-    The bulk of players do not raid heal with Lifebloom or Rejuv. Players tend to either purely raid heal with regrowth, or roll Lifebloom/Rejuv on the tank and heal the raid with regrowth.  
-    </p></details>
-
   - <details><summary>Q. What percentage of players are actually rolling Lifebloom on the tank?</summary><p>
   
     ![alt text](https://i.imgur.com/OP28oY0.png)
@@ -182,18 +182,18 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 0LB 0I 5RG: Raid healing with only regrowth. 16.9% of players do this rotation.  
     </p></details>
   
-  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
-  
-    ![alt text](https://i.imgur.com/t6HNoyD.png)
-  
-    Most players fall within the 75th to 95th percentile of kill times.
-    </p></details>
-  
   - <details><summary>% Spell HPS scatter plots</summary><p>
   
     ![alt text](https://i.imgur.com/Z8jXoyC.png)
   
     The bulk of players do not raid heal with Lifebloom or Rejuv, and instead roll Lifebloom on the main tank with 20-60% of their HPS coming from Regrowth.    
+    </p></details>
+  
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
+  
+    ![alt text](https://i.imgur.com/t6HNoyD.png)
+  
+    Most players fall within the 75th to 95th percentile of kill times.
     </p></details>
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
@@ -273,13 +273,6 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
 
     </p></details>
   
-  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
-  
-    ![alt text](https://i.imgur.com/xNLdR8K.png)
-  
-    Most players are evenly distributed between the 25th to 95th percentile.
-    </p></details>
-  
   - <details><summary>% Spell HPS scatter plots</summary><p>
   
     ![alt text](https://i.imgur.com/7hd2DNg.png)
@@ -287,6 +280,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     The bulk of players do not raid heal with Lifebloom or Rejuv, and instead roll Lifebloom/Rejuv on the main tank with 40-80% of their HPS coming from Regrowth.    
     </p></details>
   
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
+  
+    ![alt text](https://i.imgur.com/xNLdR8K.png)
+  
+    Most players are evenly distributed between the 25th to 95th percentile.
+    </p></details>
+   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
   
     ![alt text](https://i.imgur.com/aM4LxZa.png)
@@ -332,18 +332,18 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     ![alt text](https://i.imgur.com/7OXYME5.png)
     </p></details>
   
-  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
-  
-    ![alt text](https://i.imgur.com/hYE0hJN.png)
-  
-    Most players are evenly distributed between the 25th to 95th percentile.  
-    </p></details>
-  
   - <details><summary>% Spell HPS scatter plots</summary><p>
   
     ![alt text](https://i.imgur.com/Rfz7sHT.png)
   
     There is a bit of variation in what players have success with. Some players tend to mainly raidheal with regrowth, others tend to raidheal with rejuv, and for others the bulk of their effective healing comes from Lifebloom ticks. There is a lot of room for personal preference on this boss, although from the rankings, more regrowth-heavy rotations perform slightly better on average.  
+    </p></details>
+  
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
+  
+    ![alt text](https://i.imgur.com/hYE0hJN.png)
+  
+    Most players are evenly distributed between the 25th to 95th percentile.  
     </p></details>
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
