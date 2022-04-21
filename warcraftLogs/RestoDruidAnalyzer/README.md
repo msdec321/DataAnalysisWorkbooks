@@ -260,9 +260,9 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     - <details><summary>Q. How does 1LB 0I 3RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
   
-      ![alt text](https://i.imgur.com/YGI3UrS.png)
+      ![alt text](https://i.imgur.com/cekncC5.png)
   
-      Nature's Grace performs better on average, however number of ToL players doing the rotation is relatively small.  
+      Interestingly ToL performs better than NG within uncertainty, however the sample size for the former is relatively small.  
       </p></details>
   
     - <details><summary>Q. How does 0LB 0I 5RG perform for Nature's Grace vs Tree of Life spec?</summary><p>
