@@ -431,8 +431,24 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - Less number of healers    
     - Shorter kill time    
     &nbsp;
-    </p></details>
   
-  </details>
+    </p></details>  
+  
+  </details>  
+  
+  &nbsp;
+  
+- <details><summary>Mother Shahraz</summary>  
+  &nbsp;
+
+  - <details><summary>Rotation rankings</summary><p>
+  
+    ![alt text](https://i.imgur.com/U4IZwL5.png)
+  </p></details>
+  
+</details>
+  
+  
+  
   
   
