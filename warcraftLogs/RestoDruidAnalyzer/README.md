@@ -446,6 +446,27 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     ![alt text](https://i.imgur.com/U4IZwL5.png)
   </p></details>
   
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
+  
+    ![alt text](https://i.imgur.com/j6Ikxgy.png)
+  
+    48.4% of players are rolling Lifebloom on at least one tank, with 37.7% of players rolling on exactly one tank and 5.3% of players rolling on exactly two tanks, and 5.3% of players rolling on all three tanks.  
+    </p></details> 
+  
+  - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+    ![alt text](https://i.imgur.com/wlBwLtc.png)
+  
+    93.5% of players received either an innervate or shadow priest.    
+    </p></details>
+
+  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  
+    ![alt text](https://i.imgur.com/IoLp58F.png)
+  
+    49.0% of players are Nature's Grace spec.  
+    </p></details>
+  
 </details>
   
   
