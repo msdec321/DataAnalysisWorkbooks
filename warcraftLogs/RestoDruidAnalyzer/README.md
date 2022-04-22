@@ -444,6 +444,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   - <details><summary>Rotation rankings</summary><p>
   
     ![alt text](https://i.imgur.com/U4IZwL5.png)
+  
+    The top five rotations:
+    - 0LB 1I 4RG: Raidhealing mostly with Regrowth and the occasional Rejuv, 15.8% of players do this rotation.
+    - 0LB 0I 5RG: Raid healing with Regrowth, 22.7% of players do this rotation.  
+    - 1LB 1I 2RG: ~20 Haste rotation, 2.1% of players do this rotation.  
+    - 1LB 0I 3RG: ~120 Haste rotation without NG, ~20 Haste rotation with NG (and 1 of 3 regrowths proc NG), 2.1% of players do this rotation.  
+    - 1LB 0I 4RG: ~250 Haste with Nature's Grace rotation (And 3 out of 4 regrowth casts must proc NG), 4.3% of players do this rotation.    
     </p></details>
   
   - <details><summary>% Spell HPS scatter plots</summary><p>
