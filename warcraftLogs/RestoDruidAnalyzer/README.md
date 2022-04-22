@@ -481,6 +481,20 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     49.0% of players are Nature's Grace spec.  
     </p></details>
   
+  - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
+  
+    ![alt text](https://i.imgur.com/80lsytV.png)
+  
+    The top five correlators of HPS in order of importance: 
+    - More raidhealing with regrowth.   
+    - Rolling lifebloom on a lower number of tanks.   
+    - Playing Nature's Grace.   
+    - Less number of healers    
+    - Not raidhealing with Lifebloom.    
+    &nbsp;
+  
+    </p></details> 
+  
 </details>
   
   
