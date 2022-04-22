@@ -446,6 +446,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     ![alt text](https://i.imgur.com/U4IZwL5.png)
     </p></details>
   
+  - <details><summary>% Spell HPS scatter plots</summary><p>
+  
+    ![alt text](https://i.imgur.com/xKQTQ03.png)
+  
+    The vast majority of players raid heal with regrowth, although the percentage of a player's HPS from regrowth can range anywhere from 0% to 90%. A significant portion of HPS also comes from rolling Lifebloom on exactly one tank.      
+    </p></details>
+  
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
   
     ![alt text](https://i.imgur.com/Id89VBh.png)
