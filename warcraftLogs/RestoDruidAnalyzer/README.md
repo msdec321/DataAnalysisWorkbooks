@@ -444,11 +444,11 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   - <details><summary>Rotation rankings</summary><p>
   
     ![alt text](https://i.imgur.com/U4IZwL5.png)
-  </p></details>
+    </p></details>
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
   
-    ![alt text](https://i.imgur.com/j6Ikxgy.png)
+    ![alt text](https://i.imgur.com/Id89VBh.png)
   
     48.4% of players are rolling Lifebloom on at least one tank, with 37.7% of players rolling on exactly one tank and 5.3% of players rolling on exactly two tanks, and 5.3% of players rolling on all three tanks.  
     </p></details> 
