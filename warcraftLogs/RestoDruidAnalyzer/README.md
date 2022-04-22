@@ -453,6 +453,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     The vast majority of players raid heal with regrowth, although the percentage of a player's HPS from regrowth can range anywhere from 0% to 90%. A significant portion of HPS also comes from rolling Lifebloom on exactly one tank.      
     </p></details>
   
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
+  
+    ![alt text](https://i.imgur.com/iO1rs1p.png)
+  
+    Most players are evenly distributed between the 25th to 95th percentile.  
+    </p></details>
+  
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
   
     ![alt text](https://i.imgur.com/Id89VBh.png)
