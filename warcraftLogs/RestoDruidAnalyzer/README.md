@@ -438,6 +438,20 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   &nbsp;
   
+- <details><summary>Reliquary of Souls</summary>  
+  &nbsp;
+  
+  - <details><summary>Rotation rankings</summary><p>
+  
+    **Note:** I will be splitting this section into phase 2 and phase 3, since rotations may not necessarily perform the same for both.
+  
+    ![alt text](https://i.imgur.com/GhHlQWO.png)   
+    </p></details>  
+  
+  </details>  
+  
+  &nbsp;
+  
 - <details><summary>Mother Shahraz</summary>  
   &nbsp;
 
