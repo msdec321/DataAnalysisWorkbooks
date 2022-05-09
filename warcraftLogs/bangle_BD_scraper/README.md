@@ -12,3 +12,22 @@ Since before TBC Classic launched, Bangle of the Endless Blessings and Darkmoon 
 2) How many procs per minute can you expect with Blue Dragon?  
 3) What is the mp5 of Bangle?
 4) Is it better to use Bangle on cooldown or only with Blue Dragon procs?
+
+# Dataset
+WarcraftLogs data is scraped from the top 1,000 Black Temple speedruns, this includes both trash and boss encounters. In order for a Druid to be included in the dataset, they must have both Bangle and Blue Dragon equipped for *at least* 7 out of 9 bosses. The dataset (./bangle_bluedragon.xlsx) contains the following:  
+
+
+&emsp; • Character name, Guild name  
+&emsp; • Total duration, duration in combat (s)  
+&emsp; • Average spirit, average intellect  
+&emsp; • Blue Dragon uptime (s), Endless Blessings uptime (s)   
+&emsp; • # of Blue Dragon procs, # of Bangle uses  
+&emsp; • # of times BD and Bangle use overlap  
+&emsp; • Total time of BD and bangle overlap  
+&emsp; • Average time between Blue Dragon procs (s)  
+&emsp; • Average time between Bangle off-cooldown and next Blue Dragon proc (s)  
+&emsp; • Total mana received from BD, Bangle, and BD+Bangle overlap  
+&emsp; • Mp5 of BD, Bangle use, and BD+Bangle overlap  
+&emsp; • Normalized mp5 of BD, Bangle, and BD+Bangle overlap (explained below)  
+
+# Analysis
