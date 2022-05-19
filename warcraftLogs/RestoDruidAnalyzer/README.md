@@ -24,7 +24,7 @@ You'll also see me use weird rotations such as 0LB 0I 6RG, 0LB 5I 1RG, etc. Thes
 
 
 # Dataset  
-WarcraftLogs data is scraped from the top 3,000 players for each boss (in progress) for Restoration spec Druids (There are zero Dreamstate druids in the dataset). This encompasses roughly the 95th percentile and above. The dataset (located in data/top_N_druids.xlsx) contains the following:  
+WarcraftLogs data is scraped from the top 3,000 players for each boss (in progress) for Restoration spec Druids (There are zero Dreamstate druids in the dataset). For the Black Temple dataset this encompasses roughly the 95th percentile and above, whereas for the Sunwell dataset it is roughly the 75th percentile and above. The dataset (located in data/top_N_druids.xlsx) contains the following:  
 
 &emsp; • Rank  
 &emsp; • Character name, server, region  
@@ -41,7 +41,7 @@ WarcraftLogs data is scraped from the top 3,000 players for each boss (in progre
 &emsp; • Rotating on tank? ('No' means the Druid is not rolling LB on the tank and instead just raid healing)  
 &emsp; • Top two rotations used  
 
-* Available in the Sunwell dataset:  
+Available in the Sunwell dataset:  
 &emsp; • Haste rating  
 &emsp; • Trinkets equipped  
 
