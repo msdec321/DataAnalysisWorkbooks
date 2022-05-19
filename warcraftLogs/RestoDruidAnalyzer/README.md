@@ -94,6 +94,54 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
       </p></details>
   
+    - <details><summary>% Spell HPS scatter plots</summary><p>
+  
+      ![alt text](https://i.imgur.com/VJQNgxJ.png)
+  
+      For the bulk of players, the largest fraction of their healing comes from Lifebloom ticks (burn healing). Following that, most players get the secondary bulk of their healing from regrowth (although ironically 5GCD performs much better than using regrowths).  
+      </p></details>
+  
+    - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
+  
+      ![alt text](https://i.imgur.com/HdMelSD.png)
+  
+      Most players fall within the 10th to 75th percentile of kill times.
+      </p></details>
+  
+    - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
+  
+      ![alt text](https://i.imgur.com/GyPHhl9.png)
+  
+      57.8% of players are rolling Lifebloom at least one tank, the rest are purely burn healing / raid healing. For the Druids who are rotating on the tank(s), most prefer to roll Lifebloom on only the primary tank, while ~5% of players roll Lifebloom on both tanks.  
+      </p></details>
+  
+    - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+      ![alt text](https://i.imgur.com/WNC6CFH.png)
+  
+      95.1% of players received either an innervate or shadow priest.
+      </p></details>
+  
+    - <details><summary>Q. What percentage of players are playing Nature's Grace? (Note: There are no Dreamstate Druids in the dataset.)</summary><p>
+  
+      ![alt text](https://i.imgur.com/ti0CSrl.png)
+  
+      13.0% of players are Nature's Grace spec.
+      </p></details> 
+    
+    - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
+  
+      ![alt text](https://i.imgur.com/eyHHmu6.png)
+  
+      The top five correlators of HPS in order of importance: 
+      - Haste rating    
+      - Having less healers in your raid  
+      - Having shadow priest    
+      - Shorter fight durating (mana constraints)    
+      - Using Swiftmend less     
+      &nbsp; 
+  
+      </p></details>
     </details> 
 
 &nbsp;
@@ -201,7 +249,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     89.0% of players received either an innervate or shadow priest.
     </p></details>
   
-  - <details><summary>Q. What percentage of players are playing Nature's Grace? (Note: There are no Dreamstate Druids in the dataset.)</summary><p>
+  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
   
     ![alt text](https://i.imgur.com/grkG0i6.png)
   
