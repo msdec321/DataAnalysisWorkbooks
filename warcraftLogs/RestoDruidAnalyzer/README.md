@@ -86,7 +86,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
       - 1LB 4I 0RG: The standard 5GCD rotation, 113 Haste rating. Roll lifebloom on the primary tank and burn targets and use Rejuv for the extra GCD(s).   
       - 2LB 3I 0RG: Also the 5GCD rotation, but keeping a lifebloom on the offtank more often than above.   
       - 1LB 3I 2RG: Not a rotation. The players who cast this sequence of spells end up not refreshing Lifebloom on the tank. For the most part these players roll Lifebloom on the burn targets and weave in Regrowths with spare GCDs.   
-      - 0LB 2I 4RG: Raid healing with mostly Regrowths. The two instants are often rolling Lifeblooms on Burn targets.   
+      - 0LB 2I 4RG: Similar to the above, but rotates Lifebloom on one less burn target and uses more Regrowths.   
       - 1LB 3I 0RG: The standard 4GCD rotation, 0 Haste rating. Roll lifebloom on the primary tank and burn targets and use Rejuv for the extra GCD(s).   
       &nbsp;
   
