@@ -137,7 +137,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
       - Haste rating    
       - Having less healers in your raid  
       - Having shadow priest    
-      - Shorter fight durating (mana constraints)    
+      - Shorter fight duration  
       - Using Swiftmend less     
       &nbsp; 
   
