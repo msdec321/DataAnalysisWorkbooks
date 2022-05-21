@@ -159,8 +159,35 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
 - <details><summary>Felmyst</summary>  
   &nbsp;
   
-    Coming soon
-    </details> 
+  - <details><summary>Rotation rankings</summary><p>
+  
+    ![alt text](https://i.imgur.com/BknFaWP.png)
+  
+    The top five rotations:
+    - 0LB 1I 5RG: Raid healing, primarily with Regrowth and the occasional lifebloom/rejuv, 5% of players do this.  
+    - 0LB 0I 6RG: Raid healing with Regrowth, 8% of players do this.  
+    - 1LB 1I 4RG: Not a rotation, Mostly raid healing with regrowth and putting a Lifebloom on the tank (but not refreshing it), 1.2% of players do this.    
+    - 1LB 0I 3RG: ~130 Haste regrowth rotation, 1.4% of players do this.  
+    - 1LB 0I 5RG: Not a rotation, similar to the above but Lifebloom does not get refreshed.  
+    &nbsp;
+  
+    </p></details>
+  
+  - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+      ![alt text](https://i.imgur.com/g3E8UaR.png)
+  
+      94.6% of players received either an innervate or shadow priest.
+      </p></details>
+  
+  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  
+    ![alt text](https://i.imgur.com/0hoNYyw.png)
+  
+    25.9% of players are Nature's Grace spec.
+    </p></details>
+
+  </details> 
 
 &nbsp;
   
