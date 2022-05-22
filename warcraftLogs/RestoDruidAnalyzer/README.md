@@ -169,9 +169,33 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     - 1LB 1I 4RG: Not a rotation, Mostly raid healing with regrowth and putting a Lifebloom on the tank (but not refreshing it), 1.2% of players do this.    
     - 1LB 0I 3RG: ~130 Haste regrowth rotation, 1.4% of players do this.  
     - 1LB 0I 5RG: Not a rotation, similar to the above but Lifebloom does not get refreshed.  
+    &nbsp;  
+  
+    Let's drill down on the data.
+   
+    - <details><summary>Q. For players raid healing with the top 2 rotations, how does Tree of Life spec compare to Nature's Grace?</summary><p>
+  
+        ![alt text](https://i.imgur.com/oRoLxZO.png)
+  
+        Tree of Life performs slightly better on average (within uncertainty) for pure regrowth spam (perhaps due to mana constraints), however for 1I 5RG the specs perform roughly the same within uncertainty.   
+        </p></details>
     &nbsp;
   
     </p></details>
+  
+  - <details><summary>% Spell HPS scatter plots</summary><p>
+  
+      ![alt text](https://i.imgur.com/hTuGRoR.png)
+  
+      There is a lot of variation in how players heal, however the top performers tend to be using more regrowths.  
+      </p></details>
+  
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
+  
+     ![alt text](https://i.imgur.com/QuNsQOa.png)
+  
+     38.0% of players are rolling Lifebloom on a tank (either during the ground phase or during skeletons in the air phase). 
+     </p></details>
   
   - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
   
@@ -182,7 +206,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
   
-    ![alt text](https://i.imgur.com/0hoNYyw.png)
+    ![alt text](https://i.imgur.com/pfCvfHa.png)
   
     25.9% of players are Nature's Grace spec.
     </p></details>
