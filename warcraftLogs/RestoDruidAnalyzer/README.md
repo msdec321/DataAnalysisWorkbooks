@@ -190,6 +190,13 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
       There is a lot of variation in how players heal, however the top performers tend to be using more regrowths.  
       </p></details>
   
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
+  
+      ![alt text](https://i.imgur.com/bTEXMIk.png)
+  
+      Most players fall slightly above the 50th percentile of kill speeds. The top parses tend to occur near the end of the 3rd ground phase or at any time in the 4th ground phase.  
+      </p></details>
+  
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
   
      ![alt text](https://i.imgur.com/QuNsQOa.png)
@@ -210,6 +217,20 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     25.9% of players are Nature's Grace spec.
     </p></details>
+  
+  - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
+  
+      ![alt text](https://i.imgur.com/zKe2v2t.png)
+  
+      The top five correlators of HPS in order of importance: 
+      - Casting more regrowths      
+      - Casting less lifeblooms    
+      - Having more spell haste      
+      - Spriest    
+      - Lower number of healers       
+      &nbsp; 
+  
+      </p></details>
 
   </details> 
 
