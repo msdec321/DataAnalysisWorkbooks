@@ -47,7 +47,7 @@ def load_top_N_scraper(path_ublock, boss, boss_link_dict, chrome, firefox):
         return None
 
     browser.switch_to.window(browser.window_handles[0])
-    browser.get(f"https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps")
+    browser.get(f"https://classic.warcraftlogs.com/zone/rankings/1013{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps")
     time.sleep(3)
     
     cookie = browser.find_element_by_class_name("cc-compliance")
@@ -98,7 +98,7 @@ def get_character_info(char_url):
     return char_name + " " + "(" + char_server + " " + char_region + ")"
 
 
-def get_latest_ranks(browser, boss, boss_link_dict, N_parses):
+def get_latest_ranks(browser, boss, boss_link_dict, phase, N_parses):
 
     temp_df = pd.DataFrame(pd.np.empty((0, 3)))
     temp_df.columns = ["Rank", "Name", "Date"]
@@ -110,7 +110,7 @@ def get_latest_ranks(browser, boss, boss_link_dict, N_parses):
         
         rank, name, server, region, date, HPS, duration = get_boss_data_top_N_scraper(browser, boss, boss_link_dict, i)
         #time.sleep(0.25)
-        if name in ['抄能力', '自然帅', 'Manamia']: continue  # These players have broken reports, skip
+        if name in ['Chapu', '世外', '抄能力', '自然帅', 'Manamia']: continue  # These players have broken reports, skip
 
         to_append = [rank, name, date]
 
@@ -119,22 +119,33 @@ def get_latest_ranks(browser, boss, boss_link_dict, N_parses):
         
         if i % 100 == 0: 
             page += 1
-            browser.get(f'https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps&page={page}')
+            browser.get(f'https://classic.warcraftlogs.com/zone/rankings/1013{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps&page={page}')
             time.sleep(10) 
 
     temp_df.to_csv(f"temp.csv", index = None, encoding='utf-8-sig')
     
-    return update_ranks(boss)
+    return update_ranks(boss, phase)
 
 
-def update_ranks(boss):
+def update_ranks(boss, phase):
 
     boss = boss.replace(" ", "")
 
     wb = openpyxl.load_workbook(f'data/top_N_druids.xlsx')
 
-    ws = wb.get_sheet_by_name(boss)
-    sheet = wb[boss]
+    if boss in ["EredarTwins", "M'uru"]:
+        if phase == 1:
+            ws = wb.get_sheet_by_name(boss + "(p1)")
+            sheet = wb[boss + "(p1)"]
+            
+        else:
+            ws = wb.get_sheet_by_name(boss + "(p2)")
+            sheet = wb[boss + "(p2)"]
+            
+    else:
+        ws = wb.get_sheet_by_name(boss)    
+        sheet = wb[boss]
+        
     rows = ws.max_row
     
     already_recorded_indices = []
@@ -287,6 +298,191 @@ def get_tanks(browser):
     tanks.pop(0)
     
     return tanks
+
+
+# Eredar Twins
+def get_fire_tank(browser):
+    b = browser.find_elements_by_class_name("ability-menu-name")
+
+    for item in b:
+        if item.text in ["Blaze", "光芒"]:
+            item.click()
+            time.sleep(1)
+            break
+
+    c = browser.find_elements_by_class_name("odd")
+    return c[0].text.split("\n")[0]
+
+
+def get_haste(browser):
+    body = browser.find_element_by_css_selector('body')
+    body.click()
+    body.send_keys(Keys.PAGE_UP)
+    
+    click_on_element_by_id(browser, "filter-summary-tab")
+    time.sleep(3)
+    
+    stats_row = browser.find_element_by_class_name("composition-label")
+    stats = stats_row.text.split("\n")
+    
+    haste = 0
+    
+    for i in range(len(stats)):
+        if stats[i].split(" ")[0] == "Haste:":
+            haste = int(stats[i].split(" ")[1])
+            
+    return haste
+
+
+def get_trinkets(browser):
+    equipment = browser.find_elements_by_class_name("even")
+
+    for i, item in enumerate(equipment):
+        try:
+            slot = item.text.split(" ")[1]
+            if slot.split("\n")[0] == "Trinket":
+                trinket1 = slot.split("\n")[1]
+        except:
+            pass
+
+    equipment = browser.find_elements_by_class_name("odd")   
+
+    for i, item in enumerate(equipment):
+        try:
+            slot = item.text.split(" ")[1]
+            if slot.split("\n")[0] == "Trinket":
+                trinket2 = slot.split("\n")[1]
+        except:
+            pass
+            
+    # Translate to English
+    if trinket1 in ['殉难者精华', '순교자의', 'Сущность', 'Essence', 'Essenz', 'Essência']:
+        trinket1 = 'Essence of the Martyr'
+        
+    elif trinket2 in ['殉难者精华', '순교자의', 'Сущность', 'Essence', 'Essenz', 'Essência']:
+        trinket2 = 'Essence of the Martyr'
+        
+    if trinket1 in ['Direbrew', '烈酒蛇麻草', '다이어브루', 'Пивные', 'Houblon', 'Düsterbräuhopfen']:
+        trinket1 = 'Direbrew Hops'
+        
+    elif trinket2 in ['Direbrew', '烈酒蛇麻草', '다이어브루', 'Пивные', 'Houblon', 'Düsterbräuhopfen']:
+        trinket2 = 'Direbrew Hops'
+        
+    if trinket1 in ['Memento', '泰兰德的记忆', '추억이', 'Память', 'Souvenir', 'Tyrandes', 'Recordação']:
+        trinket1 = 'Memento of Tyrande'
+        
+    elif trinket2 in ['Memento', '泰兰德的记忆', '추억이', 'Память', 'Souvenir', 'Tyrandes', 'Recordação']:
+        trinket2 = 'Memento of Tyrande'
+        
+    if trinket1 in ["Alchemist's", '炼金石']:
+        trinket1 = "Alchemist's Stone"
+    
+    elif trinket2 in ["Alchemist's", '炼金石']:
+        trinket2 = "Alchemist's Stone"
+        
+    if trinket1 in ["Redeemer's", '救赎者的炼金石', 'Алхимический', 'Pierre']:
+        trinket1 = "Redeemer's Alchemist Stone"
+        
+    elif trinket2 in ["Redeemer's", '救赎者的炼金石', 'Алхимический', 'Pierre']:
+        trinket2 = "Redeemer's Alchemist Stone"
+        
+    if trinket1 in ['Ashtongue', '平衡之灰舌符咒']:
+        trinket1 = 'Ashtongue Talisman of Equilibrium'
+        
+    elif trinket2 in ['Ashtongue', '平衡之灰舌符咒']:
+        trinket2 = 'Ashtongue Talisman of Equilibrium'
+        
+    if trinket1 in ['The', '古尔丹之颅', 'Череп']:
+        trinket1 = "Skull of Gul'dan"
+        
+    elif trinket2 in ['The', '古尔丹之颅', 'Череп']:
+        trinket2 = "Skull of Gul'dan"
+        
+    if trinket1 in ['Bangle', '无尽祝福法链', 'Браслет', 'Bracelet', 'Reif']:
+        trinket1 = 'Bangle of Endless Blessings'
+    
+    elif trinket2 in ['Bangle', '无尽祝福法链', 'Браслет', 'Bracelet', 'Reif']:
+        trinket2 = 'Bangle of Endless Blessings'
+        
+    if trinket1 in ['Darkmoon', '暗月卡片：蓝龙', '다크문 카드:', 'Карта', 'Dunkelmond-Karte:', "Carte"]:
+        trinket1 = "Darkmoon Card: Blue Dragon"
+        
+    elif trinket2 in ['Darkmoon', '暗月卡片：蓝龙', '다크문 카드:', 'Карта', 'Dunkelmond-Karte:', "Carte"]:
+        trinket2 = "Darkmoon Card: Blue Dragon"
+        
+    if trinket1 in ['Lower', '贫民窟祈祷之书', '고난의', 'Книга', 'Livre', 'Gebetsbuch']:
+        trinket1 = "Lower City Prayerbook"
+        
+    elif trinket2 in ['Lower', '贫民窟祈祷之书', '고난의', 'Книга', 'Livre', 'Gebetsbuch']:
+        trinket2 = "Lower City Prayerbook"
+        
+    if trinket1 in ['Scarab', '无尽循环甲虫', 'Скарабей', 'Skarabäus', 'Scarabée']:
+        trinket1 = 'Scarab of the Infinite Cycle'
+        
+    elif trinket2 in ['Scarab', '无尽循环甲虫', 'Скарабей', 'Skarabäus', 'Scarabée']:
+        trinket2 = 'Scarab of the Infinite Cycle'
+        
+    if trinket1 in ['Eye', '格鲁尔之眼', 'Глаз', 'Oeil', 'Auge']:
+        trinket1 = 'Eye of Gruul'
+        
+    elif trinket2 in ['Eye', '格鲁尔之眼', 'Глаз', 'Oeil', 'Auge']:
+        trinket2 = 'Eye of Gruul'
+        
+    if trinket1 in ['战斗大师的活跃']:
+        trinket1 = "Battlemaster's Alacrity"
+        
+    elif trinket2 in ['战斗大师的活跃']:
+        trinket2 = "Battlemaster's Alacrity"
+        
+    if trinket1 in ["Battlemaster's", '战斗大师的坚定', '지휘관의', 'Настойчивость', 'Persévérance', 'Beharrlichkeit']:
+        trinket1 = "Battlemaster's Perseverance"
+        
+    if trinket2 in ["Battlemaster's", '战斗大师的坚定', '지휘관의', 'Настойчивость', 'Persévérance', 'Beharrlichkeit']:
+        trinket2 = "Battlemaster's Perseverance"
+        
+    if trinket1 in ['Pendant', '紫罗兰之眼坠饰']:
+        trinket1 = "Pendant of the Violet Eye"
+        
+    elif trinket2 in ['Pendant', '紫罗兰之眼坠饰']:
+        trinket2 = "Pendant of the Violet Eye"
+        
+    if trinket1 in ['Ribbon', '牺牲绶带', '희생의']:
+        trinket1 = 'Ribbon of Sacrifice'
+        
+    elif trinket2 in ['Ribbon', '牺牲绶带', '희생의']:
+        trinket2 = 'Ribbon of Sacrifice'
+        
+    if trinket1 in ['Tome', '魔鬼治疗宝典', 'Фолиант']:
+        trinket1 = 'Tome of Diabolic Remedy'
+        
+    elif trinket2 in ['Tome', '魔鬼治疗宝典', 'Фолиант']:
+        trinket2 = 'Tome of Diabolic Remedy'
+        
+    if trinket1 in ['Fel', '魔能机甲的活塞']:
+        trinket1 = "Fel Reaver's Piston"
+        
+    elif trinket2 in ['Fel', '魔能机甲的活塞']:
+        trinket2 = "Fel Reaver's Piston"
+        
+    if trinket1 in ["Oshu'gun"]:
+        trinket1 = "Oshu'gun Relic"
+        
+    elif trinket2 in ["Oshu'gun"]:
+        trinket2 = "Oshu'gun Relic"
+        
+    if trinket1 in ['Vial', '太阳之井的水瓶']:
+        trinket1 = 'Vial of the Sunwell'
+        
+    elif trinket2 in ['Vial', '太阳之井的水瓶']:
+        trinket2 = 'Vial of the Sunwell'
+        
+    if trinket1 in ['Rejuvenating', '恢复宝石']:
+        trinket1 = 'Rejuvenating Gem'
+        
+    elif trinket2 in ['Rejuvenating', '恢复宝石']:
+        trinket2 = 'Rejuvenating Gem'
+        
+    return trinket1, trinket2
         
         
 def check_spriest(browser):
@@ -532,17 +728,15 @@ def fix_cast_time(df):
     return df
    
 
-# Rotation calculator. This function checks when lifebloom is refreshed on the primary tank and what sequence of spells (Instant, Regrowth)
-# are cast before the initial lifebloom is refreshed. The rotations are tallied in a rotation dictionary and a final count is returned.
 def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotation):
 
     GCD_time = {"t1" : 0, "t2" : 0}
     rotations_dict = {}
 
-    for i in range(3):
-        if len(boss_tanks) < 3: boss_tanks.append("X")
+    for i in range(4):
+        if len(boss_tanks) < 4: boss_tanks.append("X")
 
-    sequence, LB_tank_flags = [], [False, False, False]
+    sequence, LB_tank_flags = [], [False, False, False, False]
     starting_tank, LB_on_tank = None, False
     
     if verbose_rotation:
@@ -552,13 +746,17 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
     for i, row in (df.iterrows()):
         
         # Ignore p1 for ROS
-        if boss == "Reliquary of Souls" and row["Ability"] in ["Wrath", "Moonfire", "Starfire"]: continue
+        if boss == "Reliquary of Souls" and row["Ability"] in ["Wrath", "Moonfire", "Starfire", "Insect", "愤怒", "月火术",
+                                                               "虫群", "星火术", "천벌", "달빛", "별빛", "곤충", "Гнев", 
+                                                               "Лунный", "Звездный", "Рой", "Insektenschwarm", "Mondfeuer",
+                                                               "Zorn", "Sternenfeuer", "Colère", "Eclat", "Feu", "Essaim",
+                                                               "Gift", "야생의", "野性赐福"]: continue
         
-        # If seq gets to 4 casts, record and reset. TODO: For hasted rotations this can be 5
-        if len(sequence) == 5:
+        # If seq gets to 6 casts, record and reset.
+        if len(sequence) == 6:
             if verbose_rotation: print(sequence)
             rotations_dict = count_rotations(sequence, rotations_dict)
-            LB_tank_flags = [False, False, False]
+            LB_tank_flags = [False, False, False, False]
             sequence = []
 
         # Ignore casts that are off the global cooldown
@@ -582,15 +780,15 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
                 rotations_dict = count_rotations(sequence, rotations_dict)
 
             sequence = []
-            LB_tank_flags = [False, False, False]
-            for j in range(3):
+            LB_tank_flags = [False, False, False, False]
+            for j in range(len(boss_tanks)):
                 if row["Target"] == boss_tanks[j]: LB_tank_flags[j] = True
 
             sequence.append('Lifebloom')
             continue
 
         # Otherwise check if LB placed on a tank, restart sequence if necessary
-        for j in range(3):
+        for j in range(len(boss_tanks)):
 
             if row['Ability'] in ['Lifebloom', '生命绽放', '피어나는', 'Жизнецвет', 'Fleur', 'Blühendes'] and row["Target"] == boss_tanks[j] and not LB_tank_flags[j]:
                 
@@ -622,7 +820,7 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
 
     return update_rotation_dict(rotations_dict, LB_uptime, verbose)
 
-            
+
 def update_rotation_dict(rotations_dict, LB_uptime, verbose):
     
     # Convert rotation counts to percentages
@@ -706,7 +904,7 @@ def delta_t(row, time):  # Spell casts that are off-GCD (trinkets, etc) should n
     return [time, True]
         
         
-def export_to_excel(boss, to_append, player_df, char_name, filename, convertRank):
+def export_to_excel(boss, phase, to_append, player_df, char_name, filename, convertRank):
     series = pd.Series(to_append, index = player_df.columns)
     player_df = player_df.append(series, ignore_index = True)
 
@@ -714,18 +912,28 @@ def export_to_excel(boss, to_append, player_df, char_name, filename, convertRank
     player_df.to_csv(f"data/{boss.replace(' ', '')}_{char_name}.csv", index = None, encoding='utf-8-sig')
 
     # Add data to the excel spreadsheet, sort sheet by rank and clean duplicates
-    add_row_to_xlsx(boss, char_name, filename, convertRank)
-    sort_excel(boss, filename)
-    remove_xlsx_duplicates(boss, filename)
+    add_row_to_xlsx(boss, phase, char_name, filename, convertRank)
+    #sort_excel(boss, phase, filename)
+    #remove_xlsx_duplicates(boss, phase, filename)
     
     
-def add_row_to_xlsx(boss, char_name, filename, convertRank):
+def add_row_to_xlsx(boss, phase, char_name, filename, convertRank):
     boss = boss.replace(" ", "")
 
     wb = openpyxl.load_workbook(f'data/{filename}.xlsx')
 
-    ws = wb.get_sheet_by_name(boss)
-    sheet = wb[boss]
+    if boss in ["EredarTwins", "M'uru"]:
+        if phase == 1:
+            ws = wb.get_sheet_by_name(boss + "(p1)")
+            sheet = wb[boss + "(p1)"]
+        else:
+            ws = wb.get_sheet_by_name(boss + "(p2)")
+            sheet = wb[boss + "(p1)"]
+            
+    else:
+        ws = wb.get_sheet_by_name(boss)
+        sheet = wb[boss]
+        
     rows = ws.max_row
 
     with open(f'data/{boss}_{char_name}.csv', 'r', encoding='utf-8-sig') as csvfile:
@@ -745,11 +953,22 @@ def add_row_to_xlsx(boss, char_name, filename, convertRank):
     wb.save(f'data/{filename}.xlsx')
     
     
-def sort_excel(boss, filename):
+def sort_excel(boss, phase, filename):
     boss = boss.replace(" ", "")
     wb = openpyxl.load_workbook(f'data/{filename}.xlsx')
-    ws = wb.get_sheet_by_name(boss)
-    sheet = wb[boss]
+    
+    if boss in ["EredarTwins", "M'uru"]:
+        if phase == 1:
+            ws = wb.get_sheet_by_name(boss + "(p1)")
+            sheet = wb[boss + "(p1)"]
+        else:
+            ws = wb.get_sheet_by_name(boss + "(p2)")
+            sheet = wb[boss + "(p2)"]
+            
+    else:
+        ws = wb.get_sheet_by_name(boss)
+        sheet = wb[boss]
+    
     rows = ws.max_row
     
     if filename == 'character_data':
@@ -760,13 +979,23 @@ def sort_excel(boss, filename):
     
     excel = win32com.client.Dispatch("Excel.Application")
     wb = excel.Workbooks.Open(os.getcwd()+f"\data\{filename}.xlsx")
-    ws = wb.Worksheets(boss)
+    
+    if boss in ["EredarTwins", "M'uru"]:
+        if phase == 1:
+            ws = wb.Worksheets(boss + "(p1)")
+            
+        else:
+            ws =wb.Worksheets(boss + "(p2)")
+               
+    else:
+        ws = wb.Worksheets(boss)
+    
     ws.Range('A2:W'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
     wb.Save()
     excel.Application.Quit()
     
 
-def remove_xlsx_duplicates(boss, filename):
+def remove_xlsx_duplicates(boss, phase, filename):
 
     print("Removing spreadsheet duplicates..")
 
@@ -775,8 +1004,17 @@ def remove_xlsx_duplicates(boss, filename):
         boss = boss.replace(" ", "")
         wb = openpyxl.load_workbook(f'data/{filename}.xlsx')
 
-        ws = wb.get_sheet_by_name(boss)
-        sheet = wb[boss]
+        if boss in ["EredarTwins", "M'uru"]:
+            if phase == 1:
+                ws = wb.get_sheet_by_name(boss + "(p1)")
+                sheet = wb[boss + "(p1)"]
+            else:
+                ws = wb.get_sheet_by_name(boss + "(p2)")
+                sheet = wb[boss + "(p2)"]
+        else:
+            ws = wb.get_sheet_by_name(boss)
+            sheet = wb[boss]
+        
         rows = ws.max_row
 
         temp = ["", ""]
