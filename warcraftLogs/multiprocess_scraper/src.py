@@ -33,7 +33,8 @@ def get_twilio_info():
             return row[0], row[1], row[2], row[3]
 
 
-def get_non_recorded_players(path, boss, boss_link_dict, nParses):
+#def get_non_recorded_players(path, boss, boss_link_dict, phase, nParse_start, nParse_stop):
+def get_non_recorded_players(path, boss, boss_link_dict, phase, nParses):
 
     chrome_options = Options()
     chrome_options.add_argument('load-extension=' + path)
@@ -41,20 +42,26 @@ def get_non_recorded_players(path, boss, boss_link_dict, nParses):
     browser = webdriver.Chrome(chrome_options = chrome_options)
     time.sleep(5)
 
-    browser.get(f"https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps")
+    #Mount Hyjal/BT
+    #browser.get(f"https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps")
+    
+    #Sunwell
+    browser.get(f"https://classic.warcraftlogs.com/zone/rankings/1013{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps")
     time.sleep(3)
     
     cookie = browser.find_element_by_class_name("cc-compliance")
     cookie.click()
-    time.sleep(3)
+    time.sleep(2)
     
-    already_recorded_indices = get_latest_ranks(browser, boss, boss_link_dict, nParses)
+    #already_recorded_indices = get_latest_ranks(browser, boss, boss_link_dict, phase, nParse_start, nParse_stop)
+    already_recorded_indices = get_latest_ranks(browser, boss, boss_link_dict, phase, nParses)
     not_recorded = []
     
     browser.quit()
     time.sleep(1)
     
     for i in range(1, nParses):
+        #for i in range(nParse_start, nParse_stop):
         if i in already_recorded_indices: continue
         
         else: not_recorded.append(i)
@@ -77,12 +84,12 @@ def get_browser_page(boss, boss_link_dict, i):
             page += 1
             
     if page == 1:
-        boss_page_url = f'https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps'
+        boss_page_url = f'https://classic.warcraftlogs.com/zone/rankings/1013{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps'
         
     else:
-        boss_page_url = f'https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps&page={page}'
+        boss_page_url = f'https://classic.warcraftlogs.com/zone/rankings/1013{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps&page={page}'
     browser.get(boss_page_url)
-    time.sleep(10)
+    time.sleep(4)
     
     cookie = browser.find_element_by_class_name("cc-compliance")
     cookie.click()
@@ -98,27 +105,38 @@ def get_boss_data_top_N_scraper(browser, i, boss, boss_link_dict):
     rank = row.text.split("\n")[0]
     name = row.text.split("\n")[1]
     date = row.text.split("\n")[-2].split(" ")[3] + " " + row.text.split("\n")[-2].split(" ")[4]
-    server = row.text.split("\n")[-3].split(" ")[-2]
-    region = row.text.split("\n")[-3].split(" ")[-1]
+    try:
+        server = row.text.split("\n")[-3].split(" ")[-2]
+        region = row.text.split("\n")[-3].split(" ")[-1]
+    except:
+        server = ""
+        region = ""
     HPS = row.text.split("\n")[-2].split(" ")[1].replace(",", "")
     duration = row.text.split("\n")[-2].split(" ")[-1]
 
     return rank, name, server, region, date, HPS, duration 
 
 
-def get_latest_ranks(browser, boss, boss_link_dict, nParses):
+#def get_latest_ranks(browser, boss, boss_link_dict, phase, nParse_start, nParse_stop):
+def get_latest_ranks(browser, boss, boss_link_dict, phase, nParses):
     
     temp_df = pd.DataFrame(pd.np.empty((0, 3)))
     temp_df.columns = ["Rank", "Name", "Date"]
+    #print(nParse_start)
     
     page = 1
+    #for i in range(1, nParse_start):
+    #    if i % 100 == 0: 
+    #        page += 1
+            
+    #browser.get(f'https://classic.warcraftlogs.com/zone/rankings/1013{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps&page={page}')
+    #time.sleep(3)
 
-    for i in range(1, nParses + 50):
+    #for i in range(nParse_start, nParse_stop):
+    for i in range(1, nParses):
         if i%100 == 0: print(i)
         
         rank, name, server, region, date, HPS, duration = get_boss_data_top_N_scraper(browser, i, boss, boss_link_dict)
-        #if name in ['抄能力', '自然帅', 'Tables']: continue  # These players have broken reports, skip
-
         to_append = [rank, name, date]
 
         series = pd.Series(to_append, index = temp_df.columns)
@@ -126,22 +144,29 @@ def get_latest_ranks(browser, boss, boss_link_dict, nParses):
         
         if i % 100 == 0: 
             page += 1
-            browser.get(f'https://classic.warcraftlogs.com/zone/rankings/1011{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps&page={page}')
-            time.sleep(10) 
+            browser.get(f'https://classic.warcraftlogs.com/zone/rankings/1013{boss_link_dict[boss]}&class=Druid&spec=Restoration&metric=hps&page={page}')
+            time.sleep(4) 
 
     temp_df.to_csv(f"temp.csv", index = None, encoding='utf-8-sig')
     
-    return update_ranks(boss)
+    return update_ranks(boss, phase)
 
 
-def update_ranks(boss):
+def update_ranks(boss, phase):
 
     temp = boss.replace(" ", "")
 
     wb = openpyxl.load_workbook(r"C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data\top_N_druids.xlsx")
 
-    ws = wb.get_sheet_by_name(temp)
-    sheet = wb[temp]
+    if boss in ["Eredar Twins", "M'uru"]:
+        if phase == 1:
+            ws = wb.get_sheet_by_name(temp + "(p1)")
+        else:
+            ws = wb.get_sheet_by_name(temp + "(p2)")
+            
+    else:
+        ws = wb.get_sheet_by_name(temp)
+        
     rows = ws.max_row
     
     already_recorded_indices, blacklist = [], []
@@ -154,7 +179,7 @@ def update_ranks(boss):
 
             line = line[ : -1]  # Remove the newline character at the end of each string
             elements = line.split(",")
-
+            
             if elements[0] != boss: continue
             blacklist = elements[1:]
 
@@ -163,21 +188,30 @@ def update_ranks(boss):
 
         with open(f'temp.csv', 'r', encoding='utf-8-sig') as csvfile:
 
+            flag = False
+            
             for i, line in enumerate(csvfile.readlines()):
 
                 line = line[ : -1]  # Remove the newline character at the end of each string
                 elements = line.split(",")      
                 
+                # If player in spreadsheet but different rank than on WCL then update the spreadsheet
                 if [elements[1], elements[2]] == [row[1].value, row[3].value] and int(float(elements[0])) != row[0].value:
                     print(f"Rank updated: {row[0].value} to {int(float(elements[0]))}, {elements[1]}, {elements[2]}")
                     row[0].value = int(float(elements[0]))
+                    flag = True
                     
-                # If character already in spreadsheet (could be correct rank or not), don't want to rescrape that character.
+                # If player found in spreadsheet or in blacklist, note to not scrape this rank and move to the next player.
                 if [elements[1], elements[2]] == [row[1].value, row[3].value]:
                     already_recorded_indices.append(row[0].value)
+                    flag = True
                     
                 if elements[1] in blacklist:
                     already_recorded_indices.append(int(float(elements[0])))
+                    
+                if flag:
+                    flag = False
+                    break
                     
                  
     wb.save(r"C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data\top_N_druids.xlsx")
@@ -205,6 +239,41 @@ def get_tanks(browser):
     return tanks
 
 
+# Illidari Council
+def get_mage_tank(browser):
+    tab =  browser.find_elements_by_id("filter-damage-taken-tab")
+    tab[0].click()
+    time.sleep(1)
+    
+    a = browser.find_elements_by_id("filter-ability-text")
+    a[0].click()
+    time.sleep(1)
+    
+    b = browser.find_elements_by_class_name("ability-menu-name")
+    for item in b:
+        if item.text in ["Arcane Bolt"]:
+            item.click()
+            time.sleep(1)
+            break
+        
+    c = browser.find_elements_by_class_name("odd")
+    return c[0].text.split("\n")[0]
+
+
+# Eredar Twins
+def get_fire_tank(browser):
+    b = browser.find_elements_by_class_name("ability-menu-name")
+
+    for item in b:
+        if item.text in ["Blaze", "光芒"]:
+            item.click()
+            time.sleep(1)
+            break
+
+    c = browser.find_elements_by_class_name("odd")
+    return c[0].text.split("\n")[0]
+
+
 def click_on_element_by_id(browser, id_tag):    
     tag = browser.find_element_by_id(id_tag)
     time.sleep(1)
@@ -225,6 +294,22 @@ def click_on_element_by_id(browser, id_tag):
             body = browser.find_element_by_css_selector('body')
             body.click()
             body.send_keys(Keys.PAGE_UP) 
+                 
+            
+def get_phase2(browser):
+    filter_tag = browser.find_element_by_id("filter-phase-text")
+    filter_tag.click()
+    
+    p2_tag = browser.find_element_by_id("phase-menu-3")
+    p2_tag.click()
+    
+    
+def get_phase3(browser):
+    filter_tag = browser.find_element_by_id("filter-phase-text")
+    filter_tag.click()
+    
+    p3_tag = browser.find_element_by_id("phase-menu-5")
+    p3_tag.click()
             
             
 def get_spell_info(browser, total_HPS):
@@ -254,16 +339,187 @@ def get_spell_info(browser, total_HPS):
     return spell_percent_HPS_dict['ability-33763-0'], spell_percent_HPS_dict['ability-33778-0'], spell_percent_HPS_dict['ability-26982-0'], spell_percent_HPS_dict['ability-26980-0'], spell_percent_HPS_dict['ability-18562-0'], LB_uptime
 
 
+def get_haste(browser):
+    body = browser.find_element_by_css_selector('body')
+    body.click()
+    body.send_keys(Keys.PAGE_UP)
+    
+    click_on_element_by_id(browser, "filter-summary-tab")
+    time.sleep(3)
+    
+    stats_row = browser.find_element_by_class_name("composition-label")
+    stats = stats_row.text.split("\n")
+    
+    haste = 0
+    
+    for i in range(len(stats)):
+        if stats[i].split(" ")[0] == "Haste:":
+            haste = int(stats[i].split(" ")[1])
+            
+    return haste
+
+
+def get_trinkets(browser):
+    equipment = browser.find_elements_by_class_name("even")
+
+    for i, item in enumerate(equipment):
+        try:
+            slot = item.text.split(" ")[1]
+            if slot.split("\n")[0] == "Trinket":
+                trinket1 = slot.split("\n")[1]
+        except:
+            pass
+
+    equipment = browser.find_elements_by_class_name("odd")   
+
+    for i, item in enumerate(equipment):
+        try:
+            slot = item.text.split(" ")[1]
+            if slot.split("\n")[0] == "Trinket":
+                trinket2 = slot.split("\n")[1]
+        except:
+            pass
+            
+    # Translate to English
+    if trinket1 in ['殉难者精华', '순교자의', 'Сущность', 'Essence', 'Essenz', 'Essência']:
+        trinket1 = 'Essence of the Martyr'
+        
+    elif trinket2 in ['殉难者精华', '순교자의', 'Сущность', 'Essence', 'Essenz', 'Essência']:
+        trinket2 = 'Essence of the Martyr'
+        
+    if trinket1 in ['Direbrew', '烈酒蛇麻草', '다이어브루', 'Пивные', 'Houblon', 'Düsterbräuhopfen']:
+        trinket1 = 'Direbrew Hops'
+        
+    elif trinket2 in ['Direbrew', '烈酒蛇麻草', '다이어브루', 'Пивные', 'Houblon', 'Düsterbräuhopfen']:
+        trinket2 = 'Direbrew Hops'
+        
+    if trinket1 in ['Memento', '泰兰德的记忆', '추억이', 'Память', 'Souvenir', 'Tyrandes', 'Recordação']:
+        trinket1 = 'Memento of Tyrande'
+        
+    elif trinket2 in ['Memento', '泰兰德的记忆', '추억이', 'Память', 'Souvenir', 'Tyrandes', 'Recordação']:
+        trinket2 = 'Memento of Tyrande'
+        
+    if trinket1 in ["Alchemist's", '炼金石']:
+        trinket1 = "Alchemist's Stone"
+    
+    elif trinket2 in ["Alchemist's", '炼金石']:
+        trinket2 = "Alchemist's Stone"
+        
+    if trinket1 in ["Redeemer's", '救赎者的炼金石', 'Алхимический', 'Pierre']:
+        trinket1 = "Redeemer's Alchemist Stone"
+        
+    elif trinket2 in ["Redeemer's", '救赎者的炼金石', 'Алхимический', 'Pierre']:
+        trinket2 = "Redeemer's Alchemist Stone"
+        
+    if trinket1 in ['Ashtongue', '平衡之灰舌符咒']:
+        trinket1 = 'Ashtongue Talisman of Equilibrium'
+        
+    elif trinket2 in ['Ashtongue', '平衡之灰舌符咒']:
+        trinket2 = 'Ashtongue Talisman of Equilibrium'
+        
+    if trinket1 in ['The', '古尔丹之颅', 'Череп']:
+        trinket1 = "Skull of Gul'dan"
+        
+    elif trinket2 in ['The', '古尔丹之颅', 'Череп']:
+        trinket2 = "Skull of Gul'dan"
+        
+    if trinket1 in ['Bangle', '无尽祝福法链', 'Браслет', 'Bracelet', 'Reif']:
+        trinket1 = 'Bangle of Endless Blessings'
+    
+    elif trinket2 in ['Bangle', '无尽祝福法链', 'Браслет', 'Bracelet', 'Reif']:
+        trinket2 = 'Bangle of Endless Blessings'
+        
+    if trinket1 in ['Darkmoon', '暗月卡片：蓝龙', '다크문 카드:', 'Карта', 'Dunkelmond-Karte:', "Carte"]:
+        trinket1 = "Darkmoon Card: Blue Dragon"
+        
+    elif trinket2 in ['Darkmoon', '暗月卡片：蓝龙', '다크문 카드:', 'Карта', 'Dunkelmond-Karte:', "Carte"]:
+        trinket2 = "Darkmoon Card: Blue Dragon"
+        
+    if trinket1 in ['Lower', '贫民窟祈祷之书', '고난의', 'Книга', 'Livre', 'Gebetsbuch']:
+        trinket1 = "Lower City Prayerbook"
+        
+    elif trinket2 in ['Lower', '贫民窟祈祷之书', '고난의', 'Книга', 'Livre', 'Gebetsbuch']:
+        trinket2 = "Lower City Prayerbook"
+        
+    if trinket1 in ['Scarab', '无尽循环甲虫', 'Скарабей', 'Skarabäus', 'Scarabée']:
+        trinket1 = 'Scarab of the Infinite Cycle'
+        
+    elif trinket2 in ['Scarab', '无尽循环甲虫', 'Скарабей', 'Skarabäus', 'Scarabée']:
+        trinket2 = 'Scarab of the Infinite Cycle'
+        
+    if trinket1 in ['Eye', '格鲁尔之眼', 'Глаз', 'Oeil', 'Auge']:
+        trinket1 = 'Eye of Gruul'
+        
+    elif trinket2 in ['Eye', '格鲁尔之眼', 'Глаз', 'Oeil', 'Auge']:
+        trinket2 = 'Eye of Gruul'
+        
+    if trinket1 in ['战斗大师的活跃']:
+        trinket1 = "Battlemaster's Alacrity"
+        
+    elif trinket2 in ['战斗大师的活跃']:
+        trinket2 = "Battlemaster's Alacrity"
+        
+    if trinket1 in ["Battlemaster's", '战斗大师的坚定', '지휘관의', 'Настойчивость', 'Persévérance', 'Beharrlichkeit']:
+        trinket1 = "Battlemaster's Perseverance"
+        
+    if trinket2 in ["Battlemaster's", '战斗大师的坚定', '지휘관의', 'Настойчивость', 'Persévérance', 'Beharrlichkeit']:
+        trinket2 = "Battlemaster's Perseverance"
+        
+    if trinket1 in ['Pendant', '紫罗兰之眼坠饰']:
+        trinket1 = "Pendant of the Violet Eye"
+        
+    elif trinket2 in ['Pendant', '紫罗兰之眼坠饰']:
+        trinket2 = "Pendant of the Violet Eye"
+        
+    if trinket1 in ['Ribbon', '牺牲绶带', '희생의']:
+        trinket1 = 'Ribbon of Sacrifice'
+        
+    elif trinket2 in ['Ribbon', '牺牲绶带', '희생의']:
+        trinket2 = 'Ribbon of Sacrifice'
+        
+    if trinket1 in ['Tome', '魔鬼治疗宝典', 'Фолиант']:
+        trinket1 = 'Tome of Diabolic Remedy'
+        
+    elif trinket2 in ['Tome', '魔鬼治疗宝典', 'Фолиант']:
+        trinket2 = 'Tome of Diabolic Remedy'
+        
+    if trinket1 in ['Fel', '魔能机甲的活塞']:
+        trinket1 = "Fel Reaver's Piston"
+        
+    elif trinket2 in ['Fel', '魔能机甲的活塞']:
+        trinket2 = "Fel Reaver's Piston"
+        
+    if trinket1 in ["Oshu'gun"]:
+        trinket1 = "Oshu'gun Relic"
+        
+    elif trinket2 in ["Oshu'gun"]:
+        trinket2 = "Oshu'gun Relic"
+        
+    if trinket1 in ['Vial', '太阳之井的水瓶']:
+        trinket1 = 'Vial of the Sunwell'
+        
+    elif trinket2 in ['Vial', '太阳之井的水瓶']:
+        trinket2 = 'Vial of the Sunwell'
+        
+    if trinket1 in ['Rejuvenating', '恢复宝石']:
+        trinket1 = 'Rejuvenating Gem'
+        
+    elif trinket2 in ['Rejuvenating', '恢复宝石']:
+        trinket2 = 'Rejuvenating Gem'
+        
+    return trinket1, trinket2
+
+
 def check_spriest(browser):
     body = browser.find_element_by_css_selector('body')
     body.send_keys(Keys.PAGE_UP)
     time.sleep(1)
     
     click_on_element_by_id(browser, "filter-resources-tab") 
-    time.sleep(3)
+    time.sleep(2)
     
     click_on_element_by_id(browser, "filter-resource-selection-dropdown")
-    time.sleep(3)
+    time.sleep(2)
     
     a = browser.find_element_by_id("spell-100")
     time.sleep(1)
@@ -352,7 +608,7 @@ def check_if_player_file(name, filename):
             if name == b:
                 return True
             
-            else:
+            elif i == 5 and name != b:
                 return False
             
             
@@ -371,7 +627,7 @@ def download_csv(browser, temp_url, id_tag, download_path, path, name, nCores):
     time.sleep(1)
     tag = browser.find_element_by_class_name("buttons-csv")
     tag.click()
-    time.sleep(3)
+    time.sleep(4)
     
     for i in range(nCores):
         
@@ -498,10 +754,10 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
     GCD_time = {"t1" : 0, "t2" : 0}
     rotations_dict = {}
 
-    for i in range(3):
-        if len(boss_tanks) < 3: boss_tanks.append("X")
+    for i in range(4):
+        if len(boss_tanks) < 4: boss_tanks.append("X")
 
-    sequence, LB_tank_flags = [], [False, False, False]
+    sequence, LB_tank_flags = [], [False, False, False, False]
     starting_tank, LB_on_tank = None, False
     
     if verbose_rotation:
@@ -514,13 +770,14 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
         if boss == "Reliquary of Souls" and row["Ability"] in ["Wrath", "Moonfire", "Starfire", "Insect", "愤怒", "月火术",
                                                                "虫群", "星火术", "천벌", "달빛", "별빛", "곤충", "Гнев", 
                                                                "Лунный", "Звездный", "Рой", "Insektenschwarm", "Mondfeuer",
-                                                               "Zorn", "Sternenfeuer", "Colère", "Eclat", "Feu", "Essaim"]: continue
+                                                               "Zorn", "Sternenfeuer", "Colère", "Eclat", "Feu", "Essaim",
+                                                               "Gift", "야생의", "野性赐福"]: continue
         
-        # If seq gets to 4 casts, record and reset. TODO: For hasted rotations this can be 5
-        if len(sequence) == 5:
+        # If seq gets to 6 casts, record and reset.
+        if len(sequence) == 6:
             if verbose_rotation: print(sequence)
             rotations_dict = count_rotations(sequence, rotations_dict)
-            LB_tank_flags = [False, False, False]
+            LB_tank_flags = [False, False, False, False]
             sequence = []
 
         # Ignore casts that are off the global cooldown
@@ -544,15 +801,15 @@ def calculate_rotations(df, boss, boss_tanks, LB_uptime, verbose, verbose_rotati
                 rotations_dict = count_rotations(sequence, rotations_dict)
 
             sequence = []
-            LB_tank_flags = [False, False, False]
-            for j in range(3):
+            LB_tank_flags = [False, False, False, False]
+            for j in range(len(boss_tanks)):
                 if row["Target"] == boss_tanks[j]: LB_tank_flags[j] = True
 
             sequence.append('Lifebloom')
             continue
 
         # Otherwise check if LB placed on a tank, restart sequence if necessary
-        for j in range(3):
+        for j in range(len(boss_tanks)):
 
             if row['Ability'] in ['Lifebloom', '生命绽放', '피어나는', 'Жизнецвет', 'Fleur', 'Blühendes'] and row["Target"] == boss_tanks[j] and not LB_tank_flags[j]:
                 
@@ -678,8 +935,8 @@ def export_to_csv(path_to_data_dir, boss, to_append, player_df, char_name):#, fi
     
 def combine_csv_files(boss):
 
-    player_df = pd.DataFrame(pd.np.empty((0, 23)))
-    player_df.columns = ["Rank", "Name", "Server", "Date", "Duration", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Nature's Grace?", "Power Infusion?", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
+    player_df = pd.DataFrame(pd.np.empty((0, 25)))
+    player_df.columns = ["Rank", "Name", "Server", "Date", "Duration", "Haste", "nHealers", "Spriest?", "Innervate?", "Bloodlust?", "Nature's Grace?", "Trinket 1", "Trinket 2", "LB_uptime", "HPS", "% LB (tick) HPS", "% LB (bloom) HPS", "% Rejuv HPS", "% Regrowth HPS", "% Swiftmend HPS", "Rotating on tank?", "Rotation 1", "% Rotation 1", "Rotation 2", "% Rotation 2"]
 
     temp = boss.replace(" ", "")
 
@@ -710,7 +967,7 @@ def combine_csv_files(boss):
     player_df.to_csv(path_to_data_dir + f"\csv\{boss.replace(' ', '')}_all.csv", index = None, encoding='utf-8-sig')
     
     
-def add_rows_to_xlsx(path_to_data_dir, boss, filename, convertRank):
+def add_rows_to_xlsx(path_to_data_dir, boss, phase, filename, convertRank):
     temp = boss.replace(" ", "")
 
     path_to_data_dir = r'C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data'
@@ -719,8 +976,19 @@ def add_rows_to_xlsx(path_to_data_dir, boss, filename, convertRank):
         
     wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
 
-    ws = wb.get_sheet_by_name(temp)
-    sheet = wb[temp]
+    if boss in ["Eredar Twins", "M'uru"]:
+        if phase == 1:
+            ws = wb.get_sheet_by_name(temp + "(p1)")
+            sheet = wb[temp + "(p1)"]
+        else:
+            ws = wb.get_sheet_by_name(temp + "(p2)")
+            sheet = wb[temp + "(p1)"]
+            
+    else:
+        ws = wb.get_sheet_by_name(temp)
+        sheet = wb[temp]
+        
+    #sheet = wb[temp]
     rows = ws.max_row
 
     with open(path_to_data_dir + f"\csv\{temp}_all.csv", 'r', encoding='utf-8-sig') as csvfile:
@@ -740,18 +1008,32 @@ def add_rows_to_xlsx(path_to_data_dir, boss, filename, convertRank):
     wb.save(path_to_data_dir + f"\{filename}.xlsx")
     wb.save(path_to_data_dir + f"\{filename}_backup.xlsx")
         
-    time.sleep(1)
+    time.sleep(0.5)
       
 
-def sort_excel(path_to_data_dir, boss, filename):
+def sort_excel(path_to_data_dir, boss, phase, filename):
     print("Sorting spreadsheet rows..")
     
     temp = boss.replace(" ", "")
-    
 
     wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
-    ws = wb.get_sheet_by_name(temp)
-    sheet = wb[temp]
+    
+    #print('a')
+    
+    if boss in ["Eredar Twins", "M'uru"]:
+        if phase == 1:
+            ws = wb.get_sheet_by_name(temp + "(p1)")
+            sheet = wb[temp + "(p1)"]
+        else:
+            ws = wb.get_sheet_by_name(temp + "(p2)")
+            sheet = wb[temp + "(p2)"]
+            
+    else:
+        ws = wb.get_sheet_by_name(temp)
+        sheet = wb[temp]
+        
+    #print('b')
+        
     rows = ws.max_row
 
     if filename == 'character_data':
@@ -760,15 +1042,31 @@ def sort_excel(path_to_data_dir, boss, filename):
     else:
         order_cell, ordering = 'A', 1
 
+    #print('c')
+    
     excel = win32com.client.Dispatch("Excel.Application")
+    
+    #print('d')
+    
     wb = excel.Workbooks.Open(path_to_data_dir + f"\{filename}.xlsx")
-    ws = wb.Worksheets(temp)
-    ws.Range('A2:W'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
+    if boss in ["Eredar Twins", "M'uru"]:
+        if phase == 1:
+            ws = wb.Worksheets(temp + "(p1)")
+            
+        else:
+            ws =wb.Worksheets(temp + "(p2)")
+               
+    else:
+        ws = wb.Worksheets(temp)
+        
+    #print('e')
+    ws.Range('A2:Y'+str(rows+1)).Sort(Key1 = ws.Range(f'{order_cell}1'), Order1 = ordering, Orientation = 1)
+    #print('f')
     wb.Save()
     excel.Application.Quit()
     
 
-def remove_xlsx_duplicates(path_to_data_dir, boss, filename):
+def remove_xlsx_duplicates(path_to_data_dir, boss, phase, filename):
 
     print("Removing spreadsheet duplicates..")
 
@@ -778,21 +1076,34 @@ def remove_xlsx_duplicates(path_to_data_dir, boss, filename):
         
         wb = openpyxl.load_workbook(path_to_data_dir + f"\{filename}.xlsx")
 
-        ws = wb.get_sheet_by_name(temp)
-        sheet = wb[temp]
+        if boss in ["Eredar Twins", "M'uru"]:
+            if phase == 1:
+                ws = wb.get_sheet_by_name(temp + "(p1)")
+                sheet = wb[temp + "(p1)"]
+            else:
+                ws = wb.get_sheet_by_name(temp + "(p2)")
+                sheet = wb[temp + "(p2)"]
+        else:
+            ws = wb.get_sheet_by_name(temp)
+            sheet = wb[temp]
+            
         rows = ws.max_row
 
-        temp = ["", ""]
+        temp_rank = ["", ""]
+        temp_name = ["", ""]
         duplicate_count = 0
 
         for i, row in enumerate(ws.iter_rows()):
 
-            temp[0] = temp[1]
-            temp[1] = row[0].value
+            temp_rank[0] = temp_rank[1]
+            temp_rank[1] = row[0].value
+            
+            temp_name[0] = temp_name[1]
+            temp_name[1] = row[1].value
 
             if i==0: continue
 
-            if temp[0] == temp[1]:
+            if temp_rank[0] == temp_rank[1] and temp_name[0] == temp_name[1]:
                 duplicate_count += 1
                 ws.delete_rows(i)
 
@@ -802,8 +1113,46 @@ def remove_xlsx_duplicates(path_to_data_dir, boss, filename):
         if duplicate_count == 0:
             print("Duplicate removal complete!")
             break
-    
-    
+            
+            
+def clean_up_old_ranks(boss, phase):
+
+    print("Cleaning up outdated ranks..")
+
+    boss = boss.replace(" ", "")
+    wb = openpyxl.load_workbook(r"C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data\top_N_druids.xlsx")
+
+    if boss in ["Eredar Twins", "M'uru"]:
+        if phase == 1:
+            ws = wb.get_sheet_by_name(temp + "(p1)")
+        else:
+            ws = wb.get_sheet_by_name(temp + "(p2)")
+            
+    else:
+        ws = wb.get_sheet_by_name(temp)
+        
+    sheet = wb[boss]
+    rows = ws.max_row
+
+    for i, row in enumerate(ws.iter_rows()):
+        if row[0].value == "Rank": 
+            continue  # Skip header
+
+        name = row[1].value
+
+        for j, row2 in enumerate(ws.iter_rows()):
+            flag = False
+            if j <= i:
+                continue
+
+            if name == row2[1].value:
+                if  row[0].value != None:
+                    print("Old rank detected:", row[0].value, row[1].value, row2[0].value, row2[1].value)
+                ws.delete_rows(j+1)
+
+    wb.save(r"C:\Users\Matth\git\DataAnalysisWorkbooks\warcraftLogs\data\top_N_druids.xlsx")
+
+        
 def clean_csv_dir(path_to_data_dir):
     dirs = os.listdir(path_to_data_dir + rf"\csv")
 
