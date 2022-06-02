@@ -269,6 +269,27 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
 
     </p></details>
   
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)? (Phase 1)</summary><p>
+  
+     ![alt text](https://i.imgur.com/lHIoP3q.png)
+  
+     54.2% of players are rolling Lifebloom on at least one tank, with 16.8% of players rolling LB on exactly one tank, 18.7% on exactly two tanks, and 18.8% on all three tanks.  
+     </p></details>
+  
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank? (Phase 2)</summary><p>
+  
+     ![alt text](https://i.imgur.com/pylfz4B.png)
+  
+     33.8% of players are rolling Lifebloom on the tank. 
+     </p></details>
+  
+   - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  
+     ![alt text](https://i.imgur.com/4W8gwt9.png)
+  
+     31.2% of players are Nature's Grace spec.
+     </p></details>
+  
   </details> 
 
 &nbsp;
