@@ -1,8 +1,4 @@
 # TBC Resto Druid Analyzer  
-#-----------------------------------------  
-*Author: Mercychan - Benediction (US)*    
-*Discord: Mercy#9226*  
-#-----------------------------------------  
 
 # Motivation
 TBC Resto Druid is complicated. The rotation that you choose to use in an encounter can depend on several factors: number of tanks, total mana available, how much you prioritize healing the tank vs the raid, etc. While theorycrafting can determine the best rotations in a vaccuum, boss fights are messy and effective healing is difficult to model accurately for each encounter.  
@@ -289,6 +285,31 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
      31.2% of players are Nature's Grace spec.
      </p></details>
+  
+  - <details><summary>Q. What variables correlate the most with HPS? (Phase 1)</summary><p>
+  
+      ![alt text](https://i.imgur.com/Hx7Igis.png)
+  
+      The top five correlators of HPS in order of importance: 
+      - Casting more regrowths  
+      - Having shadow priest  
+      - Casting less lifeblooms  
+      - Playing Nature's grace  
+      - Having more spell haste    
+  
+  - <details><summary>Q. What variables correlate the most with HPS? (Phase 2)</summary><p>
+  
+      ![alt text](https://i.imgur.com/GUGtZds.png)
+  
+      The top five correlators of HPS in order of importance: 
+      - Casting more regrowths  
+      - Having shadow priest  
+      - Casting less lifeblooms  
+      - Playing Nature's grace  
+      - Having more spell haste  
+  
+      Note: Coincidentally (or maybe not a coincidence?) these are the same top correlators as seen for phase 1.
+      &nbsp; 
   
   </details> 
 
