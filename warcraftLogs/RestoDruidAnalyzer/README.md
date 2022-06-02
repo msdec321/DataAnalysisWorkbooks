@@ -239,8 +239,37 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
 - <details><summary>Eredar Twins</summary>  
   &nbsp;
   
-    Coming soon
-    </details> 
+  Note: Some sections of this boss are split by phase.
+  
+  - <details><summary>Rotation rankings (Phase 1)</summary><p>
+  
+    ![alt text](https://i.imgur.com/Wgib6B1.png)
+  
+    The top five rotations:
+    - 2LB 0I 2RG: 5 haste rotation, regrowths more often on the raid than tanks, 0.1% of players do this rotation.  
+    - 0LB 1I 5RG: Raid healing primarily with regrowth and the occasional rejuv, 19.6% of players do this.  
+    - 0LB 0I 6RG: Pure regrowth raid healing, 24.4% of players do this.  
+    - 0LB 2I 4RG: Raid healing primary with regrowth, but more rejuvs than the above, 7.1% of players do this.  
+    - 1LB 1I 2RG: 5 haste rotation, regrowths more often on the raid than tanks, 2.0% of players do this rotation.  
+    &nbsp;  
+
+    </p></details>
+  
+  - <details><summary>Rotation rankings (Phase 2)</summary><p>
+  
+    ![alt text](https://i.imgur.com/CGvSugE.png)
+  
+    The top five rotations:
+    - 0LB 0I 6RG: Pure regrowth raid healing, 24.4% of players do this.  
+    - 1LB 0I 3RG: 130 Haste rotation, 3.0% of players do this rotation.  
+    - 0LB 2I 4RG: Raid healing primarily with regrowth and the occasional rejuv, 7.1% of players do this.  
+    - 0LB 1I 5RG: Raid healing primarily with regrowth and the occasional rejuv but more regrowths than the above, 19.6% of players do this.  
+    - 0LB 0I 6RG: Pure rejuv or lifebloom raid healing, 24.4% of players do this.  
+    &nbsp;  
+
+    </p></details>
+  
+  </details> 
 
 &nbsp;
   
