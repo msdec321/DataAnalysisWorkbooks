@@ -395,6 +395,59 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
       - Nature's Grace spec  
       - Having innervate  
       </p></details>
+  
+  - <details><summary>Trinket analysis</summary><p>
+    
+    - <details><summary>Q. Which trinkets are players using the most?</summary><p>
+  
+      ![alt text](https://i.imgur.com/eZyxero.png)
+      </p></details>
+  
+    - <details><summary>Q. Which combinations of trinkets are players using the most?</summary><p>
+  
+      ![alt text](https://i.imgur.com/h0S7N5c.png)
+      </p></details>
+  
+    - <details><summary>Q. Does playstyle/rotation affect the distribution of trinkets?</summary><p>
+  
+      - <details><summary>Q. Regrowth spam (0LB 0I 6RG, 0LB 1I 5RG, 0LB 2I 4RG) - Individual trinkets</summary><p>
+  
+        ![alt text](https://i.imgur.com/3tyPN19.png)
+        </p></details>
+  
+      - <details><summary>Q. Regrowth spam (0LB 0I 6RG, 0LB 1I 5RG, 0LB 2I 4RG) - Trinket combinations</summary><p>
+  
+        ![alt text](https://i.imgur.com/82aDll8.png)
+        </p></details>
+  
+      - <details><summary>Q. 5GCD Lifebloom rolling (3LB 2I 0RG, 2LB 3I 0RG, ...) - Individual trinkets</summary><p>
+  
+        ![alt text](https://i.imgur.com/UnEFEOf.png)
+        </p></details>
+  
+      - <details><summary>Q. 5GCD Lifebloom rolling (3LB 2I 0RG, 2LB 3I 0RG, ...) - Trinket combinations</summary><p>
+  
+        ![alt text](https://i.imgur.com/5aMqJuO.png)
+        </p></details>
+  
+      </p></details>
+  
+    - <details><summary>Q. What are the HPS rankings for the most common trinket combinations?</summary><p>
+  
+      - <details><summary>Regrowth spam</summary><p>
+  
+        ![alt text](https://i.imgur.com/8gf3R1l.png)
+        </p></details>
+  
+      - <details><summary>5GCD Lifebloom rolling</summary><p>
+  
+        ![alt text](https://i.imgur.com/pbqzL0a.png)
+        </p></details>
+  
+      </p></details> 
+
+    </p></details>
+  
 
   </details> 
 
