@@ -314,6 +314,58 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
       Note: Coincidentally (or maybe not a coincidence?) these are the same top correlators as seen for phase 1.
       </p></details>
   
+  - <details><summary>Trinket analysis</summary><p>
+    
+    - <details><summary>Q. Which trinkets are players using the most?</summary><p>
+  
+      ![alt text](https://i.imgur.com/iDEXs0p.png)
+      </p></details>
+  
+    - <details><summary>Q. Which combinations of trinkets are players using the most?</summary><p>
+  
+      ![alt text](https://i.imgur.com/67K5GdE.png)
+      </p></details>
+  
+    - <details><summary>Q. Does playstyle/rotation affect the distribution of trinkets?</summary><p>
+  
+      - <details><summary>Q. Regrowth spam (0LB 0I 6RG, 0LB 1I 5RG, 0LB 2I 4RG) - Individual trinkets</summary><p>
+  
+        ![alt text](https://i.imgur.com/7Kpj0Vd.png)
+        </p></details>
+  
+      - <details><summary>Q. Regrowth spam (0LB 0I 6RG, 0LB 1I 5RG, 0LB 2I 4RG) - Trinket combinations</summary><p>
+  
+        ![alt text](https://i.imgur.com/7IkYNdn.png)
+        </p></details>
+  
+      - <details><summary>Q. 5GCD Lifebloom rolling (2LB 3I 0RG, 2LB 2I 1RG, ...) - Individual trinkets</summary><p>
+  
+        ![alt text](https://i.imgur.com/s8AogL1.png)
+        </p></details>
+  
+      - <details><summary>Q. 5GCD Lifebloom rolling (2LB 3I 0RG, 2LB 2I 1RG, ...) - Trinket combinations</summary><p>
+  
+        ![alt text](https://i.imgur.com/N2DTSfI.png)
+        </p></details>
+  
+      </p></details>
+  
+    - <details><summary>Q. What are the HPS rankings for the most common trinket combinations?</summary><p>
+  
+      - <details><summary>Regrowth spam</summary><p>
+  
+        ![alt text](https://i.imgur.com/R08eBGP.png)
+        </p></details>
+  
+      - <details><summary>5GCD Lifebloom rolling</summary><p>
+  
+        ![alt text](https://i.imgur.com/vIiMBKp.png)
+        </p></details>
+  
+      </p></details> 
+  
+    </p></details>
+  
   </details> 
 
 &nbsp;
