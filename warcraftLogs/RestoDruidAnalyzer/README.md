@@ -317,9 +317,38 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
 - <details><summary>M'uru</summary>  
   &nbsp;
+
+  Note: Some sections of this boss are split by phase.
   
-    Coming soon
-    </details> 
+  - <details><summary>Rotation rankings (Phase 1)</summary><p>
+  
+    ![alt text](https://i.imgur.com/wKhcGn1.png)
+  
+    The top five rotations:
+    - 2LB 0I 2RG: 5 haste rotation, regrowths more often on the raid than tanks, 2.5% of players do this rotation.  
+    - 0LB 0I 6RG: Pure regrowth raid healing, 8.7% of players do this.  
+    - 0LB 1I 5RG: Raid healing primarily with regrowth and the occasional rejuv, 4.5% of players do this.  
+    - 0LB 2I 4RG: Raid healing primarily with regrowth and the occasional rejuv, but more rejuvs than the above, 2.9% of players do this.  
+    - 1LB 1I 2RG: 5 haste rotation, regrowths more often on the raid than tanks, 1.9% of players do this rotation.  
+    &nbsp;  
+
+    </p></details>
+  
+  - <details><summary>Rotation rankings (Phase 2)</summary><p>
+  
+    ![alt text](https://i.imgur.com/aftVMjq.png)
+  
+    The top five rotations:
+    - 0LB 0I 6RG: Pure regrowth raid healing, 14.6% of players do this.  
+    - 0LB 2I 4RG: Raid healing primarily with regrowth and the occasional rejuv, 8.7% of players do this.  
+    - 0LB 1I 5RG: Raid healing primarily with regrowth and the occasional rejuv, but less rejuvs than the above, 12.9% of players do this.   
+    - 1LB 1I 2RG: 5 haste rotation, regrowths more often on the raid than tanks, 2.5% of players do this.  
+    - 0LB 3I 3RG: Raid healing primarily with regrowth and the occasional rejuv, but more rejuvs than both of the above, 5.6% of players do this.  
+    &nbsp;  
+
+    </p></details>
+    
+  </details> 
 
 &nbsp;
   
