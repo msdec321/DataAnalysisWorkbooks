@@ -288,14 +288,16 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>Q. What variables correlate the most with HPS? (Phase 1)</summary><p>
   
-      ![alt text](https://i.imgur.com/Hx7Igis.png)
+     ![alt text](https://i.imgur.com/Hx7Igis.png)
   
-      The top five correlators of HPS in order of importance: 
-      - Casting more regrowths  
-      - Having shadow priest  
-      - Casting less lifeblooms  
-      - Playing Nature's grace  
-      - Having more spell haste    
+     The top five correlators of HPS in order of importance: 
+     - Casting more regrowths  
+     - Having shadow priest  
+     - Casting less lifeblooms  
+     - Playing Nature's grace  
+     - Having more spell haste    
+     </p></details>
+    
   
   - <details><summary>Q. What variables correlate the most with HPS? (Phase 2)</summary><p>
   
@@ -307,9 +309,10 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
       - Casting less lifeblooms  
       - Playing Nature's grace  
       - Having more spell haste  
+      &nbsp;
   
       Note: Coincidentally (or maybe not a coincidence?) these are the same top correlators as seen for phase 1.
-      &nbsp; 
+      </p></details>
   
   </details> 
 
@@ -347,7 +350,52 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     &nbsp;  
 
     </p></details>
-    
+  
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)? (Phase 1)</summary><p>
+  
+     ![alt text](https://i.imgur.com/Z9gi4NF.png)
+  
+     73.9% of players are rolling Lifebloom on at least one tank, with 19.6% of players rolling LB on exactly one tank, 16.9% on exactly two tanks, and 37.4% on all three tanks.  
+     </p></details>
+  
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank? (Phase 2)</summary><p>
+  
+     ![alt text](https://i.imgur.com/TQc2rBC.png)
+  
+     45.2% of players are rolling Lifebloom on at least one tank (Note: I choose *at least one* tank because some groups have adds active going into phase 2).  
+     </p></details>
+  
+  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  
+     ![alt text](https://i.imgur.com/Sjkr1gv.png)
+  
+     30.1% of players are Nature's Grace spec.
+     </p></details>
+  
+  - <details><summary>Q. What variables correlate the most with HPS? (Phase 1)</summary><p>
+  
+     ![alt text](https://i.imgur.com/wXAsf3W.png)
+  
+     The top five correlators of HPS in order of importance: 
+     - Casting more regrowths  
+     - Having shadow priest  
+     - Casting less lifeblooms  
+     - Having more spell haste  
+     - Casting less rejuvs  
+     </p></details>
+
+  - <details><summary>Q. What variables correlate the most with HPS? (Phase 2)</summary><p>
+  
+      ![alt text](https://i.imgur.com/25TiJWQ.png)
+  
+      The top five correlators of HPS in order of importance: 
+      - Casting more regrowths  
+      - Having shadow priest  
+      - Casting less lifeblooms   
+      - Nature's Grace spec  
+      - Having innervate  
+      </p></details>
+
   </details> 
 
 &nbsp;
