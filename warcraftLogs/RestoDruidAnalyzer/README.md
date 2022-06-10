@@ -609,8 +609,9 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
 - <details><summary>Black Temple</summary> 
   &nbsp;
   
-  Note: The BT section uses Phase 4 data.
-
+  Note: This section uses Phase 4 data.
+  &nbsp;
+  
   - <details><summary>High Warlord Naj'entus</summary>  
     &nbsp;
 
