@@ -507,9 +507,28 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
 - <details><summary>Kil'jaedan</summary>  
   &nbsp;
+
+  - <details><summary>Rotation rankings</summary><p>
   
-    Coming soon
-    </details> 
+    ![alt text](https://i.imgur.com/bJHpuF9.png)
+    </p></details> 
+  
+  - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
+  
+     ![alt text](https://i.imgur.com/OcgPS77.png)
+  
+     46.0% of players are rolling Lifebloom on the tank.
+     </p></details>
+  
+  - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
+  
+     ![alt text](https://i.imgur.com/uwZeiy0.png)
+  
+     21.6% of players are Nature's Grace spec.
+     </p></details>
+  
+  </p></details>
+    
 
 &nbsp;
 
