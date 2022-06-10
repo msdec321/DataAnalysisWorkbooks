@@ -513,6 +513,20 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
     ![alt text](https://i.imgur.com/bJHpuF9.png)
     </p></details> 
   
+  - <details><summary>% Spell HPS scatter plots</summary><p>
+  
+    ![alt text](https://i.imgur.com/wS6rIdD.png)
+  
+    The bulk of players choose to either heal mostly with Regrowth or Lifebloom (rolling blooms on Fire Bloom targets) with relatively little use of rejuv.
+    </p></details>
+  
+  - <details><summary>HPS vs Duration (Color = kill speed percentile, not HPS)</summary><p>
+  
+    ![alt text](https://i.imgur.com/z6aCFwE.png)
+  
+    Most players fall within the 10th to 75th percentile of kill times.
+    </p></details>
+  
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
   
      ![alt text](https://i.imgur.com/OcgPS77.png)
@@ -520,12 +534,71 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
      46.0% of players are rolling Lifebloom on the tank.
      </p></details>
   
+  - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
+  
+    ![alt text](https://i.imgur.com/GpEMWR0.png)
+  
+    93.4% of players received either an innervate or shadow priest.
+    </p></details>
+  
   - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
   
      ![alt text](https://i.imgur.com/uwZeiy0.png)
   
      21.6% of players are Nature's Grace spec.
      </p></details>
+  
+  - <details><summary>Q. What variables correlate the most with HPS?</summary><p>
+  
+    ![alt text](https://i.imgur.com/9BgNXHz.png)
+  
+    The top five correlators of HPS in order of importance: 
+    - Higher spell haste rating  
+    - Casting more regrowths  
+    - Having shadow priest  
+    - Less number of healers  
+    - Casting less rejuvs    
+    &nbsp; 
+  
+    </p></details>
+  
+  - <details><summary>Trinket analysis</summary><p>
+    
+    - <details><summary>Q. Which trinkets are players using the most?</summary><p>
+  
+      ![alt text](https://i.imgur.com/qePhCjE.png)
+      </p></details>
+  
+    - <details><summary>Q. Which combinations of trinkets are players using the most?</summary><p>
+  
+      ![alt text](https://i.imgur.com/nCx8Wx2.png)
+      </p></details>
+  
+    - <details><summary>Q. Does playstyle/rotation affect the distribution of trinkets?</summary><p>
+  
+      - <details><summary>Q. Regrowth spam (0LB 0I 6RG, 0LB 1I 5RG, 0LB 2I 4RG) - Individual trinkets</summary><p>
+  
+        ![alt text](https://i.imgur.com/Y3xz4Tu.png)
+        </p></details>
+  
+      - <details><summary>Q. Regrowth spam (0LB 0I 6RG, 0LB 1I 5RG, 0LB 2I 4RG) - Trinket combinations</summary><p>
+  
+        ![alt text](https://i.imgur.com/k1TSNnY.png)
+        </p></details>
+  
+      - <details><summary>Q. 5GCD Lifebloom rolling (1LB 4I 0RG, 1LB 1I 2RG, ...) - Individual trinkets</summary><p>
+  
+        ![alt text](https://i.imgur.com/0sCI4b1.png)
+        </p></details>
+  
+      - <details><summary>Q. 5GCD Lifebloom rolling (1LB 4I 0RG, 1LB 1I 2RG, ...) - Trinket combinations</summary><p>
+  
+        ![alt text](https://i.imgur.com/bFYq67i.png)
+        </p></details>
+  
+      </p></details>
+  
+    </p></details>
   
   </p></details>
     
