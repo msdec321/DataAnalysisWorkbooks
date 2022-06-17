@@ -1,9 +1,9 @@
 # WarcraftLogs TBC Restoration Druid Data Scraper v1.05  
 
-#-----------------------------------------  
-*Author: Mercychan - Benediction (US)*    
-*Discord: Mercy#9226*  
-#-----------------------------------------  
+#------------------------  
+Author's note: This project is now in maintainence mode.  
+Data will be updated every two weeks but I do not plan to develop this project further.  
+#------------------------  
 
 This tool scrapes encounter data from WarcraftLogs which can be used for data analysis.  
 The scraped datasets are stored in data/ as excel spreadsheets.  
