@@ -1,3 +1,9 @@
+#------------------------  
+Author's note: This project is now in maintainence mode.    
+Data will be updated every two weeks but I do not plan to develop this project further.  
+#------------------------
+
+
 # TBC Resto Druid Analyzer  
 
 # Motivation
