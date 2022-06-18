@@ -30,12 +30,3 @@ The related source code can be found in src.py
  
 &emsp; • All other dependencies can be installed via pip
 
-
-# TODO list  
-
-&emsp; • Scrape the top 3,000 - 5,000 players for each boss (ETA ~2 weeks)  
-
-&emsp; • Export analysis code to a webapp for general use.  
-
-&emsp; • Add a dataset for Dreamstate spec  
-
