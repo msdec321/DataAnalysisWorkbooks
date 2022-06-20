@@ -80,8 +80,8 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   &nbsp;
   
     - <details><summary>Rotation rankings</summary><p>
-  
-      ![alt text](https://i.imgur.com/hePo33L.png)
+ 
+      <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/brutallus/rotation_rankings.png" width="650">
   
       The top five rotations:
       - 1LB 4I 0RG: The standard 5GCD rotation, 113 Haste rating. Roll lifebloom on the primary tank and burn targets and use Rejuv for the extra GCD(s).   
@@ -162,7 +162,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>Rotation rankings</summary><p>
   
-    ![alt text](https://i.imgur.com/BknFaWP.png)
+    <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/Felmyst/rotation_rankings.png" width="650">
   
     The top five rotations:
     - 0LB 1I 5RG: Raid healing, primarily with Regrowth and the occasional lifebloom/rejuv, 5% of players do this.  
