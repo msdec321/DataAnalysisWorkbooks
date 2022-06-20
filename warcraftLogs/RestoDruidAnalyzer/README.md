@@ -121,7 +121,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank(s)?</summary><p>
   
-      ![alt text](https://i.imgur.com/GyPHhl9.png)
+      <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/brutallus/nTankRotating.png" width="450">
   
       57.8% of players are rolling Lifebloom at least one tank, the rest are purely burn healing / raid healing. For the Druids who are rotating on the tank(s), most prefer to roll Lifebloom on only the primary tank, while ~5% of players roll Lifebloom on both tanks.  
       </p></details>
@@ -162,7 +162,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>Rotation rankings</summary><p>
   
-    <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/Felmyst/rotation_rankings.png" width="650">
+    <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/felmyst/rotation_rankings.png" width="650">
   
     The top five rotations:
     - 0LB 1I 5RG: Raid healing, primarily with Regrowth and the occasional lifebloom/rejuv, 5% of players do this.  
@@ -200,7 +200,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>Q. What percentage of players are rolling Lifebloom on the tank?</summary><p>
   
-     ![alt text](https://i.imgur.com/QuNsQOa.png)
+     <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/felmyst/nTankRotating.png" width="450">
   
      38.0% of players are rolling Lifebloom on a tank (either during the ground phase or during skeletons in the air phase). 
      </p></details>
