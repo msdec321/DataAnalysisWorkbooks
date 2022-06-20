@@ -128,7 +128,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
   
-      ![alt text](https://i.imgur.com/WNC6CFH.png)
+      <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/brutallus/innervateOrSpriest.png" width="650">
   
       95.1% of players received either an innervate or shadow priest.
       </p></details>
@@ -207,7 +207,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>Q. What percentage of players have an extra mana source?</summary><p>
   
-      ![alt text](https://i.imgur.com/g3E8UaR.png)
+      <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/felmyst/innervateOrSpriest.png" width="650">
   
       94.6% of players received either an innervate or shadow priest.
       </p></details>
