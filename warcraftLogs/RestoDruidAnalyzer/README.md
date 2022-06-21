@@ -135,7 +135,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
     - <details><summary>Q. What percentage of players are playing Nature's Grace? (Note: There are no Dreamstate Druids in the dataset.)</summary><p>
   
-      ![alt text](https://i.imgur.com/ti0CSrl.png)
+      <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/brutallus/naturesGrace.png" width="450">
   
       13.0% of players are Nature's Grace spec.
       </p></details> 
@@ -214,7 +214,7 @@ Correlations range from +1 to -1. If variable X has a positive correlation with 
   
   - <details><summary>Q. What percentage of players are playing Nature's Grace?</summary><p>
   
-    ![alt text](https://i.imgur.com/pfCvfHa.png)
+    <img src="https://github.com/msdec321/DataAnalysisWorkbooks/blob/main/warcraftLogs/RestoDruidAnalyzer/plots/felmyst/naturesGrace.png" width="450">
   
     25.9% of players are Nature's Grace spec.
     </p></details>
